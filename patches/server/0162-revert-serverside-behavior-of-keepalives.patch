@@ -17,7 +17,7 @@ from networking or during connections flood of chunk packets on slower clients,
  at the cost of dead connections being kept open for longer.
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 12e3f10ff7134191c50faa0b84578546399d1b56..66436cd5b6b14914919a1eb612ca133ee4ffef05 100644
+index 1626041c19b6595e6a851fd69f523b531ba8a977..cd423a0be8481ae27a6f8af81c25dc5f78a6e48b 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -255,7 +255,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -42,7 +42,7 @@ index 12e3f10ff7134191c50faa0b84578546399d1b56..66436cd5b6b14914919a1eb612ca133e
  
          this.server.getProfiler().push("keepAlive");
 -        long i = Util.getMillis();
-+        // Paper Start - give clients a longer time to respond to pings as per pre 1.12.2 timings
++        // Paper start - give clients a longer time to respond to pings as per pre 1.12.2 timings
 +        // This should effectively place the keepalive handling back to "as it was" before 1.12.2
 +        long currentTime = Util.getMillis();
 +        long elapsedTime = currentTime - this.keepAliveTime;

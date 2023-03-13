@@ -438,7 +438,7 @@ the script. Follow the instructions there;
 1. Re-patch the server `./gradlew applyPatches`;
 1. Edit away!
 
-> ❗ This change is temporary! **DO NOT COMMIT CHANGES TO THIS FILE!**  
+> ❗ This change is temporary! **DO NOT COMMIT CHANGES TO THIS FILE!**
 > Once you have made your changes to the new file, and rebuilt patches, you may
 > undo your changes to `dev-imports.txt`.
 

@@ -37,7 +37,7 @@ index 6a00f3d38da8107825ab1d405f337fd077b09f72..d44d0074446c1c54e87dc8078dff7fef
  }
 diff --git a/src/main/java/io/papermc/paper/command/PaperPluginsCommand.java b/src/main/java/io/papermc/paper/command/PaperPluginsCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f0fce4113fb07c64adbec029d177c236cbdcbae8
+index 0000000000000000000000000000000000000000..e1ea95b51e9ed00b2223730df786b2db456773ee
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/command/PaperPluginsCommand.java
 @@ -0,0 +1,215 @@
@@ -84,7 +84,7 @@ index 0000000000000000000000000000000000000000..f0fce4113fb07c64adbec029d177c236
 +        .append(asPlainComponents("""
 +            Server plugins can add new behavior to your server!
 +            You can find new plugins on Paper's plugin repository, Hangar.
-+                        
++
 +            <link to hangar>
 +            """));
 +
@@ -98,7 +98,7 @@ index 0000000000000000000000000000000000000000..f0fce4113fb07c64adbec029d177c236
 +        .append(asPlainComponents("""
 +            A legacy plugin is a plugin that was made on
 +            very old unsupported versions of the game.
-+                        
++
 +            It is encouraged that you replace this plugin,
 +            as they might not work in the future and may cause
 +            performance issues.
@@ -241,7 +241,7 @@ index 0000000000000000000000000000000000000000..f0fce4113fb07c64adbec029d177c236
 +        if (!spigotPlugins.isEmpty()) {
 +            sender.sendMessage(BUKKIT_HEADER);
 +        }
-+        
++
 +        for (Component component : formatProviders(spigotPlugins)) {
 +            sender.sendMessage(component);
 +        }

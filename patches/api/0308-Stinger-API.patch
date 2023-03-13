@@ -5,14 +5,14 @@ Subject: [PATCH] Stinger API
 
 
 diff --git a/src/main/java/org/bukkit/entity/LivingEntity.java b/src/main/java/org/bukkit/entity/LivingEntity.java
-index 9ab91154c74b5a3001cf4d5df1b4ae1e26508b60..27187efdbcf1cf20a53175f1177c16dc40acab3c 100644
+index 9ab91154c74b5a3001cf4d5df1b4ae1e26508b60..63ddca4a150f12442c3673de2bf3c85a8293ed1a 100644
 --- a/src/main/java/org/bukkit/entity/LivingEntity.java
 +++ b/src/main/java/org/bukkit/entity/LivingEntity.java
 @@ -399,6 +399,36 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
       */
      void setArrowsInBody(int count, boolean fireEvent); // Paper
  
-+    // Paper Start - Bee Stinger API
++    // Paper start - Bee Stinger API
 +    /**
 +     * Gets the time in ticks until the next bee stinger leaves the entity's body.
 +     *
@@ -40,7 +40,7 @@ index 9ab91154c74b5a3001cf4d5df1b4ae1e26508b60..27187efdbcf1cf20a53175f1177c16dc
 +     * @param count amount of bee stingers in entity's body
 +     */
 +    public void setBeeStingersInBody(int count);
-+    // Paper End - Stinger API
++    // Paper end - Stinger API
 +
      /**
       * Returns the living entity's current maximum no damage ticks.

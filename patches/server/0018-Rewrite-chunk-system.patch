@@ -7499,7 +7499,7 @@ index 0000000000000000000000000000000000000000..322675a470eacbf0e5452f4009c643f2
 +}
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..84cc9397237fa0c17aa1012dfb5683c90eb6d3b8
+index 0000000000000000000000000000000000000000..d58e12768471dcba28747827cfd0adddd77c0e0c
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
 @@ -0,0 +1,780 @@
@@ -7604,7 +7604,7 @@ index 0000000000000000000000000000000000000000..84cc9397237fa0c17aa1012dfb5683c9
 +            "Paper Chunk System Worker Pool", newChunkSystemWorkerThreads,
 +            (final Thread thread, final Integer id) -> {
 +                thread.setPriority(Thread.NORM_PRIORITY - 2);
-+                thread.setName("Tuinity Chunk System Worker #" + id.intValue());
++                thread.setName("Paper Chunk System Worker #" + id.intValue());
 +                thread.setUncaughtExceptionHandler(io.papermc.paper.chunk.system.scheduling.NewChunkHolder.CHUNKSYSTEM_UNCAUGHT_EXCEPTION_HANDLER);
 +            }, (long)(20.0e6)); // 20ms
 +
@@ -12730,7 +12730,7 @@ index cef3b053d79e71eb66eb6bddf9365ed4d7042bae..b04f7240ba96d06ab51199059d29b0fa
                  DedicatedServer dedicatedserver1 = new DedicatedServer(optionset, worldLoader.get(), thread, convertable_conversionsession, resourcepackrepository, worldstem, dedicatedserversettings, DataFixers.getDataFixer(), services, LoggerChunkProgressListener::new);
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 2737dfbf4d978f2bb118cb996ea5c6920decab90..e9f4ffec4b659f3300daa0138f6e955a8d97786d 100644
+index 2737dfbf4d978f2bb118cb996ea5c6920decab90..02d59e9b95018b8089bd0fc9d891dd334db93f69 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -298,7 +298,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -12831,7 +12831,7 @@ index 2737dfbf4d978f2bb118cb996ea5c6920decab90..e9f4ffec4b659f3300daa0138f6e955a
          }
          // Spigot end
 -
-+        io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper // Paper - rewrite chunk system
++        io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper - rewrite chunk system
      }
  
      public String getLocalIp() {
@@ -15327,7 +15327,7 @@ index 28c8a3ba1caddf0ea334a6ef43cae25f982743e4..80d108ae7faf3fdcb024931e93032215
      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 6f81aa6b0a835bf10e0d5f2b32fe9fb2dbb60400..3fce997cc390136a16c941f0461b20d2bc046948 100644
+index 6f81aa6b0a835bf10e0d5f2b32fe9fb2dbb60400..b1e0e49920a7507ae72bb1c0dcc963b7631b0046 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -193,7 +193,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -15457,7 +15457,7 @@ index 6f81aa6b0a835bf10e0d5f2b32fe9fb2dbb60400..3fce997cc390136a16c941f0461b20d2
 +        this.entityStorage = new EntityRegionFileStorage(convertable_conversionsession.getDimensionPath(resourcekey).resolve("entities"), flag2); // Paper - rewrite chunk system  //EntityPersistentStorage<Entity> entitypersistentstorage = new EntityStorage(this, convertable_conversionsession.getDimensionPath(resourcekey).resolve("entities"), datafixer, flag2, minecraftserver);
  
 -        this.entityManager = new PersistentEntitySectionManager<>(Entity.class, new ServerLevel.EntityCallbacks(), entitypersistentstorage);
-+        // this.entityManager = new PersistentEntitySectionManager<>(Entity.class, new ServerLevel.EntityCallbacks(), entitypersistentstorage, this.entitySliceManager); // Paper // Paper - rewrite chunk system
++        // this.entityManager = new PersistentEntitySectionManager<>(Entity.class, new ServerLevel.EntityCallbacks(), entitypersistentstorage, this.entitySliceManager); // Paper - rewrite chunk system
          StructureTemplateManager structuretemplatemanager = minecraftserver.getStructureManager();
          int j = this.spigotConfig.viewDistance; // Spigot
          int k = this.spigotConfig.simulationDistance; // Spigot
@@ -15922,7 +15922,7 @@ index e96a0ca47e4701ba187555bd92c968345bc85677..73b96f804079288e9c5fcc11da54e61e
 +    // Paper end
  }
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index fdb7314784a2232a96a9ccdb049bd240e1cc9b06..8ef64f5192500f87f514c42432c0d5c8361145a7 100644
+index 526a8ffa7761a013e4db24e983d716fdf529b755..fe315458cead06c3f01473e84b050dadb5ad2726 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -776,6 +776,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -17403,7 +17403,7 @@ index d9daf07132c46548964a75588b69d7a74680e917..e68205fe7169c7c5b7c6fdada2ee97d8
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index b9b50c56e79297bb824a92355f437a5d4d7e6760..18ef7025f7f4dc2a4aff85ca65ff5a2d35a1ef06 100644
+index b9b50c56e79297bb824a92355f437a5d4d7e6760..65431cf4efc9f3277b6d9e2da22ce40da977ddb7 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -24,16 +24,37 @@ public class RegionFileStorage implements AutoCloseable {
@@ -17488,7 +17488,7 @@ index b9b50c56e79297bb824a92355f437a5d4d7e6760..18ef7025f7f4dc2a4aff85ca65ff5a2d
  
      protected void write(ChunkPos pos, @Nullable CompoundTag nbt) throws IOException {
 -        RegionFile regionfile = this.getRegionFile(pos, false); // CraftBukkit
-+        RegionFile regionfile = this.getRegionFile(pos, nbt == null, true); // CraftBukkit // Paper // Paper start - rewrite chunk system
++        RegionFile regionfile = this.getRegionFile(pos, nbt == null, true); // CraftBukkit // Paper start - rewrite chunk system
 +        if (nbt == null && regionfile == null) {
 +            return;
 +        }
@@ -18004,7 +18004,7 @@ index fd1da8431578832bcd1f3ca7890dd2150b916ebd..958c5faeddd3ee54ac2880eb3eb9e4ab
      // Spigot start
      private final org.bukkit.World.Spigot spigot = new org.bukkit.World.Spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index b09d8420ffe3c7e2ba173ee98643bc17909db563..9a6c9c42b162315115781246cdf91af816d93293 100644
+index ef1a0db17276178717b83a6d081a9e111d34e4e5..92e5b781049122e3de3784ec4197557f2730b3b3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -176,6 +176,81 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -18147,7 +18147,7 @@ index 38cf408899cef72bc9d2888109a7ac7ce0aec638..d3639643cda7d8ccf3c1208502605120
          MinecraftTimings.entityActivationCheckTimer.stopTiming();
      }
 diff --git a/src/main/java/org/spigotmc/AsyncCatcher.java b/src/main/java/org/spigotmc/AsyncCatcher.java
-index 78669fa035b7537ff7e533cf32aaf2995625424f..05e94702e42b8f5c35d2a112c486d57948a3acba 100644
+index 78669fa035b7537ff7e533cf32aaf2995625424f..62cd57b6e954126ba58108ad2769a61bfa5e096f 100644
 --- a/src/main/java/org/spigotmc/AsyncCatcher.java
 +++ b/src/main/java/org/spigotmc/AsyncCatcher.java
 @@ -9,7 +9,7 @@ public class AsyncCatcher
@@ -18155,12 +18155,12 @@ index 78669fa035b7537ff7e533cf32aaf2995625424f..05e94702e42b8f5c35d2a112c486d579
      public static void catchOp(String reason)
      {
 -        if ( (AsyncCatcher.enabled || io.papermc.paper.util.TickThread.STRICT_THREAD_CHECKS) && Thread.currentThread() != MinecraftServer.getServer().serverThread ) // Paper
-+        if ( !io.papermc.paper.util.TickThread.isTickThread() ) // Paper // Paper - rewrite chunk system
++        if ( !io.papermc.paper.util.TickThread.isTickThread() ) // Paper - rewrite chunk system
          {
              throw new IllegalStateException( "Asynchronous " + reason + "!" );
          }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 335120afc88a8fc1543c2e6df516fd728e3ab032..f1194eb6fdfba60959e00080d0562f2820d13b27 100644
+index 335120afc88a8fc1543c2e6df516fd728e3ab032..c2f2fcc22a6953591769b900c8f993706f4c2f84 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -8,7 +8,7 @@ import java.util.logging.Logger;
@@ -18176,7 +18176,7 @@ index 335120afc88a8fc1543c2e6df516fd728e3ab032..f1194eb6fdfba60959e00080d0562f28
                  //
                  log.log( Level.SEVERE, "------------------------------" );
                  log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Spigot!):" );
-+                io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper // Paper - rewrite chunk system
++                io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper - rewrite chunk system
                  WatchdogThread.dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
                  log.log( Level.SEVERE, "------------------------------" );
                  //

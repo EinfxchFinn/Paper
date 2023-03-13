@@ -5,7 +5,7 @@ Subject: [PATCH] Implement an API for CanPlaceOn and CanDestroy NBT values
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
-index ecfd07e758b7121457df736803fcc5d09f902bc9..90fa86ad21c7d671ea09145c8bd1c68dfaa14f2d 100644
+index ecfd07e758b7121457df736803fcc5d09f902bc9..5f9b49b6371bc154f7411273575e341f38fff785 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
 @@ -83,6 +83,12 @@ import org.bukkit.persistence.PersistentDataContainer;
@@ -389,7 +389,7 @@ index ecfd07e758b7121457df736803fcc5d09f902bc9..90fa86ad21c7d671ea09145c8bd1c68d
 +
 +    // not a fan of this
 +    private boolean ofAcceptableType(Collection<Namespaced> namespacedResources) {
-+        
++
 +        for (Namespaced resource : namespacedResources) {
 +            if (!(resource instanceof org.bukkit.NamespacedKey || resource instanceof com.destroystokyo.paper.NamespacedTag)) {
 +                return false;

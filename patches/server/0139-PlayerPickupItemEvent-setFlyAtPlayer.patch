@@ -5,7 +5,7 @@ Subject: [PATCH] PlayerPickupItemEvent#setFlyAtPlayer
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index b98ebf2d580c27a7e55afe3a54827e471cc5e845..6a1bc0874ca0d07a2fcb98f3a8d1fff4625a35f0 100644
+index b98ebf2d580c27a7e55afe3a54827e471cc5e845..bfb685b5700a70bdc336bc2fa71b048e594e8a01 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -386,6 +386,7 @@ public class ItemEntity extends Entity {
@@ -23,11 +23,11 @@ index b98ebf2d580c27a7e55afe3a54827e471cc5e845..6a1bc0874ca0d07a2fcb98f3a8d1fff4
 +                flyAtPlayer = playerEvent.getFlyAtPlayer(); // Paper
                  if (playerEvent.isCancelled()) {
                      itemstack.setCount(i); // SPIGOT-5294 - restore count
-+                    // Paper Start
++                    // Paper start
 +                    if (flyAtPlayer) {
 +                        player.take(this, i);
 +                    }
-+                    // Paper End
++                    // Paper end
                      return;
                  }
  
@@ -36,11 +36,11 @@ index b98ebf2d580c27a7e55afe3a54827e471cc5e845..6a1bc0874ca0d07a2fcb98f3a8d1fff4
  
              if (this.pickupDelay == 0 && (this.owner == null || this.owner.equals(player.getUUID())) && player.getInventory().add(itemstack)) {
 -                player.take(this, i);
-+                // Paper Start
++                // Paper start
 +                if (flyAtPlayer) {
 +                    player.take(this, i);
 +                }
-+                // Paper End
++                // Paper end
                  if (itemstack.isEmpty()) {
                      this.discard();
                      itemstack.setCount(i);

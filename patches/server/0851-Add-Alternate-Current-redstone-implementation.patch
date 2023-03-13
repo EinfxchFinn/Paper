@@ -93,7 +93,7 @@ index 0000000000000000000000000000000000000000..f55c5c67b8461e9ef5614ea1a37f6e28
 +}
 diff --git a/src/main/java/alternate/current/wire/Node.java b/src/main/java/alternate/current/wire/Node.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..8af6c69098e64945361d116b5fd6ac21e97fcd8d
+index 0000000000000000000000000000000000000000..394a8d79a3eaae4444d6ec5a06a00ef4e42362f1
 --- /dev/null
 +++ b/src/main/java/alternate/current/wire/Node.java
 @@ -0,0 +1,113 @@
@@ -111,7 +111,7 @@ index 0000000000000000000000000000000000000000..8af6c69098e64945361d116b5fd6ac21
 +/**
 + * A Node represents a block in the world. It also holds a few other pieces of
 + * information that speed up the calculations in the WireHandler class.
-+ * 
++ *
 + * @author Space Walker
 + */
 +public class Node {
@@ -547,7 +547,7 @@ index 0000000000000000000000000000000000000000..2b30074252551e1dc55d5be17d26fb4a
 +}
 diff --git a/src/main/java/alternate/current/wire/WireConnection.java b/src/main/java/alternate/current/wire/WireConnection.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..4fd8cb29024330397cfe4cbc1f237d285bfb7b3e
+index 0000000000000000000000000000000000000000..9bf4aeae2169b4b569ac19a4b03a148b60d3bc95
 --- /dev/null
 +++ b/src/main/java/alternate/current/wire/WireConnection.java
 @@ -0,0 +1,30 @@
@@ -557,7 +557,7 @@ index 0000000000000000000000000000000000000000..4fd8cb29024330397cfe4cbc1f237d28
 + * This class represents a connection between some WireNode (the 'owner') and a
 + * neighboring WireNode. Two wires are considered to be connected if power can
 + * flow from one wire to the other (and/or vice versa).
-+ * 
++ *
 + * @author Space Walker
 + */
 +public class WireConnection {
@@ -725,7 +725,7 @@ index 0000000000000000000000000000000000000000..5a7209f05b549c222f6c9bc2af2a3579
 +}
 diff --git a/src/main/java/alternate/current/wire/WireHandler.java b/src/main/java/alternate/current/wire/WireHandler.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529bd5184cd
+index 0000000000000000000000000000000000000000..7d4d6c82fabd3784cf24dcd5caa14f9692ebb858
 --- /dev/null
 +++ b/src/main/java/alternate/current/wire/WireHandler.java
 @@ -0,0 +1,1150 @@
@@ -759,43 +759,43 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 + * <br>
 + * 3. Emit block and shape updates in a deterministic, non-locational order,
 + * fixing bug MC-11193.
-+ * 
++ *
 + * <p>
 + * In Vanilla redstone wire is laggy because it fails on points 1 and 2.
-+ * 
++ *
 + * <p>
 + * Redstone wire updates recursively and each wire calculates its power level in
 + * isolation rather than in the context of the network it is a part of. This
 + * means a wire in a grid can change its power level over half a dozen times
 + * before settling on its final value. This problem used to be worse in 1.13 and
 + * below, where a wire would only decrease its power level by 1 at a time.
-+ * 
++ *
 + * <p>
 + * In addition to this, a wire emits 42 block updates and up to 22 shape updates
 + * each time it changes its power level.
-+ * 
++ *
 + * <p>
 + * Of those 42 block updates, 6 are to itself, which are thus not only
 + * redundant, but a big source of lag, since those cause the wire to
 + * unnecessarily re-calculate its power level. A block only has 24 neighbors
 + * within a Manhattan distance of 2, meaning 12 of the remaining 36 block
 + * updates are duplicates and thus also redundant.
-+ * 
++ *
 + * <p>
 + * Of the 22 shape updates, only 6 are strictly necessary. The other 16 are sent
 + * to blocks diagonally above and below. These are necessary if a wire changes
 + * its connections, but not when it changes its power level.
-+ * 
++ *
 + * <p>
 + * Redstone wire in Vanilla also fails on point 3, though this is more of a
 + * quality-of-life issue than a lag issue. The recursive nature in which it
 + * updates, combined with the location-dependent order in which each wire
 + * updates its neighbors, makes the order in which neighbors of a wire network
 + * are updated incredibly inconsistent and seemingly random.
-+ * 
++ *
 + * <p>
 + * Alternate Current fixes each of these problems as follows.
-+ * 
++ *
 + * <p>
 + * 1. To make sure a wire calculates its power level as little as possible, we
 + * remove the recursive nature in which redstone wire updates in Vanilla.
@@ -809,7 +809,7 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 + * - Each wire only sets its power level in the world once. This is important,
 + * because calls to Level.setBlock are even more expensive than calls to
 + * Level.getBlockState.
-+ * 
++ *
 + * <p>
 + * 2. There are 2 obvious ways in which we can reduce the number of block and
 + * shape updates.
@@ -823,12 +823,12 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 + * <br>
 + * For an individual wire, these two optimizations are the best you can do, but
 + * for an entire grid, you can do better!
-+ * 
++ *
 + * <p>
 + * Since we calculate the power of the entire network, sending block and shape
 + * updates to the wires in it is redundant. Removing those updates can reduce
 + * the number of block and shape updates by up to 20%.
-+ * 
++ *
 + * <p>
 + * 3. To make the order of block updates to neighbors of a network
 + * deterministic, the first thing we must do is to replace the location-
@@ -837,13 +837,13 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 + * by theosib's 'RedstoneWireTurbo', which you can read more about in theosib's
 + * comment on Mojira <a href="https://bugs.mojang.com/browse/MC-81098?focusedCommentId=420777&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-420777">here</a>
 + * or by checking out its implementation in carpet mod <a href="https://github.com/gnembon/fabric-carpet/blob/master/src/main/java/carpet/helpers/RedstoneWireTurbo.java">here</a>.
-+ * 
++ *
 + * <p>
 + * The idea is to determine the direction of power flow through a wire based on
 + * the power it receives from neighboring wires. For example, if the only power
 + * a wire receives is from a neighboring wire to its west, it can be said that
 + * the direction of power flow through the wire is east.
-+ * 
++ *
 + * <p>
 + * We make the order of block updates to neighbors of a wire depend on what is
 + * determined to be the direction of power flow. This not only removes
@@ -851,7 +851,7 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 + * cases. Unlike in 'RedstoneWireTurbo', however, I have decided to keep a
 + * directional element in ambiguous cases, rather than to introduce randomness,
 + * though this is trivial to change.
-+ * 
++ *
 + * <p>
 + * While this change fixes the block update order of individual wires, we must
 + * still address the overall block update order of a network. This turns out to
@@ -860,7 +860,7 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 + * from there. If we make each wire transmit its power to neighboring wires in
 + * an order dependent on the direction of power flow, we end up with a
 + * non-locational and largely non-directional wire update order.
-+ * 
++ *
 + * @author Space Walker
 + */
 +public class WireHandler {
@@ -910,33 +910,33 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 +    /**
 +     * This conversion table takes in information about incoming flow, and outputs
 +     * the determined outgoing flow.
-+     * 
++     *
 +     * <p>
 +     * The input is a 4 bit number that encodes the incoming flow. Each bit
 +     * represents a cardinal direction, and when it is 'on', there is flow in that
 +     * direction.
-+     * 
++     *
 +     * <p>
 +     * The output is a single Direction index, or -1 for ambiguous cases.
-+     * 
++     *
 +     * <p>
 +     * The outgoing flow is determined as follows:
-+     * 
++     *
 +     * <p>
 +     * If there is just 1 direction of incoming flow, that direction will be the
 +     * direction of outgoing flow.
-+     * 
++     *
 +     * <p>
 +     * If there are 2 directions of incoming flow, and these directions are not each
 +     * other's opposites, the direction that is 'more clockwise' will be the
 +     * direction of outgoing flow. More precisely, the direction that is 1 clockwise
 +     * turn from the other is picked.
-+     * 
++     *
 +     * <p>
 +     * If there are 3 directions of incoming flow, the two opposing directions
 +     * cancel each other out, and the remaining direction will be the direction of
 +     * outgoing flow.
-+     * 
++     *
 +     * <p>
 +     * In all other cases, the flow is completely ambiguous.
 +     */
@@ -1315,13 +1315,13 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 +     * and require power changes. These wires are called 'roots' because it is only
 +     * when these wires change power level that neighboring wires must adjust as
 +     * well.
-+     * 
++     *
 +     * <p>
 +     * While it is strictly only necessary to check the wire at the given position,
 +     * if that wire is part of a network, it is beneficial to check its surroundings
 +     * for other wires that require power changes. This is because a network can
 +     * receive power at multiple points. Consider the following setup:
-+     * 
++     *
 +     * <p>
 +     * (top-down view, W = wire, L = lever, _ = air/other)
 +     * <br> {@code _ _ W _ _ }
@@ -1329,7 +1329,7 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 +     * <br> {@code W W L W W }
 +     * <br> {@code _ W W W _ }
 +     * <br> {@code _ _ W _ _ }
-+     * 
++     *
 +     * <p>
 +     * The lever powers four wires in the network at once. If this is identified
 +     * correctly, the entire network can (un)power at once. While it is not
@@ -1594,19 +1594,19 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 +
 +    /**
 +     * Update the network and neighboring blocks. This is done in 3 steps.
-+     * 
++     *
 +     * <p>
 +     * <b>1. Search through the network</b>
 +     * <br>
 +     * Conduct a breadth-first search around the roots to find wires that are in an
 +     * invalid state and need power changes.
-+     * 
++     *
 +     * <p>
 +     * <b>2. Depower the network</b>
 +     * <br>
 +     * Depower all wires in the network. This allows power to be spread most
 +     * efficiently.
-+     * 
++     *
 +     * <p>
 +     * <b>3. Power the network</b>
 +     * <br>
@@ -1881,7 +1881,7 @@ index 0000000000000000000000000000000000000000..dbd0f5eee8b7f0590817673ee5f9a529
 +}
 diff --git a/src/main/java/alternate/current/wire/WireNode.java b/src/main/java/alternate/current/wire/WireNode.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..33cd90c30c22200a4e1ae64f40a0bf7864546b33
+index 0000000000000000000000000000000000000000..158e7dfcef83908f9bc76029910aca50d3736915
 --- /dev/null
 +++ b/src/main/java/alternate/current/wire/WireNode.java
 @@ -0,0 +1,122 @@
@@ -1900,7 +1900,7 @@ index 0000000000000000000000000000000000000000..33cd90c30c22200a4e1ae64f40a0bf78
 + * A WireNode is a Node that represents a wire in the world. It stores all the
 + * information about the wire that the WireHandler needs to calculate power
 + * changes.
-+ * 
++ *
 + * @author Space Walker
 + */
 +public class WireNode extends Node {
@@ -2008,7 +2008,7 @@ index 0000000000000000000000000000000000000000..33cd90c30c22200a4e1ae64f40a0bf78
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index a81eaee4339d7f4b0bf94c012cdbf8f4fa2f78f8..dd4bd208fba1806a298ccc76d64efdcb2a061be7 100644
+index 4387b0d35ba2556648ecd7d3dd9101f412633dc8..d07aee7079bc0e0503587856df408e9401d5d589 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -221,6 +221,7 @@ public class ServerLevel extends Level implements WorldGenLevel {

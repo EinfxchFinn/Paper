@@ -198,21 +198,21 @@ index e8574bd4b412c1db82aaec9dced47b63de9dbf28..9058f9f2e561cda9f475f33218bf7a78
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/horse/AbstractHorse.java b/src/main/java/net/minecraft/world/entity/animal/horse/AbstractHorse.java
-index 3a06f48e9aed59d429ef4142785b393898b96f60..821b88d0c32f946af9af1c2e211b38446fab4ecb 100644
+index 3a06f48e9aed59d429ef4142785b393898b96f60..4a01393b0e41465483229dd7c4435d74d775f3f6 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/horse/AbstractHorse.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/horse/AbstractHorse.java
 @@ -667,6 +667,15 @@ public abstract class AbstractHorse extends Animal implements ContainerListener,
  
      }
  
-+    // Paper Start - Horse API
++    // Paper start - Horse API
 +    public void setMouthOpen(boolean open) {
 +        this.setFlag(FLAG_OPEN_MOUTH, open);
 +    }
 +    public boolean isMouthOpen() {
 +        return this.getFlag(FLAG_OPEN_MOUTH);
 +    }
-+    // Paper End - Horse API
++    // Paper end - Horse API
 +
      @Override
      public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -221,11 +221,11 @@ index 3a06f48e9aed59d429ef4142785b393898b96f60..821b88d0c32f946af9af1c2e211b3844
          this.setFlag(16, eatingGrass);
      }
  
-+    // Paper Start - Horse API
++    // Paper start - Horse API
 +    public void setForceStanding(boolean standing) {
 +        this.setFlag(FLAG_STANDING, standing);
 +    }
-+    // Paper End - Horse API
++    // Paper end - Horse API
      public void setStanding(boolean angry) {
          if (angry) {
              this.setEating(false);
@@ -505,14 +505,14 @@ index 8ada3dfbe89c8b55d85c31c71e365af0cbf66d19..1ae8d6e819cd9d195e1bd31ccf55d289
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftCat.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftCat.java
-index d2531a2a323be74169324a5cb2c558655c380ea6..273a062090f4c6f6ffd5a4238623b32af497f6b6 100644
+index d2531a2a323be74169324a5cb2c558655c380ea6..8c3c68faefbe6f2c70a4419b0d28a6a82cce2a5a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftCat.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftCat.java
 @@ -50,4 +50,25 @@ public class CraftCat extends CraftTameableAnimal implements Cat {
      public void setCollarColor(DyeColor color) {
          this.getHandle().setCollarColor(net.minecraft.world.item.DyeColor.byId(color.getWoolData()));
      }
-+    // Paper Start - More cat api
++    // Paper start - More cat api
 +    @Override
 +    public void setLyingDown(boolean lyingDown) {
 +        this.getHandle().setLying(lyingDown);
@@ -532,7 +532,7 @@ index d2531a2a323be74169324a5cb2c558655c380ea6..273a062090f4c6f6ffd5a4238623b32a
 +    public boolean isHeadUp() {
 +        return this.getHandle().isRelaxStateOne();
 +    }
-+    // Paper End - More cat api
++    // Paper end - More cat api
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftChicken.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftChicken.java
 index 178328042ad62f32ca2ae14a6bcf2b694418eb8c..fd87f979ee207dac13e4028d76bdd40911509e56 100644

@@ -16,7 +16,7 @@ See: https://github.com/PaperMC/Paper/issues/917
 
 diff --git a/src/main/java/com/destroystokyo/paper/event/entity/PreCreatureSpawnEvent.java b/src/main/java/com/destroystokyo/paper/event/entity/PreCreatureSpawnEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..02e421b0bb4ce3529ef1c4d34ec8a0c0345cce57
+index 0000000000000000000000000000000000000000..703820bf81ea37089de605634336a9152b95c421
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/event/entity/PreCreatureSpawnEvent.java
 @@ -0,0 +1,105 @@
@@ -37,7 +37,7 @@ index 0000000000000000000000000000000000000000..02e421b0bb4ce3529ef1c4d34ec8a0c0
 + * You should still listen to CreatureSpawnEvent as a backup, and only use this event as an "enhancement".
 + * The intent of this event is to improve server performance, so it fires even if the spawning might fail later, for
 + * example when the entity would be unable to spawn due to limited space or lighting.
-+ * 
++ *
 + * Currently: NATURAL and SPAWNER based reasons. Please submit a Pull Request for future additions.
 + * Also, Plugins that replace Entity Registrations with their own custom entities might not fire this event.
 + */

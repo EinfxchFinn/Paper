@@ -5,14 +5,14 @@ Subject: [PATCH] Add a consumer parameter to ProjectileSource#launchProjectile
 
 
 diff --git a/src/main/java/org/bukkit/projectiles/ProjectileSource.java b/src/main/java/org/bukkit/projectiles/ProjectileSource.java
-index eabd8b926ec1c934cd7e77b7cc6adfae16771021..6cb28e65b82198b19f159f8e8334208f7f62d394 100644
+index eabd8b926ec1c934cd7e77b7cc6adfae16771021..d020cbfacdb81bec124021c508147cc0ced570f7 100644
 --- a/src/main/java/org/bukkit/projectiles/ProjectileSource.java
 +++ b/src/main/java/org/bukkit/projectiles/ProjectileSource.java
 @@ -31,4 +31,24 @@ public interface ProjectileSource {
       */
      @NotNull
      public <T extends Projectile> T launchProjectile(@NotNull Class<? extends T> projectile, @Nullable Vector velocity);
-+    
++
 +    // Paper start
 +    /**
 +     * Launches a {@link Projectile} from the ProjectileSource with an

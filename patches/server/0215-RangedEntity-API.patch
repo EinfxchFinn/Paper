@@ -33,7 +33,7 @@ index 0000000000000000000000000000000000000000..d7a8eb1b8f24ed2741ae9dae62d3f614
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftAbstractSkeleton.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftAbstractSkeleton.java
-index db6ad6eea8fa6f2755bbb0e1325df8bda98e708a..5ff566186431440c25a26900aba14e4adb642031 100644
+index db6ad6eea8fa6f2755bbb0e1325df8bda98e708a..8cc8579671d63b4483546cdb385898e3211f0bcd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftAbstractSkeleton.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftAbstractSkeleton.java
 @@ -4,7 +4,7 @@ import org.bukkit.craftbukkit.CraftServer;
@@ -49,7 +49,7 @@ index db6ad6eea8fa6f2755bbb0e1325df8bda98e708a..5ff566186431440c25a26900aba14e4a
      public void setSkeletonType(Skeleton.SkeletonType type) {
          throw new UnsupportedOperationException("Not supported.");
      }
-+	// Paper start
++    // Paper start
 +    @Override
 +    public net.minecraft.world.entity.monster.AbstractSkeleton getHandle() {
 +        return (net.minecraft.world.entity.monster.AbstractSkeleton) super.getHandle();

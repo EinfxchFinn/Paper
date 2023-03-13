@@ -45,14 +45,14 @@ index 06f6fe4d1be4b14c45d2576561201c9386988dc1..eacb8a407fe99af2c13f23c12b554469
      }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftFallingBlock.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftFallingBlock.java
-index 0de415236fe9997fc3ffedba20b8df68647cb822..87c413c2f3b59ae9ef36e5becc10b29a81348022 100644
+index 0de415236fe9997fc3ffedba20b8df68647cb822..ee0a9d7396c3215baeb9a554efc01d86c74a7a40 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftFallingBlock.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftFallingBlock.java
 @@ -58,6 +58,17 @@ public class CraftFallingBlock extends CraftEntity implements FallingBlock {
      public void setHurtEntities(boolean hurtEntities) {
          this.getHandle().hurtEntities = hurtEntities;
      }
-+    // Paper Start - Auto expire setting
++    // Paper start - Auto expire setting
 +    @Override
 +    public boolean doesAutoExpire() {
 +        return this.getHandle().autoExpire;
@@ -62,7 +62,7 @@ index 0de415236fe9997fc3ffedba20b8df68647cb822..87c413c2f3b59ae9ef36e5becc10b29a
 +    public void shouldAutoExpire(boolean autoExpires) {
 +        this.getHandle().autoExpire = autoExpires;
 +    }
-+    // Paper End - Auto expire setting
++    // Paper end - Auto expire setting
  
      @Override
      public void setTicksLived(int value) {

@@ -5,7 +5,7 @@ Subject: [PATCH] Keyed Cat Type
 
 
 diff --git a/src/main/java/org/bukkit/entity/Cat.java b/src/main/java/org/bukkit/entity/Cat.java
-index 97b0d8ccd3fd3a711ec5fa4ce3d8703515895081..bd74b47879b69b7a2e078a5aca460e5c97b0a919 100644
+index cbffac865dd5e66ccc0df0ec20f84082857aee1a..8266294fb2988691bc708f1df5eb34e1e3368417 100644
 --- a/src/main/java/org/bukkit/entity/Cat.java
 +++ b/src/main/java/org/bukkit/entity/Cat.java
 @@ -43,7 +43,7 @@ public interface Cat extends Tameable, Sittable, io.papermc.paper.entity.CollarC
@@ -37,4 +37,4 @@ index 97b0d8ccd3fd3a711ec5fa4ce3d8703515895081..bd74b47879b69b7a2e078a5aca460e5c
 +        // Paper end
      }
  
-     // Paper Start - More cat api
+     // Paper start - More cat api

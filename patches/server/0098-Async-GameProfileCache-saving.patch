@@ -5,7 +5,7 @@ Subject: [PATCH] Async GameProfileCache saving
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3ed50490121f34ab5b247565b9a4555bf6a46dff..0a419ec121bbddffa0424147c642f79d4e5eb817 100644
+index b87ec8531970f2da032ebbcd8efb0661df40ffb4..6e89b439ba9c19926145a6ab3cdb8660de9af68f 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -934,7 +934,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -16,7 +16,7 @@ index 3ed50490121f34ab5b247565b9a4555bf6a46dff..0a419ec121bbddffa0424147c642f79d
 +            this.getProfileCache().save(false); // Paper
          }
          // Spigot end
-         io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper // Paper - rewrite chunk system
+         io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper - rewrite chunk system
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 index 18f7d73fd8a780753e2249a9fec6bb335ebfdeed..35904c69e14c4c0addda204d5e3788518c2e16c4 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java

@@ -75,7 +75,7 @@ index ed57cd69d88504b78782271c9a3d423a29471674..8a6a548314eef8d486be908e38e3a456
      public class Spigot {
  
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index ab29ddf09a178b70c7afad33d282cb39fcd7e92a..3c7665d5e96e710eb1ebb439a0bc0fd441bd2532 100644
+index ab29ddf09a178b70c7afad33d282cb39fcd7e92a..c5ba3d1faaab4367b4899ec1765030b8024ee80a 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -1899,6 +1899,78 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -112,7 +112,7 @@ index ab29ddf09a178b70c7afad33d282cb39fcd7e92a..3c7665d5e96e710eb1ebb439a0bc0fd4
 +     * @param simulationDistance the player's new simulation distance
 +     */
 +    public void setSimulationDistance(int simulationDistance);
-+    
++
 +    /**
 +     * Gets the no-ticking view distance for this player.
 +     * <p>

@@ -934,7 +934,7 @@ index 0000000000000000000000000000000000000000..69add4a7f1147015806bc9b63a8340d1
 +}
 diff --git a/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java b/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..9fde9ccb5d069ddce8dd837ef1bc68b93ce66434
+index 0000000000000000000000000000000000000000..071c9b84f0cf72b98814342995633510de12f88e
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
 @@ -0,0 +1,439 @@
@@ -1051,7 +1051,7 @@ index 0000000000000000000000000000000000000000..9fde9ccb5d069ddce8dd837ef1bc68b9
 +    private static final Function<ContextMap, String> WORLD_HEADER = map -> String.format("""
 +        This is a world configuration file for Paper.
 +        This file may start empty but can be filled with settings to override ones in the %s/%s
-+        
++
 +        World: %s (%s)""",
 +        PaperConfigurations.CONFIG_DIR,
 +        PaperConfigurations.WORLD_DEFAULTS_CONFIG_FILE_NAME,
@@ -1063,7 +1063,7 @@ index 0000000000000000000000000000000000000000..9fde9ccb5d069ddce8dd837ef1bc68b9
 +        The global and world default configuration files have moved to %s
 +        and the world-specific configuration file has been moved inside
 +        the respective world folder.
-+        
++
 +        See https://docs.papermc.io/paper/configuration for more information.
 +        """;
 +
@@ -4576,7 +4576,7 @@ index 9afc0881f6891ef2696b6f2b37c0826f3beb0666..8873bf84c71c48297a360df9c99e511f
              world.serverLevelData.setDifficulty(config.difficulty);
              world.setSpawnSettings(config.spawnMonsters, config.spawnAnimals);
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 2ae4dbd8cc49efb93ecceeb9a7a08e1a8af1d84a..fd213200dcc5fe08f4b28e94ce2a0cf5b3c7ad5b 100644
+index 2ae4dbd8cc49efb93ecceeb9a7a08e1a8af1d84a..c8e48ba5f5e9c886a37334c2c73eec63e5cc9597 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -131,6 +131,19 @@ public class Main {
@@ -4584,7 +4584,7 @@ index 2ae4dbd8cc49efb93ecceeb9a7a08e1a8af1d84a..fd213200dcc5fe08f4b28e94ce2a0cf5
                          .describedAs("Yml file");
                  // Spigot End
 +
-+                // Paper Start
++                // Paper start
 +                acceptsAll(asList("paper-dir", "paper-settings-directory"), "Directory for Paper settings")
 +                    .withRequiredArg()
 +                    .ofType(File.class)

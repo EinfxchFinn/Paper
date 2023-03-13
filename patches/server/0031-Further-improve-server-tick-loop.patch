@@ -12,7 +12,7 @@ Previous implementation did not calculate TPS correctly.
 Switch to a realistic rolling average and factor in std deviation as an extra reporting variable
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index e2e66fd4bd34e0ceaab350214a50ddbb1dc76184..ac81428f19e2d445f315000d34173c2d650a9aeb 100644
+index 65cea59eb49756581be8b4627e00062a55efb458..4051e0cdb46d1c07ad36dc3fbaef60ae6c901057 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -281,7 +281,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -87,7 +87,7 @@ index e2e66fd4bd34e0ceaab350214a50ddbb1dc76184..ac81428f19e2d445f315000d34173c2d
 +        }
 +    }
 +    private static final java.math.BigDecimal TPS_BASE = new java.math.BigDecimal(1E9).multiply(new java.math.BigDecimal(SAMPLE_INTERVAL));
-+    // Paper End
++    // Paper end
      // Spigot End
  
      public static volatile RuntimeException chunkSystemCrash; // Paper - rewrite chunk system

@@ -142,7 +142,7 @@ index ddcc212ba83d9365adb842b3d3ced64e3d7dd155..584985272a02eb5b61a22cf2404fbd97
  
          private final ChunkPos pos;
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 1a1ade7538263f4c1a91eb122086a150af3d86ba..8f729134d8f024678f3f5927059791e28ccb5b90 100644
+index 1955b3effe4fb9980557b125f2783668e09cc008..7a83feb51e12581a76f352b6c4cbfd8791862598 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -11,8 +11,10 @@ import java.nio.file.Path;
@@ -223,7 +223,7 @@ index 1a1ade7538263f4c1a91eb122086a150af3d86ba..8f729134d8f024678f3f5927059791e2
 +        }
 +    }
 +
-+    // Paper End
++    // Paper end
 +
      @Nullable
      public CompoundTag read(ChunkPos pos) throws IOException {

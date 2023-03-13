@@ -5,14 +5,14 @@ Subject: [PATCH] Add more WanderingTrader API
 
 
 diff --git a/src/main/java/org/bukkit/entity/WanderingTrader.java b/src/main/java/org/bukkit/entity/WanderingTrader.java
-index 55394ed5c68cb0bf4333fc918e3b4c8c4e3db0c6..da76e1ed5406322073dd8c7a89ca55aa68620ac4 100644
+index 55394ed5c68cb0bf4333fc918e3b4c8c4e3db0c6..0699dd6bd55dae86bfecb8379de2813846881a71 100644
 --- a/src/main/java/org/bukkit/entity/WanderingTrader.java
 +++ b/src/main/java/org/bukkit/entity/WanderingTrader.java
 @@ -28,4 +28,30 @@ public interface WanderingTrader extends AbstractVillager {
       * {@link WanderingTrader} is forcibly despawned
       */
      public void setDespawnDelay(int despawnDelay);
-+    
++
 +    // Paper start - Add more WanderingTrader API
 +    /**
 +     * Set if the Wandering Trader can and will drink an invisibility potion.

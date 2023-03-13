@@ -93,7 +93,7 @@ index 0000000000000000000000000000000000000000..71f36e9cae209ec6861835a5e76e018d
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/event/profile/PreFillProfileEvent.java b/src/main/java/com/destroystokyo/paper/event/profile/PreFillProfileEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..021bc86310a06f84b39459e0eb8927802726399c
+index 0000000000000000000000000000000000000000..e144194d7a19638e88a65d43586896994759f0c4
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/event/profile/PreFillProfileEvent.java
 @@ -0,0 +1,77 @@
@@ -154,7 +154,7 @@ index 0000000000000000000000000000000000000000..021bc86310a06f84b39459e0eb892780
 +    /**
 +     * Sets the properties on the profile, avoiding the call to the Mojang API
 +     * Same as .getPlayerProfile().setProperties(properties);
-+     * 
++     *
 +     * @see PlayerProfile#setProperties(Collection)
 +     * @param properties The properties to set/append
 +     */

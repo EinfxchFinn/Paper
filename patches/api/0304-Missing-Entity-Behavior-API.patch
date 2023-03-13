@@ -240,7 +240,7 @@ index adb20a9abba33c32d553f620fa82b27dff64ab5f..1f6702b0de00b87dbed7f6d93e911655
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/Cat.java b/src/main/java/org/bukkit/entity/Cat.java
-index c2a566b864c82ffb094b7334d9e6e25a1bfc87d1..c340fecb61bac66baf0f44189d21bc85289b1269 100644
+index c2a566b864c82ffb094b7334d9e6e25a1bfc87d1..c69834fa4a7ef937646a28c34c4252604bb2d3f7 100644
 --- a/src/main/java/org/bukkit/entity/Cat.java
 +++ b/src/main/java/org/bukkit/entity/Cat.java
 @@ -54,4 +54,36 @@ public interface Cat extends Tameable, Sittable {
@@ -248,7 +248,7 @@ index c2a566b864c82ffb094b7334d9e6e25a1bfc87d1..c340fecb61bac66baf0f44189d21bc85
          ALL_BLACK;
      }
 +
-+    // Paper Start - More cat api
++    // Paper start - More cat api
 +    /**
 +     * Sets if the cat is lying down.
 +     * This is visual and does not affect the behaviour of the cat.
@@ -278,7 +278,7 @@ index c2a566b864c82ffb094b7334d9e6e25a1bfc87d1..c340fecb61bac66baf0f44189d21bc85
 +     * @return head is up
 +     */
 +    public boolean isHeadUp();
-+    // Paper End - More cat api
++    // Paper end - More cat api
  }
 diff --git a/src/main/java/org/bukkit/entity/Chicken.java b/src/main/java/org/bukkit/entity/Chicken.java
 index cb3ec6ef6c38c2071cb6ad91da094fca2de8d5c6..b4c1a262602d4ca5ffc9fcc21d6aa79af8c040a7 100644
@@ -983,7 +983,7 @@ index bc5055f2d96addb722d576a9ed1dfad3deb203ed..bbe4324370812fdac1190242122762a5
      /**
       * Gets the color of the fish's pattern.
 diff --git a/src/main/java/org/bukkit/entity/Vex.java b/src/main/java/org/bukkit/entity/Vex.java
-index 627e3c1a96ae3331f5aa2dd7803dd2a31c7204be..3c447d2300c866ae605eeca97bd869f400d6be6f 100644
+index 627e3c1a96ae3331f5aa2dd7803dd2a31c7204be..a47636a2072209f04730bb0bd4fd9fd2d2f51ce6 100644
 --- a/src/main/java/org/bukkit/entity/Vex.java
 +++ b/src/main/java/org/bukkit/entity/Vex.java
 @@ -57,21 +57,30 @@ public interface Vex extends Monster {
@@ -1025,7 +1025,7 @@ index 627e3c1a96ae3331f5aa2dd7803dd2a31c7204be..3c447d2300c866ae605eeca97bd869f4
 +    /**
 +     * Gets if this vex should start to take damage
 +     * once {@link Vex#getLimitedLifetimeTicks()} is less than or equal to 0.
-+     * 
++     *
 +     * @return will take damage
 +     */
 +    boolean hasLimitedLifetime();
@@ -1033,7 +1033,7 @@ index 627e3c1a96ae3331f5aa2dd7803dd2a31c7204be..3c447d2300c866ae605eeca97bd869f4
 +    /**
 +     * Sets if this vex should start to take damage
 +     * once {@link Vex#getLimitedLifetimeTicks()} is less than or equal to 0.
-+     *      
++     *
 +     * @param hasLimitedLifetime should take damage
 +     */
 +    void setLimitedLifetime(boolean hasLimitedLifetime);
@@ -1041,7 +1041,7 @@ index 627e3c1a96ae3331f5aa2dd7803dd2a31c7204be..3c447d2300c866ae605eeca97bd869f4
 +    /**
 +     * Gets the number of ticks remaining until the vex will start
 +     * to take damage.
-+     * 
++     *
 +     * @return ticks until the vex will start to take damage
 +     */
 +    int getLimitedLifetimeTicks();
@@ -1049,14 +1049,14 @@ index 627e3c1a96ae3331f5aa2dd7803dd2a31c7204be..3c447d2300c866ae605eeca97bd869f4
 +    /**
 +     * Sets the number of ticks remaining until the vex takes damage.
 +     * This number is ticked down only if {@link Vex#hasLimitedLifetime()} is true.
-+     * 
++     *
 +     * @param ticks ticks remaining
 +     */
 +    void setLimitedLifetimeTicks(int ticks);
      // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/WanderingTrader.java b/src/main/java/org/bukkit/entity/WanderingTrader.java
-index da76e1ed5406322073dd8c7a89ca55aa68620ac4..9f25774659b29d8fcca3eb9d9487edff42dbad13 100644
+index 0699dd6bd55dae86bfecb8379de2813846881a71..a2c1907a4a38c4cf61cab21b74a621cbfa9b51ca 100644
 --- a/src/main/java/org/bukkit/entity/WanderingTrader.java
 +++ b/src/main/java/org/bukkit/entity/WanderingTrader.java
 @@ -53,5 +53,26 @@ public interface WanderingTrader extends AbstractVillager {

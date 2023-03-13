@@ -6,7 +6,7 @@ Subject: [PATCH] Show 'Paper' in client crashes, server lists, and Mojang
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index e9f4ffec4b659f3300daa0138f6e955a8d97786d..e2e66fd4bd34e0ceaab350214a50ddbb1dc76184 100644
+index 02d59e9b95018b8089bd0fc9d891dd334db93f69..65cea59eb49756581be8b4627e00062a55efb458 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1433,7 +1433,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -32,7 +32,7 @@ index d82e0dd38ef2b32d82e906d5bc71b46052eb0625..e5aa25abee4d4c5447920e64ad45acf9
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 985aae207e23584519b4c096f2aaaf0e80b6c163..49f6d20706e8fb94c41834f5addcd015d18acd7e 100644
+index f92ad534f3e527f9cec2904c6dd6413ddf297f78..ae7b57d581907fecf4c21803b8755421c549ca42 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -223,12 +223,25 @@ public class Main {
@@ -63,7 +63,7 @@ index 985aae207e23584519b4c096f2aaaf0e80b6c163..49f6d20706e8fb94c41834f5addcd015
                  net.minecraft.server.Main.main(options);
              } catch (Throwable t) {
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index f1194eb6fdfba60959e00080d0562f2820d13b27..11d7ede26b46d0bf9cced65e8c3bcc41c8b66dbf 100644
+index c2f2fcc22a6953591769b900c8f993706f4c2f84..63b850eb3a30deeef43bc408f05bd3d67244e362 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -19,7 +19,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
@@ -99,6 +99,6 @@ index f1194eb6fdfba60959e00080d0562f2820d13b27..11d7ede26b46d0bf9cced65e8c3bcc41
                  log.log( Level.SEVERE, "------------------------------" );
 -                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Spigot!):" );
 +                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Paper!):" ); // Paper
-                 io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper // Paper - rewrite chunk system
+                 io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper - rewrite chunk system
                  WatchdogThread.dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
                  log.log( Level.SEVERE, "------------------------------" );

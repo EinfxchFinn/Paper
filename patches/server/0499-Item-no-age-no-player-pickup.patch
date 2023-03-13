@@ -5,7 +5,7 @@ Subject: [PATCH] Item no age & no player pickup
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
-index 30c954efba587d69ff55df509339f03e7d5a476e..1d90219c3a0e86786a9497d4c078c2d4077ab6cd 100644
+index da1fa494a1f27a28cf11c5323adc94054093883a..e5a17498db6f738832538d7648c2603c1c7ecc4f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 @@ -10,6 +10,12 @@ import org.bukkit.entity.Item;
@@ -45,6 +45,6 @@ index 30c954efba587d69ff55df509339f03e7d5a476e..1d90219c3a0e86786a9497d4c078c2d4
 +     public void setWillAge(boolean willAge) {
 +        item.age = willAge ? 0 : NO_AGE_TIME;
 +     }
-     // Paper End
+     // Paper end
  
      @Override

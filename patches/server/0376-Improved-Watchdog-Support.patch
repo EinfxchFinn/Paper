@@ -71,7 +71,7 @@ index 336795dff742b7c6957fbd3476aff31d25a5e659..30a58229aa6dac5039511d0c0df5f291
              cause = cause.getCause();
          }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 8dcbeeae50afe23aa7e2a083239f0a315424574f..d406df9626d29ee257b8eedcbea2af09ed4b6baf 100644
+index 04468407827cacdf3f84ce31c6d4cf7e55bf2c8d..755b5938a4fbd9ec9fb681d0ab87cf7e85d8a8a3 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -295,7 +295,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -127,7 +127,7 @@ index 8dcbeeae50afe23aa7e2a083239f0a315424574f..d406df9626d29ee257b8eedcbea2af09
          // Spigot end
 +        // Paper start - move final shutdown items here
 +        LOGGER.info("Flushing Chunk IO");
-         io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper // Paper - rewrite chunk system
+         io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper - rewrite chunk system
 +        LOGGER.info("Closing Thread Pool");
 +        Util.shutdownExecutors(); // Paper
 +        LOGGER.info("Closing Server");
@@ -318,7 +318,7 @@ index 1c618cfb63561f4557f8ec71254b6397eb9cc485..6e95a98727322106d2c418de80f5f0aa
                          final String msg = String.format("BlockEntity threw exception at %s:%s,%s,%s", LevelChunk.this.getLevel().getWorld().getName(), this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
                          net.minecraft.server.MinecraftServer.LOGGER.error(msg, throwable);
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 4f666a16a46d86cd0919bbe8f8b918a7f451d254..f7c8d25830ed701e72f828fa73066a6e9188253b 100644
+index c3e9b574aa2eaac6ffb366140dbf4633cc6cad06..dc2fb71c927ce3a632933bae128e51b5c7aabe90 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -12,6 +12,8 @@ import java.util.logging.Level;
@@ -480,7 +480,7 @@ index a142a56a920e153ed84c08cece993f10d76f7793..92d97a5810a379b427a99b4c63fb9844
          String[] split = restartScript.split( " " );
          if ( split.length > 0 && new File( split[0] ).isFile() )
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index b47d043144c499b1499f6b4be5a16a3f75c9fcb8..383c52c62f49b17db2fbf58009d6ea132d124bea 100644
+index 77b3e992272fe75a5e446b04c73eeaa6d0e0bdc4..d5422778cca4f9a0cff8951a3437216ca7fc71d5 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -11,6 +11,7 @@ import org.bukkit.Bukkit;

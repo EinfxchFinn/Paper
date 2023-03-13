@@ -5,14 +5,14 @@ Subject: [PATCH] FallingBlock auto expire setting
 
 
 diff --git a/src/main/java/org/bukkit/entity/FallingBlock.java b/src/main/java/org/bukkit/entity/FallingBlock.java
-index 14cb0d770561151570ab4399ca5facff43076819..ae8fab2395e56d25227b5877b8648510c73bf948 100644
+index 14cb0d770561151570ab4399ca5facff43076819..0fd89361b2c03535e91be8a392cdfcaefbd53e23 100644
 --- a/src/main/java/org/bukkit/entity/FallingBlock.java
 +++ b/src/main/java/org/bukkit/entity/FallingBlock.java
 @@ -65,4 +65,23 @@ public interface FallingBlock extends Entity {
      default org.bukkit.Location getSourceLoc() {
          return this.getOrigin();
      }
-+    // Paper Start - Auto expire setting
++    // Paper start - Auto expire setting
 +    /**
 +     * Sets if this falling block should expire after:
 +     * - 30 seconds
@@ -30,5 +30,5 @@ index 14cb0d770561151570ab4399ca5facff43076819..ae8fab2395e56d25227b5877b8648510
 +     * @param autoExpires if this behavior should occur
 +     */
 +    void shouldAutoExpire(boolean autoExpires);
-+    // Paper End - Auto expire setting
++    // Paper end - Auto expire setting
  }

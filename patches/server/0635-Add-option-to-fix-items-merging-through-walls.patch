@@ -5,21 +5,21 @@ Subject: [PATCH] Add option to fix items merging through walls
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 1dc7f3963069313de6b969c44bdd21272483f7be..1f965e4428d627eaab69ace45486f1d14d2bb504 100644
+index 68f1775cb7b956af2544448e0376a8b64228dcb6..bb705c787bfd4ac3b23f9c5588589286a6863718 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -243,6 +243,14 @@ public class ItemEntity extends Entity {
                  ItemEntity entityitem = (ItemEntity) iterator.next();
  
                  if (entityitem.isMergable()) {
-+                    // Paper Start - Fix items merging through walls
++                    // Paper start - Fix items merging through walls
 +                        if (this.level.paperConfig().fixes.fixItemsMergingThroughWalls) {
 +                            net.minecraft.world.level.ClipContext rayTrace = new net.minecraft.world.level.ClipContext(this.position(), entityitem.position(),
 +                                net.minecraft.world.level.ClipContext.Block.COLLIDER, net.minecraft.world.level.ClipContext.Fluid.NONE, this);
 +                            net.minecraft.world.phys.BlockHitResult rayTraceResult = level.clip(rayTrace);
 +                            if (rayTraceResult.getType() == net.minecraft.world.phys.HitResult.Type.BLOCK) continue;
 +                        }
-+                    // Paper End
++                    // Paper end
                      this.tryToMerge(entityitem);
                      if (this.isRemoved()) {
                          break;

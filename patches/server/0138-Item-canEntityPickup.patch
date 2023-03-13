@@ -5,18 +5,18 @@ Subject: [PATCH] Item#canEntityPickup
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index bb7c459c126be789bb12d08a569fe344e08914b8..458a90529959d3ceae424236461cdeb4c588eedb 100644
+index bb7c459c126be789bb12d08a569fe344e08914b8..a25bbb3d9b94c2745ae0d84bdfa6a3928bc1f877 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -635,6 +635,11 @@ public abstract class Mob extends LivingEntity {
                  ItemEntity entityitem = (ItemEntity) iterator.next();
  
                  if (!entityitem.isRemoved() && !entityitem.getItem().isEmpty() && !entityitem.hasPickUpDelay() && this.wantsToPickUp(entityitem.getItem())) {
-+                    // Paper Start
++                    // Paper start
 +                    if (!entityitem.canMobPickup) {
 +                        continue;
 +                    }
-+                    // Paper End
++                    // Paper end
                      this.pickUpItem(entityitem);
                  }
              }
@@ -33,14 +33,14 @@ index 9e986a9efcda63fa20aef392aaca314478b1fbea..b98ebf2d580c27a7e55afe3a54827e47
      public ItemEntity(EntityType<? extends ItemEntity> type, Level world) {
          super(type, world);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
-index 4ca76a7530f8679567d887cdf1491d110e7465ec..30c954efba587d69ff55df509339f03e7d5a476e 100644
+index 4ca76a7530f8679567d887cdf1491d110e7465ec..da1fa494a1f27a28cf11c5323adc94054093883a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 @@ -66,6 +66,18 @@ public class CraftItem extends CraftEntity implements Item {
          }
      }
  
-+    // Paper Start
++    // Paper start
 +    @Override
 +    public boolean canMobPickup() {
 +        return item.canMobPickup;
@@ -50,7 +50,7 @@ index 4ca76a7530f8679567d887cdf1491d110e7465ec..30c954efba587d69ff55df509339f03e
 +    public void setCanMobPickup(boolean canMobPickup) {
 +        item.canMobPickup = canMobPickup;
 +    }
-+    // Paper End
++    // Paper end
 +
      @Override
      public void setOwner(UUID uuid) {

@@ -6,7 +6,7 @@ Subject: [PATCH] Optimize BlockPosition helper methods
 Resolves #1338
 
 diff --git a/src/main/java/net/minecraft/core/BlockPos.java b/src/main/java/net/minecraft/core/BlockPos.java
-index a72dfbfa2aa636ac8bac07a62777126cf2696241..f35cc28b1fde73e9eae077f597c2822842a282ce 100644
+index a72dfbfa2aa636ac8bac07a62777126cf2696241..7a82c93787bcf7940b4d93709664359afee18317 100644
 --- a/src/main/java/net/minecraft/core/BlockPos.java
 +++ b/src/main/java/net/minecraft/core/BlockPos.java
 @@ -134,67 +134,84 @@ public class BlockPos extends Vec3i {
@@ -85,7 +85,7 @@ index a72dfbfa2aa636ac8bac07a62777126cf2696241..f35cc28b1fde73e9eae077f597c28228
  
      @Override
      public BlockPos relative(Direction direction) {
-+        // Paper Start - Optimize BlockPosition
++        // Paper start - Optimize BlockPosition
 +        switch(direction) {
 +            case UP:
 +                return new BlockPos(this.getX(), this.getY() + 1, this.getZ());
@@ -102,7 +102,7 @@ index a72dfbfa2aa636ac8bac07a62777126cf2696241..f35cc28b1fde73e9eae077f597c28228
 +            default:
          return new BlockPos(this.getX() + direction.getStepX(), this.getY() + direction.getStepY(), this.getZ() + direction.getStepZ());
 +        }
-+        // Paper End
++        // Paper end
      }
  
      @Override

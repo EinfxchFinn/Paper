@@ -5,7 +5,7 @@ Subject: [PATCH] Add raw address to AsyncPlayerPreLoginEvent
 
 
 diff --git a/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java b/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java
-index 9acf1fb404ccf9b3bc06a448c3099ca2e838facf..baee5038ec7c3e190a328016d9ab290ae48badf6 100644
+index 9acf1fb404ccf9b3bc06a448c3099ca2e838facf..b7770db19d544658236cace4fec409f71417f55f 100644
 --- a/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java
 +++ b/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java
 @@ -20,6 +20,7 @@ public class AsyncPlayerPreLoginEvent extends Event {
@@ -20,7 +20,7 @@ index 9acf1fb404ccf9b3bc06a448c3099ca2e838facf..baee5038ec7c3e190a328016d9ab290a
          this.profile = profile;
      }
  
-+    // Paper Start
++    // Paper start
 +    /**
 +     * Gets the raw address of the player logging in
 +     * @return The address

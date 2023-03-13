@@ -5,7 +5,7 @@ Subject: [PATCH] Add Block#isValidTool
 
 
 diff --git a/src/main/java/org/bukkit/block/Block.java b/src/main/java/org/bukkit/block/Block.java
-index 4abd16a4e99ae0380b67c86b9744d71423053b5e..96a3466181a6829e1868b5f5249349e8fd2cdd09 100644
+index 5d43308b4dd06754cfa2465dd48258b07185fabb..3dff26d4528ea749a4e3fa6f27bfc5c94760fc90 100644
 --- a/src/main/java/org/bukkit/block/Block.java
 +++ b/src/main/java/org/bukkit/block/Block.java
 @@ -230,6 +230,15 @@ public interface Block extends Metadatable, Translatable, net.kyori.adventure.tr
@@ -21,6 +21,6 @@ index 4abd16a4e99ae0380b67c86b9744d71423053b5e..96a3466181a6829e1868b5f5249349e8
 +     * @return whether the block will drop items
 +     */
 +    boolean isValidTool(@NotNull ItemStack itemStack);
-     // Paper End
+     // Paper end
  
      /**

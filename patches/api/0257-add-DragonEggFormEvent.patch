@@ -6,7 +6,7 @@ Subject: [PATCH] add DragonEggFormEvent
 
 diff --git a/src/main/java/io/papermc/paper/event/block/DragonEggFormEvent.java b/src/main/java/io/papermc/paper/event/block/DragonEggFormEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..5495b87330518363498e1ac5d8f0a832be35fefb
+index 0000000000000000000000000000000000000000..8e4a50615ec60c0993fcd2483562be94d3c825cb
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/event/block/DragonEggFormEvent.java
 @@ -0,0 +1,63 @@
@@ -30,46 +30,46 @@ index 0000000000000000000000000000000000000000..5495b87330518363498e1ac5d8f0a832
 + * eg. {@link DragonBattle#hasBeenPreviouslyKilled()} and server configuration.</b>
 + */
 +public class DragonEggFormEvent extends BlockFormEvent implements Cancellable {
-+	private static final HandlerList handlers = new HandlerList();
-+	private final DragonBattle dragonBattle;
-+	private boolean cancelled;
-+	
-+	public DragonEggFormEvent(@NotNull Block block, @NotNull BlockState newState,
-+			@NotNull DragonBattle dragonBattle) {
-+		super(block, newState);
-+		this.dragonBattle = dragonBattle;
-+	}
-+	
-+	@Override
-+	public boolean isCancelled() {
-+		return cancelled;
-+	}
-+	
-+	@Override
-+	public void setCancelled(boolean cancelled) {
-+		this.cancelled = cancelled;
-+	}
-+	
-+	/**
-+	 * Gets the {@link DragonBattle} associated with this event.
-+	 * Keep in mind that the {@link EnderDragon} is already dead
-+	 * when this event is called.
-+	 *
-+	 * @return the dragon battle
-+	 */
-+	@NotNull
-+	public DragonBattle getDragonBattle() {
-+		return dragonBattle;
-+	}
-+	
-+	@NotNull
-+	@Override
-+	public HandlerList getHandlers() {
-+		return handlers;
-+	}
-+	
-+	@NotNull
-+	public static HandlerList getHandlerList() {
-+		return handlers;
-+	}
++    private static final HandlerList handlers = new HandlerList();
++    private final DragonBattle dragonBattle;
++    private boolean cancelled;
++
++    public DragonEggFormEvent(@NotNull Block block, @NotNull BlockState newState,
++            @NotNull DragonBattle dragonBattle) {
++        super(block, newState);
++        this.dragonBattle = dragonBattle;
++    }
++
++    @Override
++    public boolean isCancelled() {
++        return cancelled;
++    }
++
++    @Override
++    public void setCancelled(boolean cancelled) {
++        this.cancelled = cancelled;
++    }
++
++    /**
++     * Gets the {@link DragonBattle} associated with this event.
++     * Keep in mind that the {@link EnderDragon} is already dead
++     * when this event is called.
++     *
++     * @return the dragon battle
++     */
++    @NotNull
++    public DragonBattle getDragonBattle() {
++        return dragonBattle;
++    }
++
++    @NotNull
++    @Override
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
 +}

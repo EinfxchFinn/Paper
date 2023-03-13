@@ -7,7 +7,7 @@ Subject: [PATCH] Add API for item entity health
 public net.minecraft.world.entity.item.ItemEntity health
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
-index 1d90219c3a0e86786a9497d4c078c2d4077ab6cd..fea44ba6a6584b4a510af6a58cab07eecec6b68b 100644
+index e5a17498db6f738832538d7648c2603c1c7ecc4f..93f494d69ccf7b1660a7ee316ac9a39633226e20 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 @@ -102,6 +102,21 @@ public class CraftItem extends CraftEntity implements Item {
@@ -29,6 +29,6 @@ index 1d90219c3a0e86786a9497d4c078c2d4077ab6cd..fea44ba6a6584b4a510af6a58cab07ee
 +            item.health = health;
 +        }
 +    }
-     // Paper End
+     // Paper end
  
      @Override
