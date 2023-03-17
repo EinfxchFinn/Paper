@@ -47,6 +47,9 @@ https://bugs.mojang.com/browse/MC-258535
 https://bugs.mojang.com/browse/MC-259571
   Fix changeGameModeForPlayer to use gameModeForPlayer
 
+https://bugs.mojang.com/browse/MC-254410
+  Fix /setidletimeout set to a timer longer than 35791 kicks idle player immediately
+
 Co-authored-by: William Blake Galbreath <blake.galbreath@gmail.com>
 Co-authored-by: MelnCat <melncatuwu@gmail.com>
 
@@ -102,6 +105,19 @@ index 13031576c20bda3bb12c926f6cd938fa5fb105f2..f14c4ec49e7206b8192050f1bd20a18e
              this.player.onUpdateAbilities();
              this.player.server.getPlayerList().broadcastAll(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.UPDATE_GAME_MODE, this.player), this.player); // CraftBukkit
              this.level.updateSleepingPlayerList();
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index f86b9e5e34aa8716a9f560c2f271936175f641b3..bd3aa219d1136f285c912ae01fc9a89af9ba65c3 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -429,7 +429,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+             --this.dropSpamTickCount;
+         }
+ 
+-        if (this.player.getLastActionTime() > 0L && this.server.getPlayerIdleTimeout() > 0 && Util.getMillis() - this.player.getLastActionTime() > (long) (this.server.getPlayerIdleTimeout() * 1000 * 60) && !this.player.wonGame) { // Paper - Prevent AFK kick while watching end credits.
++        if (this.player.getLastActionTime() > 0L && this.server.getPlayerIdleTimeout() > 0 && Util.getMillis() - this.player.getLastActionTime() > (long) (this.server.getPlayerIdleTimeout()) * 1000 * 60 && !this.player.wonGame) { // Paper - Prevent AFK kick while watching end credits. // Paper - Fix MC-254410
+             this.player.resetLastActionTime(); // CraftBukkit - SPIGOT-854
+             this.disconnect(Component.translatable("multiplayer.disconnect.idling"), org.bukkit.event.player.PlayerKickEvent.Cause.IDLING); // Paper - kick event cause
+         }
 diff --git a/src/main/java/net/minecraft/world/entity/Saddleable.java b/src/main/java/net/minecraft/world/entity/Saddleable.java
 index effe4c4fb37fe13aece70cdef4966047d4719af9..7152674d3f3fb98198585cb5ece2bb88877345f9 100644
 --- a/src/main/java/net/minecraft/world/entity/Saddleable.java
