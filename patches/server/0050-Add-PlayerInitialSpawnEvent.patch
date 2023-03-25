@@ -12,7 +12,7 @@ improve setPosition to use raw
 public net.minecraft.world.entity.Entity setRot(FF)V
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 23edaa206ef8f9ca9ecea0fdd7f0b58ed9fa3a12..434a980904d278148d53a7bf31575c2f3c9392a7 100644
+index 23edaa206ef8f9ca9ecea0fdd7f0b58ed9fa3a12..8e35aacabda67da14b83bb53994eb1dd3f5c7242 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -230,7 +230,7 @@ public abstract class PlayerList {
@@ -20,7 +20,7 @@ index 23edaa206ef8f9ca9ecea0fdd7f0b58ed9fa3a12..434a980904d278148d53a7bf31575c2f
          // Spigot start - spawn location event
          Player spawnPlayer = player.getBukkitEntity();
 -        org.spigotmc.event.player.PlayerSpawnLocationEvent ev = new org.spigotmc.event.player.PlayerSpawnLocationEvent(spawnPlayer, spawnPlayer.getLocation());
-+        org.spigotmc.event.player.PlayerSpawnLocationEvent ev = new com.destroystokyo.paper.event.player.PlayerInitialSpawnEvent(spawnPlayer, spawnPlayer.getLocation()); // Paper use our duplicate event
++        org.spigotmc.event.player.PlayerSpawnLocationEvent ev = new io.papermc.paper.event.player.PlayerInitialSpawnEvent(spawnPlayer, spawnPlayer.getLocation()); // Paper use our duplicate event
          this.cserver.getPluginManager().callEvent(ev);
  
          Location loc = ev.getSpawnLocation();

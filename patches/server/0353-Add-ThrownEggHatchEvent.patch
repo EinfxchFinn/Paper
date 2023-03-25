@@ -7,7 +7,7 @@ Adds a new event similar to PlayerEggThrowEvent, but without the Player requirem
 (dispensers can throw eggs to hatch them, too).
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
-index c400bcb9da854e3c953c269d6f74c1a4f07b82a7..326eb972078e5dd700372c9ba09ea7f8415b144e 100644
+index c400bcb9da854e3c953c269d6f74c1a4f07b82a7..0423f6db5a878f3c821ddc3c2184466b7bd403d5 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
 @@ -76,6 +76,14 @@ public class ThrownEgg extends ThrowableItemProjectile {
@@ -15,7 +15,7 @@ index c400bcb9da854e3c953c269d6f74c1a4f07b82a7..326eb972078e5dd700372c9ba09ea7f8
                  }
  
 +                // Paper start
-+                com.destroystokyo.paper.event.entity.ThrownEggHatchEvent event = new com.destroystokyo.paper.event.entity.ThrownEggHatchEvent((org.bukkit.entity.Egg) getBukkitEntity(), hatching, b0, hatchingType);
++                io.papermc.paper.event.entity.ThrownEggHatchEvent event = new io.papermc.paper.event.entity.ThrownEggHatchEvent((org.bukkit.entity.Egg) getBukkitEntity(), hatching, b0, hatchingType);
 +                event.callEvent();
 +
 +                b0 = event.getNumHatches();

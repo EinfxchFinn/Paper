@@ -6,7 +6,7 @@ Subject: [PATCH] Optimise chunk tick iteration
 Use a dedicated list of entity ticking chunks to reduce the cost
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkHolder.java b/src/main/java/net/minecraft/server/level/ChunkHolder.java
-index 51c112656f26f142bd6c126253520e812a338783..0f2590501d742b1f5a410d45c7781bd18b4a4525 100644
+index 9413dc6dacd53c0e4790745d12c5d33609b67729..e4f5c5ebe648268712822b78ac6cf5f3b18d557f 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkHolder.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkHolder.java
 @@ -88,6 +88,11 @@ public class ChunkHolder {
@@ -72,7 +72,7 @@ index 51c112656f26f142bd6c126253520e812a338783..0f2590501d742b1f5a410d45c7781bd1
              int i = 0;
  
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 503a642165f6f1292c07e8a9e618218bb96a97e9..b0cfdead8a345eaab7747ed6b84271e8e09d1713 100644
+index 3d3d1d11323a1ca756e64d1e0b6090c2d555ba20..aa913ca7bb1f5b4a3358aabb3081592a68c78077 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -116,6 +116,8 @@ import org.bukkit.craftbukkit.generator.CustomChunkGenerator;
@@ -87,13 +87,13 @@ index 503a642165f6f1292c07e8a9e618218bb96a97e9..b0cfdead8a345eaab7747ed6b84271e8
 @@ -154,6 +156,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      private final Queue<Runnable> unloadQueue;
      int viewDistance;
-     public final com.destroystokyo.paper.util.misc.PlayerAreaMap playerMobDistanceMap; // Paper
+     public final io.papermc.paper.util.misc.PlayerAreaMap playerMobDistanceMap; // Paper
 +    public final ReferenceOpenHashSet<ChunkHolder> needsChangeBroadcasting = new ReferenceOpenHashSet<>();
  
      // Paper - rewrite chunk system
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index d1652c237b2b272f0dfe80f774cff16056f39046..b768767b92bf7691a6e57627c69818a1f5fd82c8 100644
+index 7cb1ed4904512b99ddc4156e0e504bd854042abe..e21491fe78da7bf5a11febd21207128ec5132fdc 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -48,6 +48,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp

@@ -40,10 +40,10 @@ This is to ensure that if main isn't truely stuck, it's not manipulating state w
 This also moves all plugins who register "delayed init" tasks to occur just before "Done" so they
 are properly accounted for and wont trip watchdog on init.
 
-diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 6aaed8e8bf8c721fc834da5c76ac72a4c3e92458..4b002e8b75d117b726b0de274a76d3596fce015b 100644
---- a/src/main/java/com/destroystokyo/paper/Metrics.java
-+++ b/src/main/java/com/destroystokyo/paper/Metrics.java
+diff --git a/src/main/java/io/papermc/paper/Metrics.java b/src/main/java/io/papermc/paper/Metrics.java
+index 8a3429fa6c2da948b4eeb00dbc6f30dc2ee5f991..8e8072f256a78481b95ef0964a23a8d73865a5bf 100644
+--- a/src/main/java/io/papermc/paper/Metrics.java
++++ b/src/main/java/io/papermc/paper/Metrics.java
 @@ -92,7 +92,12 @@ public class Metrics {
       * Starts the Scheduler which submits our data every 30 minutes.
       */
@@ -59,19 +59,19 @@ index 6aaed8e8bf8c721fc834da5c76ac72a4c3e92458..4b002e8b75d117b726b0de274a76d359
          // Many servers tend to restart at a fixed time at xx:00 which causes an uneven distribution of requests on the
          // bStats backend. To circumvent this problem, we introduce some randomness into the initial and second delay.
 diff --git a/src/main/java/net/minecraft/CrashReport.java b/src/main/java/net/minecraft/CrashReport.java
-index 336795dff742b7c6957fbd3476aff31d25a5e659..30a58229aa6dac5039511d0c0df5f2912ea7de9f 100644
+index 336795dff742b7c6957fbd3476aff31d25a5e659..d52b7cbd5e810175f8ef0e5a0f3cd02600cd7c6b 100644
 --- a/src/main/java/net/minecraft/CrashReport.java
 +++ b/src/main/java/net/minecraft/CrashReport.java
 @@ -230,6 +230,7 @@ public class CrashReport {
      }
  
      public static CrashReport forThrowable(Throwable cause, String title) {
-+        if (cause instanceof ThreadDeath) com.destroystokyo.paper.util.SneakyThrow.sneaky(cause); // Paper
++        if (cause instanceof ThreadDeath) io.papermc.paper.util.SneakyThrow.sneaky(cause); // Paper
          while (cause instanceof CompletionException && cause.getCause() != null) {
              cause = cause.getCause();
          }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index f79497ca8ab725ddd851ec89238db93c79ad92b7..7eb5a713dbb0e1e54f44ff16a4d7784b321b50a5 100644
+index 2179597fc6150fa5e49f2a37bcce2a4ec5d0087b..301d921eee27a86573c9f94e08d3389ffb218677 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -298,7 +298,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -237,7 +237,7 @@ index f79497ca8ab725ddd851ec89238db93c79ad92b7..7eb5a713dbb0e1e54f44ff16a4d7784b
              this.functionManager.replaceLibrary(this.resources.managers.getFunctionLibrary());
              this.structureTemplateManager.onResourceManagerReload(this.resources.resourceManager);
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index f22c50f0a2ef05e9f52550db7c40b5b99632650c..549ea8e0fe702615eefcbfd1cd6a30e05b7b3fd5 100644
+index 59651efed025cae991694df027f2801c68c21208..060a5d75f2fd739adfe46c1b281e641d8c21defb 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -269,7 +269,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -269,7 +269,7 @@ index f22c50f0a2ef05e9f52550db7c40b5b99632650c..549ea8e0fe702615eefcbfd1cd6a30e0
      }
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 187b3dc881f226963af5b61a2c4b957ecf537cf5..a4b3e2caf550f578ac06c5d17077fe08aaa07a57 100644
+index 0e8ca1367ce4280967c2076f2716b6954acea6c1..2bee2f498e01c957ced3ca76a6a00be445e26b8c 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -533,7 +533,7 @@ public abstract class PlayerList {
@@ -294,7 +294,7 @@ index f5829ae484d93b547a5437b85a9621346384a11b..83701fbfaa56a232593ee8f11a3afb89
          }
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 637092303bbce94fd37f193367264d51b855847d..31edf8f2c683f56e53040e735d015ca6d6966d01 100644
+index d847bc46309544b42b942a4182b306a5ff256604..42f8eafa462e952d139ca419a277cff2ffab7b4c 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -827,6 +827,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -306,7 +306,7 @@ index 637092303bbce94fd37f193367264d51b855847d..31edf8f2c683f56e53040e735d015ca6
              final String msg = String.format("Entity threw exception at %s:%s,%s,%s", entity.level.getWorld().getName(), entity.getX(), entity.getY(), entity.getZ());
              MinecraftServer.LOGGER.error(msg, throwable);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 39defceb694875322b3433a3ad4bb16256413ea8..86f19b7ed15c2029c5483f21b44895d8982a90b8 100644
+index 6ad69183c648a91a0c59e662162e1cedc6901289..23c671930e25a2d475d88c8aacf283afffdee3ba 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -1230,6 +1230,7 @@ public class LevelChunk extends ChunkAccess {
@@ -318,7 +318,7 @@ index 39defceb694875322b3433a3ad4bb16256413ea8..86f19b7ed15c2029c5483f21b44895d8
                          final String msg = String.format("BlockEntity threw exception at %s:%s,%s,%s", LevelChunk.this.getLevel().getWorld().getName(), this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
                          net.minecraft.server.MinecraftServer.LOGGER.error(msg, throwable);
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 7a0adf528be779241759d1efd818b0e57454a258..d7a98afeadc090281fdb24b27619536f318c2383 100644
+index 7a0adf528be779241759d1efd818b0e57454a258..bb611abe5daa02f5bc589f09dec36502096c6be4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -178,6 +178,36 @@ public class Main {
@@ -365,7 +365,7 @@ index 7a0adf528be779241759d1efd818b0e57454a258..d7a98afeadc090281fdb24b27619536f
 +            // Paper start
 +            // load some required classes to avoid errors during shutdown if jar is replaced
 +            // also to guarantee our version loads over plugins
-+            tryPreloadClass("com.destroystokyo.paper.util.SneakyThrow");
++            tryPreloadClass("io.papermc.paper.util.SneakyThrow");
 +            tryPreloadClass("com.google.common.collect.Iterators$PeekingImpl");
 +            tryPreloadClass("com.google.common.collect.MapMakerInternalMap$Values");
 +            tryPreloadClass("com.google.common.collect.MapMakerInternalMap$ValueIterator");
@@ -398,8 +398,8 @@ index 7a0adf528be779241759d1efd818b0e57454a258..d7a98afeadc090281fdb24b27619536f
 +            tryPreloadClass("org.slf4j.helpers.FormattingTuple");
 +            tryPreloadClass("org.slf4j.helpers.BasicMarker");
 +            tryPreloadClass("org.slf4j.helpers.Util");
-+            tryPreloadClass("com.destroystokyo.paper.event.player.PlayerConnectionCloseEvent");
-+            tryPreloadClass("com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent");
++            tryPreloadClass("io.papermc.paper.event.player.PlayerConnectionCloseEvent");
++            tryPreloadClass("io.papermc.paper.event.entity.EntityRemoveFromWorldEvent");
 +            // Minecraft, seen during saving
 +            tryPreloadClass(net.minecraft.world.level.lighting.LayerLightEventListener.DummyLightLayerEventListener.class.getName());
 +            tryPreloadClass(net.minecraft.world.level.lighting.LayerLightEventListener.class.getName());

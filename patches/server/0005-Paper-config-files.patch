@@ -25,13 +25,13 @@ index 0d04c3af92f7d4e63b1178247e493174cedd9178..1c183e9083a5ce2a2995ae45864c564b
      implementation("commons-lang:commons-lang:2.6")
      runtimeOnly("org.xerial:sqlite-jdbc:3.41.0.0")
      runtimeOnly("com.mysql:mysql-connector-j:8.0.32")
-diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
+diff --git a/src/main/java/io/papermc/paper/PaperConfig.java b/src/main/java/io/papermc/paper/PaperConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ef41cf3a7d1e6f2bfe81e0fb865d2f969bbc77c1
+index 0000000000000000000000000000000000000000..e1bd3917c6470c03c0173c717e735db5b3c244bc
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
++++ b/src/main/java/io/papermc/paper/PaperConfig.java
 @@ -0,0 +1,8 @@
-+package com.destroystokyo.paper;
++package io.papermc.paper;
 +
 +/**
 + * @deprecated kept as a means to identify Paper in older plugins/PaperLib
@@ -39,13 +39,13 @@ index 0000000000000000000000000000000000000000..ef41cf3a7d1e6f2bfe81e0fb865d2f96
 +@Deprecated(forRemoval = true)
 +public class PaperConfig {
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/PaperWorldConfig.java b/src/main/java/com/destroystokyo/paper/PaperWorldConfig.java
+diff --git a/src/main/java/io/papermc/paper/PaperWorldConfig.java b/src/main/java/io/papermc/paper/PaperWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c91f109b4cf64dc1b4ef09f38e1cb8bf5cb2be13
+index 0000000000000000000000000000000000000000..1772d906b0e0658699dd743ca0bf2a4c443f8cd8
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/PaperWorldConfig.java
++++ b/src/main/java/io/papermc/paper/PaperWorldConfig.java
 @@ -0,0 +1,8 @@
-+package com.destroystokyo.paper;
++package io.papermc.paper;
 +
 +/**
 + * @deprecated kept as a means to identify Paper in older plugins/PaperLib
@@ -2309,13 +2309,13 @@ index 0000000000000000000000000000000000000000..8535c748a5e355362e77e6c5103e11c4
 +}
 diff --git a/src/main/java/io/papermc/paper/configuration/serializer/NbtPathSerializer.java b/src/main/java/io/papermc/paper/configuration/serializer/NbtPathSerializer.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..b44b2dc28f619594e302417848e95c0087acbcea
+index 0000000000000000000000000000000000000000..fdfb39fad2d19dd7ff56e62037638d2d7bb0c4ae
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/configuration/serializer/NbtPathSerializer.java
 @@ -0,0 +1,52 @@
 +package io.papermc.paper.configuration.serializer;
 +
-+import com.destroystokyo.paper.util.SneakyThrow;
++import io.papermc.paper.util.SneakyThrow;
 +import com.mojang.brigadier.StringReader;
 +import com.mojang.brigadier.exceptions.CommandSyntaxException;
 +import java.lang.reflect.Type;
@@ -4575,7 +4575,7 @@ index ca2d2f44d722d2bf14f50670ac6192830b72c7f0..2cd8fc55056596731b34731a5fdf975f
              world.serverLevelData.setDifficulty(config.difficulty);
              world.setSpawnSettings(config.spawnMonsters, config.spawnAnimals);
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index ad6d25b26454c3ec8c11f54e921df8914c3c62d9..7fc066ee281662192aad826840573e4181f5ceff 100644
+index f19755a6096b72d6ca302a4ea2d386fadfe2b122..fe726771b76cabcb58bf624969490d9595965082 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -141,6 +141,19 @@ public class Main {

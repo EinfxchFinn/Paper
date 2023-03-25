@@ -4,10 +4,10 @@ Date: Sun, 24 Oct 2021 15:49:35 +0200
 Subject: [PATCH] Fix Bukkit NamespacedKey shenanigans
 
 
-diff --git a/src/main/java/com/destroystokyo/paper/loottable/PaperContainerEntityLootableInventory.java b/src/main/java/com/destroystokyo/paper/loottable/PaperContainerEntityLootableInventory.java
-index 88e32ed64f90bfd277dac84ba4bd84f0d943f5f8..d4a8c1bbb8fef27ac42bdf27dde495b4c649e6cb 100644
---- a/src/main/java/com/destroystokyo/paper/loottable/PaperContainerEntityLootableInventory.java
-+++ b/src/main/java/com/destroystokyo/paper/loottable/PaperContainerEntityLootableInventory.java
+diff --git a/src/main/java/io/papermc/paper/loottable/PaperContainerEntityLootableInventory.java b/src/main/java/io/papermc/paper/loottable/PaperContainerEntityLootableInventory.java
+index ce3f710491f5df72df20e2374613938b2dbdbb9c..4b8f8f07ff032acae5ef97055c8742455d928c26 100644
+--- a/src/main/java/io/papermc/paper/loottable/PaperContainerEntityLootableInventory.java
++++ b/src/main/java/io/papermc/paper/loottable/PaperContainerEntityLootableInventory.java
 @@ -17,7 +17,7 @@ public class PaperContainerEntityLootableInventory implements PaperLootableEntit
  
      @Override
@@ -17,10 +17,10 @@ index 88e32ed64f90bfd277dac84ba4bd84f0d943f5f8..d4a8c1bbb8fef27ac42bdf27dde495b4
      }
  
      @Override
-diff --git a/src/main/java/com/destroystokyo/paper/loottable/PaperTileEntityLootableInventory.java b/src/main/java/com/destroystokyo/paper/loottable/PaperTileEntityLootableInventory.java
-index 9cfa5d36a6991067a3866e0d437749fafcc0158e..2ee4ee14ab3345486dad6b24fd9a4fcc6c746b99 100644
---- a/src/main/java/com/destroystokyo/paper/loottable/PaperTileEntityLootableInventory.java
-+++ b/src/main/java/com/destroystokyo/paper/loottable/PaperTileEntityLootableInventory.java
+diff --git a/src/main/java/io/papermc/paper/loottable/PaperTileEntityLootableInventory.java b/src/main/java/io/papermc/paper/loottable/PaperTileEntityLootableInventory.java
+index 9ae7f1a10476fce974fec936e3921e76fb393863..79bfbeb7db1e815ab201480d36db240156f0ddd1 100644
+--- a/src/main/java/io/papermc/paper/loottable/PaperTileEntityLootableInventory.java
++++ b/src/main/java/io/papermc/paper/loottable/PaperTileEntityLootableInventory.java
 @@ -15,7 +15,7 @@ public class PaperTileEntityLootableInventory implements PaperLootableBlockInven
  
      @Override

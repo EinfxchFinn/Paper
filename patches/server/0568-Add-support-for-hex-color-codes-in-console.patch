@@ -5,39 +5,6 @@ Subject: [PATCH] Add support for hex color codes in console
 
 Converts upstream's hex color code legacy format into actual hex color codes in the console.
 
-diff --git a/src/main/java/com/destroystokyo/paper/console/TerminalConsoleCommandSender.java b/src/main/java/com/destroystokyo/paper/console/TerminalConsoleCommandSender.java
-index 685deaa0e5d1ddc13e3a7c0471b1cfcf1710c869..8f07539a82f449ad217e316a7513a1708781fb63 100644
---- a/src/main/java/com/destroystokyo/paper/console/TerminalConsoleCommandSender.java
-+++ b/src/main/java/com/destroystokyo/paper/console/TerminalConsoleCommandSender.java
-@@ -1,16 +1,25 @@
- package com.destroystokyo.paper.console;
- 
-+import net.kyori.adventure.audience.MessageType;
-+import net.kyori.adventure.identity.Identity;
-+import net.kyori.adventure.text.Component;
-+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
-+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
- import org.apache.logging.log4j.LogManager;
--import org.apache.logging.log4j.Logger;
- import org.bukkit.craftbukkit.command.CraftConsoleCommandSender;
- 
- public class TerminalConsoleCommandSender extends CraftConsoleCommandSender {
- 
--    private static final Logger LOGGER = LogManager.getRootLogger();
-+    private static final ComponentLogger LOGGER = ComponentLogger.logger(LogManager.getRootLogger().getName());
- 
-     @Override
-     public void sendRawMessage(String message) {
--        // TerminalConsoleAppender supports color codes directly in log messages
-+        final Component msg = LegacyComponentSerializer.legacySection().deserialize(message);
-+        this.sendMessage(Identity.nil(), msg, MessageType.SYSTEM);
-+    }
-+
-+    @Override
-+    public void sendMessage(Identity identity, Component message, MessageType type) {
-         LOGGER.info(message);
-     }
- 
 diff --git a/src/main/java/io/papermc/paper/adventure/providers/ComponentLoggerProviderImpl.java b/src/main/java/io/papermc/paper/adventure/providers/ComponentLoggerProviderImpl.java
 index c3631efda9c7fa531a8a9f18fbee7b5f8655382b..9a3c1314d5a0aa20380662595359580b1a97be89 100644
 --- a/src/main/java/io/papermc/paper/adventure/providers/ComponentLoggerProviderImpl.java
@@ -282,8 +249,41 @@ index 0000000000000000000000000000000000000000..b9922b07cb105618390187d98acdf89e
 +    }
 +
 +}
+diff --git a/src/main/java/io/papermc/paper/console/TerminalConsoleCommandSender.java b/src/main/java/io/papermc/paper/console/TerminalConsoleCommandSender.java
+index e850463de9690d0867614e1dfc00a904a02be9ae..725d1fcac1a070d164e5620cccf439fe2735fa15 100644
+--- a/src/main/java/io/papermc/paper/console/TerminalConsoleCommandSender.java
++++ b/src/main/java/io/papermc/paper/console/TerminalConsoleCommandSender.java
+@@ -1,16 +1,25 @@
+ package io.papermc.paper.console;
+ 
++import net.kyori.adventure.audience.MessageType;
++import net.kyori.adventure.identity.Identity;
++import net.kyori.adventure.text.Component;
++import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
++import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+ import org.apache.logging.log4j.LogManager;
+-import org.apache.logging.log4j.Logger;
+ import org.bukkit.craftbukkit.command.CraftConsoleCommandSender;
+ 
+ public class TerminalConsoleCommandSender extends CraftConsoleCommandSender {
+ 
+-    private static final Logger LOGGER = LogManager.getRootLogger();
++    private static final ComponentLogger LOGGER = ComponentLogger.logger(LogManager.getRootLogger().getName());
+ 
+     @Override
+     public void sendRawMessage(String message) {
+-        // TerminalConsoleAppender supports color codes directly in log messages
++        final Component msg = LegacyComponentSerializer.legacySection().deserialize(message);
++        this.sendMessage(Identity.nil(), msg, MessageType.SYSTEM);
++    }
++
++    @Override
++    public void sendMessage(Identity identity, Component message, MessageType type) {
+         LOGGER.info(message);
+     }
+ 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3c30d51cc497f2aa4071fed1ef9a5c93ddd358ab..ed3ec53f11cf2be94b82a779d89e8d4b7819172f 100644
+index 43373df4efe914f7f0bee5d80f56799db66c8e2d..e92c1da07285e22e2e9d85a047ccfb5920cb648a 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1706,7 +1706,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa

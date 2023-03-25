@@ -5,13 +5,13 @@ Subject: [PATCH] Added getHostname to AsyncPlayerPreLoginEvent
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 5df657555439e07d5fb67db8c82246c15676850d..f45b616c4f418298c67903c141c52172b6dd51e0 100644
+index 1cd925c6c9f224241229d3f801df6702de80a20d..79f4077251e9bb5ab4be9b0d1c7e81507aeda74c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -371,7 +371,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
  
                          // Paper start
-                         com.destroystokyo.paper.profile.PlayerProfile profile = com.destroystokyo.paper.profile.CraftPlayerProfile.asBukkitMirror(ServerLoginPacketListenerImpl.this.gameProfile);
+                         io.papermc.paper.profile.PlayerProfile profile = io.papermc.paper.profile.CraftPlayerProfile.asBukkitMirror(ServerLoginPacketListenerImpl.this.gameProfile);
 -                        AsyncPlayerPreLoginEvent asyncEvent = new AsyncPlayerPreLoginEvent(playerName, address, rawAddress, uniqueId, profile); // Paper - add rawAddress
 +                        AsyncPlayerPreLoginEvent asyncEvent = new AsyncPlayerPreLoginEvent(playerName, address, rawAddress, uniqueId, profile, ServerLoginPacketListenerImpl.this.connection.hostname); // Paper - add rawAddress & hostname
                          server.getPluginManager().callEvent(asyncEvent);

@@ -8,7 +8,7 @@ Fixes some wrong reasons, and adds missing spawn reasons for entities.
 Co-authored-by: Doc <nachito94@msn.com>
 
 diff --git a/src/main/java/net/minecraft/world/entity/EntityType.java b/src/main/java/net/minecraft/world/entity/EntityType.java
-index 51274302ad0d500b9291c000d457be24caf52a74..fa10d60cf7f80c429690f20c3bccdd8bbe7752e8 100644
+index 1af22c38776ee2914f90782f41f8005e7eb07bdf..485f5f86b408b094a0a7ed4f79e133f1789117a0 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityType.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityType.java
 @@ -348,7 +348,7 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
@@ -21,12 +21,12 @@ index 51274302ad0d500b9291c000d457be24caf52a74..fa10d60cf7f80c429690f20c3bccdd8b
  
      @Nullable
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/DragonFireball.java b/src/main/java/net/minecraft/world/entity/projectile/DragonFireball.java
-index 6afe37e42d88701af38df5793a9ea9d7d2cda5c5..c72ab3c9f7cb20f22b051981fe1fc41965d2b2af 100644
+index 6fdfe95eab00ad8724bef620a9b106bee79cbd10..d4e05747b2a5e4cf1c13dcae4a64338b60db6a4c 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/DragonFireball.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/DragonFireball.java
 @@ -54,7 +54,7 @@ public class DragonFireball extends AbstractHurtingProjectile {
  
-                 if (new com.destroystokyo.paper.event.entity.EnderDragonFireballHitEvent((org.bukkit.entity.DragonFireball) this.getBukkitEntity(), list.stream().map(LivingEntity::getBukkitLivingEntity).collect(java.util.stream.Collectors.toList()), (org.bukkit.entity.AreaEffectCloud) areaEffectCloud.getBukkitEntity()).callEvent()) { // Paper
+                 if (new io.papermc.paper.event.entity.EnderDragonFireballHitEvent((org.bukkit.entity.DragonFireball) this.getBukkitEntity(), list.stream().map(LivingEntity::getBukkitLivingEntity).collect(java.util.stream.Collectors.toList()), (org.bukkit.entity.AreaEffectCloud) areaEffectCloud.getBukkitEntity()).callEvent()) { // Paper
                  this.level.levelEvent(2006, this.blockPosition(), this.isSilent() ? -1 : 1);
 -                this.level.addFreshEntity(areaEffectCloud);
 +                this.level.addFreshEntity(areaEffectCloud, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.EXPLOSION); // Paper

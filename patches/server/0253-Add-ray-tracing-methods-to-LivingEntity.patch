@@ -5,7 +5,7 @@ Subject: [PATCH] Add ray tracing methods to LivingEntity
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index dd82cef26160a1794c47494c99c59eb329879b7b..d29519bd75e6e5a97b06aae86c485b49c4415fb8 100644
+index e2c976d71625f16210237bad52ae2db5b7e8aebb..d01668facb2b1edd4310d3b9af5985e46792ffbd 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -3732,6 +3732,20 @@ public abstract class LivingEntity extends Entity implements Attackable {
@@ -30,7 +30,7 @@ index dd82cef26160a1794c47494c99c59eb329879b7b..d29519bd75e6e5a97b06aae86c485b49
  
      public int getShieldBlockingDelay() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index a9642e95cde4dc1c3cb9da50c921171c47665536..8601639fd5dfb7ce68d6bd7803efd10438338483 100644
+index a9642e95cde4dc1c3cb9da50c921171c47665536..a4ad65b696391426a8d472a9e656b2aed3f9d30d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -200,6 +200,33 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
@@ -39,12 +39,12 @@ index a9642e95cde4dc1c3cb9da50c921171c47665536..8601639fd5dfb7ce68d6bd7803efd104
  
 +    // Paper start
 +    @Override
-+    public Block getTargetBlock(int maxDistance, com.destroystokyo.paper.block.TargetBlockInfo.FluidMode fluidMode) {
++    public Block getTargetBlock(int maxDistance, io.papermc.paper.block.TargetBlockInfo.FluidMode fluidMode) {
 +        return this.getTargetBlockExact(maxDistance, fluidMode.bukkit);
 +    }
 +
 +    @Override
-+    public org.bukkit.block.BlockFace getTargetBlockFace(int maxDistance, com.destroystokyo.paper.block.TargetBlockInfo.FluidMode fluidMode) {
++    public org.bukkit.block.BlockFace getTargetBlockFace(int maxDistance, io.papermc.paper.block.TargetBlockInfo.FluidMode fluidMode) {
 +        return this.getTargetBlockFace(maxDistance, fluidMode.bukkit);
 +    }
 +
@@ -55,10 +55,10 @@ index a9642e95cde4dc1c3cb9da50c921171c47665536..8601639fd5dfb7ce68d6bd7803efd104
 +    }
 +
 +    @Override
-+    public com.destroystokyo.paper.block.TargetBlockInfo getTargetBlockInfo(int maxDistance, com.destroystokyo.paper.block.TargetBlockInfo.FluidMode fluidMode) {
++    public io.papermc.paper.block.TargetBlockInfo getTargetBlockInfo(int maxDistance, io.papermc.paper.block.TargetBlockInfo.FluidMode fluidMode) {
 +        RayTraceResult result = this.rayTraceBlocks(maxDistance, fluidMode.bukkit);
 +        if (result != null && result.getHitBlock() != null && result.getHitBlockFace() != null) {
-+            return new com.destroystokyo.paper.block.TargetBlockInfo(result.getHitBlock(), result.getHitBlockFace());
++            return new io.papermc.paper.block.TargetBlockInfo(result.getHitBlock(), result.getHitBlockFace());
 +        }
 +        return null;
 +    }

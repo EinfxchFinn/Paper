@@ -8,7 +8,7 @@ Adds a new event for all crafting stations that generate a result slot item
 Anvil, Grindstone and Smithing now extend this event
 
 diff --git a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
-index 0a132fbbc58f52e51f50a44e887a3f20d2e0a61c..b7a2295290227045e6426ee0f71707185d95b943 100644
+index 826d6cba49d94545c4d2ac3c05beab128991a99b..c80c22d1cbceddfb93daa51f5e24c53c120c5cf5 100644
 --- a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 @@ -332,6 +332,7 @@ public class AnvilMenu extends ItemCombinerMenu {
@@ -94,7 +94,7 @@ index 665b01ff3579c8fd87074edfc6da6b7ef07693b2..24c31e96be460bcb5062a1fcf7f86c1a
  
      private void setupRecipeList(Container input, ItemStack stack) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 1061f45f20ff085c88123e7ca9aa05f8927035e2..b8a3bdb98ce4be5813996d178da06910b13d38bd 100644
+index 0dc0462854c9e4e8c11780c2a4fe39a784d71417..4922530a923981bcebb6e8919d03c152bcef9c1f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 @@ -1599,26 +1599,53 @@ public class CraftEventFactory {
@@ -142,7 +142,7 @@ index 1061f45f20ff085c88123e7ca9aa05f8927035e2..b8a3bdb98ce4be5813996d178da06910
 +
 +    // Paper start - support specific overrides for prepare result
 +    public static void callPrepareResultEvent(AbstractContainerMenu container, int resultSlot) {
-+        com.destroystokyo.paper.event.inventory.PrepareResultEvent event;
++        io.papermc.paper.event.inventory.PrepareResultEvent event;
 +        InventoryView view = container.getBukkitView();
 +        org.bukkit.inventory.ItemStack origItem = view.getTopInventory().getItem(resultSlot);
 +        CraftItemStack result = origItem != null ? CraftItemStack.asCraftCopy(origItem) : null;
@@ -153,7 +153,7 @@ index 1061f45f20ff085c88123e7ca9aa05f8927035e2..b8a3bdb98ce4be5813996d178da06910
 +        } else if (view.getTopInventory() instanceof org.bukkit.inventory.SmithingInventory) {
 +            event = new PrepareSmithingEvent(view, result);
 +        } else {
-+            event = new com.destroystokyo.paper.event.inventory.PrepareResultEvent(view, result);
++            event = new io.papermc.paper.event.inventory.PrepareResultEvent(view, result);
 +        }
 +        event.callEvent();
 +        event.getInventory().setItem(resultSlot, event.getResult());

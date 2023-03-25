@@ -6,7 +6,7 @@ Subject: [PATCH] Add ProjectileCollideEvent
 Deprecated now and replaced with ProjectileHitEvent
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index e7f673b38615c116227bb1abcbd10746d4cc74d4..a1efb66de4cb509781de498bee5c44456ad93395 100644
+index 70775fabf6c37df85dd3feac8a5e24d63d54abf0..822d786ab5529c9e062fa556e4bc2ce1d8344ca1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 @@ -1267,6 +1267,17 @@ public class CraftEventFactory {
@@ -15,10 +15,10 @@ index e7f673b38615c116227bb1abcbd10746d4cc74d4..a1efb66de4cb509781de498bee5c4445
  
 +    // Paper start
 +    @Deprecated
-+    public static com.destroystokyo.paper.event.entity.ProjectileCollideEvent callProjectileCollideEvent(Entity entity, EntityHitResult position) {
++    public static io.papermc.paper.event.entity.ProjectileCollideEvent callProjectileCollideEvent(Entity entity, EntityHitResult position) {
 +        Projectile projectile = (Projectile) entity.getBukkitEntity();
 +        org.bukkit.entity.Entity collided = position.getEntity().getBukkitEntity();
-+        com.destroystokyo.paper.event.entity.ProjectileCollideEvent event = new com.destroystokyo.paper.event.entity.ProjectileCollideEvent(projectile, collided);
++        io.papermc.paper.event.entity.ProjectileCollideEvent event = new io.papermc.paper.event.entity.ProjectileCollideEvent(projectile, collided);
 +        Bukkit.getPluginManager().callEvent(event);
 +        return event;
 +    }

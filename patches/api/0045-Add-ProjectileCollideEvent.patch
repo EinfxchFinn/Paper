@@ -5,13 +5,13 @@ Subject: [PATCH] Add ProjectileCollideEvent
 
 Now deprecated and replaced with ProjectileHitEvent
 
-diff --git a/src/main/java/com/destroystokyo/paper/event/entity/ProjectileCollideEvent.java b/src/main/java/com/destroystokyo/paper/event/entity/ProjectileCollideEvent.java
+diff --git a/src/main/java/io/papermc/paper/event/entity/ProjectileCollideEvent.java b/src/main/java/io/papermc/paper/event/entity/ProjectileCollideEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..6ae2bc3d952d34f298220738856024e0b6594199
+index 0000000000000000000000000000000000000000..aaf0ca75678b52b653ee8191dd4f0d08b4eee2d7
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/event/entity/ProjectileCollideEvent.java
++++ b/src/main/java/io/papermc/paper/event/entity/ProjectileCollideEvent.java
 @@ -0,0 +1,69 @@
-+package com.destroystokyo.paper.event.entity;
++package io.papermc.paper.event.entity;
 +
 +import org.bukkit.entity.Entity;
 +import org.bukkit.entity.Projectile;

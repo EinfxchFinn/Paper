@@ -10,10 +10,10 @@ when if this was fixed on the client, that wouldn't be needed.
 Mojira Issue: https://bugs.mojang.com/browse/MC-235045
 
 diff --git a/src/main/java/net/minecraft/commands/CommandSourceStack.java b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-index 24172c3b7b1d2faa13b18bedf89ad051267feb6c..7b6b51392b123d34382233adcf4c3d4867bdaa32 100644
+index d3aeb081304f84319a2cbbdad6bb6633fec7f0d6..20d73e95ef4c89c5515cdf35e6ab613ce4f231ae 100644
 --- a/src/main/java/net/minecraft/commands/CommandSourceStack.java
 +++ b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-@@ -421,4 +421,20 @@ public class CommandSourceStack implements SharedSuggestionProvider, com.destroy
+@@ -421,4 +421,20 @@ public class CommandSourceStack implements SharedSuggestionProvider, io.papermc.
          return this.source.getBukkitSender(this);
      }
      // CraftBukkit end
@@ -35,7 +35,7 @@ index 24172c3b7b1d2faa13b18bedf89ad051267feb6c..7b6b51392b123d34382233adcf4c3d48
 +    // Paper end
  }
 diff --git a/src/main/java/net/minecraft/commands/Commands.java b/src/main/java/net/minecraft/commands/Commands.java
-index 01ba9dfaaa07569e1ca4bf40497070f49eae36ce..933d6e67cbcc1bf121005f57b13dd976020985c3 100644
+index c46e75d9221ccea21d412c4860ed5b3d52743594..673776285dd7ac7ca37f206d313a3fad63dc3814 100644
 --- a/src/main/java/net/minecraft/commands/Commands.java
 +++ b/src/main/java/net/minecraft/commands/Commands.java
 @@ -470,6 +470,7 @@ public class Commands {

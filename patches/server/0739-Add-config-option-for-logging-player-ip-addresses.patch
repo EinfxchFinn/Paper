@@ -5,7 +5,7 @@ Subject: [PATCH] Add config option for logging player ip addresses
 
 
 diff --git a/src/main/java/net/minecraft/server/network/LegacyQueryHandler.java b/src/main/java/net/minecraft/server/network/LegacyQueryHandler.java
-index 21393ad40095a4049e5b6871169b2db7aa92d13c..e6553b936dac1eb25a310d1a33acb0b1a5e646d2 100644
+index 2a28005d280678ed8cb066ea3aa90d2fdca91542..72f4d56dcecffaaa3ae6dc77a53daa44f4d5738e 100644
 --- a/src/main/java/net/minecraft/server/network/LegacyQueryHandler.java
 +++ b/src/main/java/net/minecraft/server/network/LegacyQueryHandler.java
 @@ -185,7 +185,7 @@ public class LegacyQueryHandler extends ChannelInboundHandlerAdapter {
@@ -15,8 +15,8 @@ index 21393ad40095a4049e5b6871169b2db7aa92d13c..e6553b936dac1eb25a310d1a33acb0b1
 -        LOGGER.debug("Ping: (1.6) from {}", ctx.channel().remoteAddress());
 +        LOGGER.debug("Ping: (1.6) from {}", io.papermc.paper.configuration.GlobalConfiguration.get().logging.logPlayerIpAddresses ? ctx.channel().remoteAddress() : "<ip address withheld>"); // Paper
  
-         InetSocketAddress virtualHost = com.destroystokyo.paper.network.PaperNetworkClient.prepareVirtualHost(host, port);
-         com.destroystokyo.paper.event.server.PaperServerListPingEvent event = com.destroystokyo.paper.network.PaperLegacyStatusClient.processRequest(
+         InetSocketAddress virtualHost = io.papermc.paper.network.PaperNetworkClient.prepareVirtualHost(host, port);
+         io.papermc.paper.event.server.PaperServerListPingEvent event = io.papermc.paper.network.PaperLegacyStatusClient.processRequest(
 diff --git a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
 index e5e2f763d9b4b955df79ea0c4c79565be1fe59f0..2beddfc0532c3835d50724551e3d46cb0d7d2290 100644
 --- a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
@@ -31,7 +31,7 @@ index e5e2f763d9b4b955df79ea0c4c79565be1fe59f0..2beddfc0532c3835d50724551e3d46cb
  
                              networkmanager.send(new ClientboundDisconnectPacket(ichatmutablecomponent), PacketSendListener.thenRun(() -> {
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 595779cfd0ee1c405d7936f00a7cae1706125e7f..ed3af916dfa875dd0a5f1e730d20d11efd6419c6 100644
+index aa2997ca8facd054f7f8ab6ee14de307bf611462..f55405b710d85fd10f13b80cdab60e4929349234 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -206,7 +206,10 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
@@ -47,7 +47,7 @@ index 595779cfd0ee1c405d7936f00a7cae1706125e7f..ed3af916dfa875dd0a5f1e730d20d11e
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 399d5c1147b1cdacf571aa3cd5840af6f6e55374..299676157b16ed9e93f5cf9804ab75514b694f49 100644
+index a2454572bd093f55a1aabe1070c1686b222f15d0..c0c3fd7d9e68fabd9ca49cfacde21ee19e5de503 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -241,7 +241,7 @@ public abstract class PlayerList {

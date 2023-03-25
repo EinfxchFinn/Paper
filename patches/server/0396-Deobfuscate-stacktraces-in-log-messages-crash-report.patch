@@ -44,10 +44,10 @@ index b6b077262132be3b30f81a2a6c9288afbd11c358..18949b866cd8da3825b730a7d0545bd8
  tasks.test {
      exclude("org/bukkit/craftbukkit/inventory/ItemStack*Test.class")
  }
-diff --git a/src/main/java/com/destroystokyo/paper/io/SyncLoadFinder.java b/src/main/java/com/destroystokyo/paper/io/SyncLoadFinder.java
-index 0bb4aaa546939b67a5d22865190f30478a9337c1..d3e619655382e50e9ac9323ed942502d85c9599c 100644
---- a/src/main/java/com/destroystokyo/paper/io/SyncLoadFinder.java
-+++ b/src/main/java/com/destroystokyo/paper/io/SyncLoadFinder.java
+diff --git a/src/main/java/io/papermc/paper/io/SyncLoadFinder.java b/src/main/java/io/papermc/paper/io/SyncLoadFinder.java
+index 9b3864d8dd21d7025dcfcf591c1ab228c0aa4898..55f3b3e84fa341555a24f1ceddd73f0e73fa918f 100644
+--- a/src/main/java/io/papermc/paper/io/SyncLoadFinder.java
++++ b/src/main/java/io/papermc/paper/io/SyncLoadFinder.java
 @@ -91,7 +91,7 @@ public class SyncLoadFinder {
  
                  final JsonArray traces = new JsonArray();
@@ -450,7 +450,7 @@ index 2d5494d2813b773e60ddba6790b750a9a08f21f8..0b210bdf7c1f5962afbd44195af6f84f
      }
  }
 diff --git a/src/main/java/net/minecraft/CrashReport.java b/src/main/java/net/minecraft/CrashReport.java
-index 30a58229aa6dac5039511d0c0df5f2912ea7de9f..abe37c7c3c6f5ab73afd738ec78f06d7e4d2ed96 100644
+index d52b7cbd5e810175f8ef0e5a0f3cd02600cd7c6b..e3d81369b273d121b8a661aff2ae819b9bc0e8c4 100644
 --- a/src/main/java/net/minecraft/CrashReport.java
 +++ b/src/main/java/net/minecraft/CrashReport.java
 @@ -32,6 +32,7 @@ public class CrashReport {
@@ -474,7 +474,7 @@ index 52eb3176437113f9a0ff85d10ce5c2415e1b5570..b54ddd0ba0b001fbcb1838a838ca4890
          }
      }
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 184f36a137ed5e5cd20797e131801bc29449cf5c..d3b5039adaa91fa254a582f030b33276c68fca0d 100644
+index 578749011e3631fc654a165350395d087650702e..361e1f09c6fe2671e81bd2a6127df4639618257d 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -64,13 +64,13 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -504,7 +504,7 @@ index 184f36a137ed5e5cd20797e131801bc29449cf5c..d3b5039adaa91fa254a582f030b33276
  
      protected void channelRead0(ChannelHandlerContext channelhandlercontext, Packet<?> packet) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 549ea8e0fe702615eefcbfd1cd6a30e05b7b3fd5..771677c0e1cd7bfe089b9a5bb9095650216ff588 100644
+index 060a5d75f2fd739adfe46c1b281e641d8c21defb..27af8443e2d995594c7deaa0ec27925a7a886d41 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -195,6 +195,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -516,7 +516,7 @@ index 549ea8e0fe702615eefcbfd1cd6a30e05b7b3fd5..771677c0e1cd7bfe089b9a5bb9095650
          paperConfigurations.initializeWorldDefaultsConfiguration();
          org.spigotmc.WatchdogThread.doStart(org.spigotmc.SpigotConfig.timeoutTime, org.spigotmc.SpigotConfig.restartOnCrash);
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 4bf38f9006be9e838c54783dafd40cf84553d627..51e8070864ffc4a35377021a7ded9813a40c1a11 100644
+index 3f55b108789f2fccc2229c9fd694d71504c6db3c..2e5165e3f04d5335e93b2722cb8ffbcadd47b9e8 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -218,7 +218,9 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -557,7 +557,7 @@ index fbf375534e2b8bd6ef052c4625764f4f8feb2ed6..bb9e65eee7e0ca0f715cd5791c47579a
      final MinecraftServer server;
      public volatile boolean running;
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 238a7bc87ab49da1f0fa3c733dd512fdffbd8ffc..9858f907e58fa606510f87efbdf8793c35ec711c 100644
+index 57dc96a61fee327d952ba61c84cbcf88715cf72c..cdb245c65079545521fff663c0dbb1f8356d6c97 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -185,7 +185,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
@@ -570,7 +570,7 @@ index 238a7bc87ab49da1f0fa3c733dd512fdffbd8ffc..9858f907e58fa606510f87efbdf8793c
                  // Paper end
  
 diff --git a/src/main/java/net/minecraft/server/players/OldUsersConverter.java b/src/main/java/net/minecraft/server/players/OldUsersConverter.java
-index 6599f874d9f97e9ef4862039ecad7277bbc5fd91..7edd4b88eb0476f0630630bc4681e859bd145b2b 100644
+index 30cb9de9fe3d5c686981d7326a474251335ae693..b1cecb2578b629e1717b404ba3ae3c0a6e36e5cc 100644
 --- a/src/main/java/net/minecraft/server/players/OldUsersConverter.java
 +++ b/src/main/java/net/minecraft/server/players/OldUsersConverter.java
 @@ -364,7 +364,7 @@ public class OldUsersConverter {
@@ -592,7 +592,7 @@ index 6599f874d9f97e9ef4862039ecad7277bbc5fd91..7edd4b88eb0476f0630630bc4681e859
                              }
                         }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 86f19b7ed15c2029c5483f21b44895d8982a90b8..05b8b37a4b1089b859b399323ecda8f23e9f6e67 100644
+index 23c671930e25a2d475d88c8aacf283afffdee3ba..bd99327233f41a99918684c8db4c7efd12681319 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -640,7 +640,7 @@ public class LevelChunk extends ChunkAccess {
@@ -605,7 +605,7 @@ index 86f19b7ed15c2029c5483f21b44895d8982a90b8..05b8b37a4b1089b859b399323ecda8f2
              // Paper end
              // CraftBukkit end
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
-index 3c1992e212a6d6f1db4d5b807b38d71913619fc0..9c1aff17aabd062640e3f451a2ef8c50a7c62f10 100644
+index 275b402c07d3d43ce642d416e2a3153e4f34836e..ec69e3e70a6a587d078d8e460f3dade743bf05fd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
 @@ -40,9 +40,9 @@ public class CraftAsyncScheduler extends CraftScheduler {

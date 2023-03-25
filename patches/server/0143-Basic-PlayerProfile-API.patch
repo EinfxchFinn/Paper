@@ -15,13 +15,13 @@ public org.bukkit.craftbukkit.profile.CraftPlayerProfile toString(Lcom/mojang/au
 public org.bukkit.craftbukkit.profile.CraftPlayerProfile getProperty(Ljava/lang/String;)Lcom/mojang/authlib/properties/Property;
 public org.bukkit.craftbukkit.profile.CraftPlayerProfile setProperty(Ljava/lang/String;Lcom/mojang/authlib/properties/Property;)V
 
-diff --git a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
+diff --git a/src/main/java/io/papermc/paper/profile/CraftPlayerProfile.java b/src/main/java/io/papermc/paper/profile/CraftPlayerProfile.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51652be598
+index 0000000000000000000000000000000000000000..32c5d05da1e13674342c6b4f50d2f5b60b576ada
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
++++ b/src/main/java/io/papermc/paper/profile/CraftPlayerProfile.java
 @@ -0,0 +1,399 @@
-+package com.destroystokyo.paper.profile;
++package io.papermc.paper.profile;
 +
 +import io.papermc.paper.configuration.GlobalConfiguration;
 +import com.google.common.base.Charsets;
@@ -420,13 +420,13 @@ index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51
 +        }
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/profile/PaperAuthenticationService.java b/src/main/java/com/destroystokyo/paper/profile/PaperAuthenticationService.java
+diff --git a/src/main/java/io/papermc/paper/profile/PaperAuthenticationService.java b/src/main/java/io/papermc/paper/profile/PaperAuthenticationService.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1459a1f99fe614d072a087cda18788cf13102645
+index 0000000000000000000000000000000000000000..77bd9ba6c45d90eddc4445e896f507be8b66e1fb
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/profile/PaperAuthenticationService.java
++++ b/src/main/java/io/papermc/paper/profile/PaperAuthenticationService.java
 @@ -0,0 +1,31 @@
-+package com.destroystokyo.paper.profile;
++package io.papermc.paper.profile;
 +
 +import com.mojang.authlib.*;
 +import com.mojang.authlib.minecraft.MinecraftSessionService;
@@ -457,13 +457,13 @@ index 0000000000000000000000000000000000000000..1459a1f99fe614d072a087cda18788cf
 +        return new PaperGameProfileRepository(this, this.environment);
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/profile/PaperGameProfileRepository.java b/src/main/java/com/destroystokyo/paper/profile/PaperGameProfileRepository.java
+diff --git a/src/main/java/io/papermc/paper/profile/PaperGameProfileRepository.java b/src/main/java/io/papermc/paper/profile/PaperGameProfileRepository.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..582c169c85ac66f1f9430f79042e4655f776c157
+index 0000000000000000000000000000000000000000..d79093f1f1f266fd7da4bcb01d547d84e5f6ddb6
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/profile/PaperGameProfileRepository.java
++++ b/src/main/java/io/papermc/paper/profile/PaperGameProfileRepository.java
 @@ -0,0 +1,18 @@
-+package com.destroystokyo.paper.profile;
++package io.papermc.paper.profile;
 +
 +import com.mojang.authlib.Agent;
 +import com.mojang.authlib.Environment;
@@ -481,13 +481,13 @@ index 0000000000000000000000000000000000000000..582c169c85ac66f1f9430f79042e4655
 +        super.findProfilesByNames(names, agent, callback);
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/profile/PaperMinecraftSessionService.java b/src/main/java/com/destroystokyo/paper/profile/PaperMinecraftSessionService.java
+diff --git a/src/main/java/io/papermc/paper/profile/PaperMinecraftSessionService.java b/src/main/java/io/papermc/paper/profile/PaperMinecraftSessionService.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..93d73c27340645c7502acafdc0b2cfbc1a759dd8
+index 0000000000000000000000000000000000000000..748bd743a2745610f7c5d6449af94cdf108793e5
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/profile/PaperMinecraftSessionService.java
++++ b/src/main/java/io/papermc/paper/profile/PaperMinecraftSessionService.java
 @@ -0,0 +1,30 @@
-+package com.destroystokyo.paper.profile;
++package io.papermc.paper.profile;
 +
 +import com.mojang.authlib.Environment;
 +import com.mojang.authlib.GameProfile;
@@ -517,13 +517,13 @@ index 0000000000000000000000000000000000000000..93d73c27340645c7502acafdc0b2cfbc
 +        return super.fillGameProfile(profile, requireSecure);
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/profile/PaperUserAuthentication.java b/src/main/java/com/destroystokyo/paper/profile/PaperUserAuthentication.java
+diff --git a/src/main/java/io/papermc/paper/profile/PaperUserAuthentication.java b/src/main/java/io/papermc/paper/profile/PaperUserAuthentication.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3cdd06d3af7ff94f1fe1a11b9a9275e17c695a38
+index 0000000000000000000000000000000000000000..31d997ef38d0c0f4d23bbb77c3431649c9e8dc5a
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/profile/PaperUserAuthentication.java
++++ b/src/main/java/io/papermc/paper/profile/PaperUserAuthentication.java
 @@ -0,0 +1,12 @@
-+package com.destroystokyo.paper.profile;
++package io.papermc.paper.profile;
 +
 +import com.mojang.authlib.Agent;
 +import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
@@ -535,13 +535,13 @@ index 0000000000000000000000000000000000000000..3cdd06d3af7ff94f1fe1a11b9a9275e1
 +        super(authenticationService, UUID.randomUUID().toString(), agent);
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/profile/SharedPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/SharedPlayerProfile.java
+diff --git a/src/main/java/io/papermc/paper/profile/SharedPlayerProfile.java b/src/main/java/io/papermc/paper/profile/SharedPlayerProfile.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..7ac27392a8647ef7d0dc78efe78703e993885017
+index 0000000000000000000000000000000000000000..2d8d98d20caaa7993685e5bd26eb4ee9928d9953
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/profile/SharedPlayerProfile.java
++++ b/src/main/java/io/papermc/paper/profile/SharedPlayerProfile.java
 @@ -0,0 +1,23 @@
-+package com.destroystokyo.paper.profile;
++package io.papermc.paper.profile;
 +
 +import com.mojang.authlib.GameProfile;
 +import com.mojang.authlib.properties.Property;
@@ -565,14 +565,14 @@ index 0000000000000000000000000000000000000000..7ac27392a8647ef7d0dc78efe78703e9
 +    @NotNull GameProfile buildGameProfile();
 +}
 diff --git a/src/main/java/io/papermc/paper/util/MCUtil.java b/src/main/java/io/papermc/paper/util/MCUtil.java
-index d58d44faa40be2421f4cb54740a3abdbad72875c..9ee4dc54039cbe6b8c9bd3018044c73f923a736e 100644
+index d58d44faa40be2421f4cb54740a3abdbad72875c..c7bb2fa342a45cfa42a903ead190ff9b4dfaade7 100644
 --- a/src/main/java/io/papermc/paper/util/MCUtil.java
 +++ b/src/main/java/io/papermc/paper/util/MCUtil.java
 @@ -1,5 +1,7 @@
  package io.papermc.paper.util;
  
-+import com.destroystokyo.paper.profile.CraftPlayerProfile;
-+import com.destroystokyo.paper.profile.PlayerProfile;
++import io.papermc.paper.profile.CraftPlayerProfile;
++import io.papermc.paper.profile.PlayerProfile;
  import com.google.common.util.concurrent.ThreadFactoryBuilder;
  import io.papermc.paper.math.Position;
  import com.google.gson.JsonArray;
@@ -596,7 +596,7 @@ index d58d44faa40be2421f4cb54740a3abdbad72875c..9ee4dc54039cbe6b8c9bd3018044c73f
       * Calculates distance between 2 entities
       * @param e1
 diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
-index 26fa789a44a1d934944e78eae21f489213f50ae3..12ff7071a5b78a8ae5567aa42b69191166a7cbca 100644
+index 26fa789a44a1d934944e78eae21f489213f50ae3..3137925106f517c4c9b98540f78c61878248d634 100644
 --- a/src/main/java/net/minecraft/server/Main.java
 +++ b/src/main/java/net/minecraft/server/Main.java
 @@ -170,7 +170,7 @@ public class Main {
@@ -604,7 +604,7 @@ index 26fa789a44a1d934944e78eae21f489213f50ae3..12ff7071a5b78a8ae5567aa42b691911
  
              File file = (File) optionset.valueOf("universe"); // CraftBukkit
 -            Services services = Services.create(new YggdrasilAuthenticationService(Proxy.NO_PROXY), file, optionset); // Paper
-+            Services services = Services.create(new com.destroystokyo.paper.profile.PaperAuthenticationService(Proxy.NO_PROXY), file, optionset); // Paper
++            Services services = Services.create(new io.papermc.paper.profile.PaperAuthenticationService(Proxy.NO_PROXY), file, optionset); // Paper
              // CraftBukkit start
              String s = (String) Optional.ofNullable((String) optionset.valueOf("world")).orElse(dedicatedserversettings.getProperties().levelName);
              LevelStorageSource convertable = LevelStorageSource.createDefault(file.toPath());
@@ -631,7 +631,7 @@ index 4038bb76339d43f18770624bd7fecc79b8d7f2a9..2456edc11b29a92b1648937cd3dd6a9a
          String s1 = name.toLowerCase(Locale.ROOT);
          GameProfileCache.GameProfileInfo usercache_usercacheentry = (GameProfileCache.GameProfileInfo) this.profilesByName.get(s1);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 39e51bbc941b7381c901304d69758b2bca2f02d1..21ca43d22bd9d09bdb03107eec568eb9208ea948 100644
+index 39e51bbc941b7381c901304d69758b2bca2f02d1..47c4f3346ca71652b7e227681420bf7350039ae9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -252,6 +252,9 @@ import org.yaml.snakeyaml.error.MarkedYAMLException;
@@ -648,7 +648,7 @@ index 39e51bbc941b7381c901304d69758b2bca2f02d1..21ca43d22bd9d09bdb03107eec568eb9
      static {
          ConfigurationSerialization.registerClass(CraftOfflinePlayer.class);
          ConfigurationSerialization.registerClass(CraftPlayerProfile.class);
-+        ConfigurationSerialization.registerClass(com.destroystokyo.paper.profile.CraftPlayerProfile.class); // Paper
++        ConfigurationSerialization.registerClass(io.papermc.paper.profile.CraftPlayerProfile.class); // Paper
          CraftItemFactory.instance();
      }
  
@@ -658,40 +658,40 @@ index 39e51bbc941b7381c901304d69758b2bca2f02d1..21ca43d22bd9d09bdb03107eec568eb9
      }
 +
 +    @Override
-+    public com.destroystokyo.paper.profile.PlayerProfile createProfile(@Nonnull UUID uuid) {
++    public io.papermc.paper.profile.PlayerProfile createProfile(@Nonnull UUID uuid) {
 +        return createProfile(uuid, null);
 +    }
 +
 +    @Override
-+    public com.destroystokyo.paper.profile.PlayerProfile createProfile(@Nonnull String name) {
++    public io.papermc.paper.profile.PlayerProfile createProfile(@Nonnull String name) {
 +        return createProfile(null, name);
 +    }
 +
 +    @Override
-+    public com.destroystokyo.paper.profile.PlayerProfile createProfile(@Nullable UUID uuid, @Nullable String name) {
++    public io.papermc.paper.profile.PlayerProfile createProfile(@Nullable UUID uuid, @Nullable String name) {
 +        Player player = uuid != null ? Bukkit.getPlayer(uuid) : (name != null ? Bukkit.getPlayerExact(name) : null);
-+        if (player != null) return new com.destroystokyo.paper.profile.CraftPlayerProfile((CraftPlayer) player);
++        if (player != null) return new io.papermc.paper.profile.CraftPlayerProfile((CraftPlayer) player);
 +
-+        return new com.destroystokyo.paper.profile.CraftPlayerProfile(uuid, name);
++        return new io.papermc.paper.profile.CraftPlayerProfile(uuid, name);
 +    }
 +
 +    @Override
-+    public com.destroystokyo.paper.profile.PlayerProfile createProfileExact(@Nullable UUID uuid, @Nullable String name) {
++    public io.papermc.paper.profile.PlayerProfile createProfileExact(@Nullable UUID uuid, @Nullable String name) {
 +        Player player = uuid != null ? Bukkit.getPlayer(uuid) : (name != null ? Bukkit.getPlayerExact(name) : null);
-+        if (player == null) return new com.destroystokyo.paper.profile.CraftPlayerProfile(uuid, name);
++        if (player == null) return new io.papermc.paper.profile.CraftPlayerProfile(uuid, name);
 +
 +        if (java.util.Objects.equals(uuid, player.getUniqueId()) && java.util.Objects.equals(name, player.getName())) {
-+            return new com.destroystokyo.paper.profile.CraftPlayerProfile((CraftPlayer) player);
++            return new io.papermc.paper.profile.CraftPlayerProfile((CraftPlayer) player);
 +        }
 +
 +        final com.mojang.authlib.GameProfile profile = new com.mojang.authlib.GameProfile(uuid, name);
 +        profile.getProperties().putAll(((CraftPlayer)player).getHandle().getGameProfile().getProperties());
-+        return new com.destroystokyo.paper.profile.CraftPlayerProfile(profile);
++        return new io.papermc.paper.profile.CraftPlayerProfile(profile);
 +    }
      // Paper end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerProfile.java b/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerProfile.java
-index 3e40d47f504248cd7caeef6b841a8aa6f1976170..6ca6467a47c6658d3a2e2029821aa727599a6f74 100644
+index 3e40d47f504248cd7caeef6b841a8aa6f1976170..745f450e070c5a97841539ac4fc810242093a0b8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerProfile.java
 +++ b/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerProfile.java
 @@ -27,7 +27,7 @@ import org.bukkit.profile.PlayerProfile;
@@ -699,7 +699,7 @@ index 3e40d47f504248cd7caeef6b841a8aa6f1976170..6ca6467a47c6658d3a2e2029821aa727
  
  @SerializableAs("PlayerProfile")
 -public final class CraftPlayerProfile implements PlayerProfile {
-+public final class CraftPlayerProfile implements PlayerProfile, com.destroystokyo.paper.profile.SharedPlayerProfile { // Paper
++public final class CraftPlayerProfile implements PlayerProfile, io.papermc.paper.profile.SharedPlayerProfile { // Paper
  
      @Nonnull
      public static GameProfile validateSkullProfile(@Nonnull GameProfile gameProfile) {
@@ -747,7 +747,7 @@ index 3e40d47f504248cd7caeef6b841a8aa6f1976170..6ca6467a47c6658d3a2e2029821aa727
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerTextures.java b/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerTextures.java
-index e5b61bc1f3a4bfccca386360c4920ffb8b768308..ab1fd3fb39bd40fb867432861462db5f866bce6f 100644
+index e5b61bc1f3a4bfccca386360c4920ffb8b768308..54c511bc4f90aa8177d4b3e0aba8948f680b8003 100644
 --- a/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerTextures.java
 +++ b/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerTextures.java
 @@ -48,7 +48,7 @@ public final class CraftPlayerTextures implements PlayerTextures {
@@ -755,7 +755,7 @@ index e5b61bc1f3a4bfccca386360c4920ffb8b768308..ab1fd3fb39bd40fb867432861462db5f
      }
  
 -    private final CraftPlayerProfile profile;
-+    private final com.destroystokyo.paper.profile.SharedPlayerProfile profile; // Paper
++    private final io.papermc.paper.profile.SharedPlayerProfile profile; // Paper
  
      // The textures data is loaded lazily:
      private boolean loaded = false;
@@ -764,7 +764,7 @@ index e5b61bc1f3a4bfccca386360c4920ffb8b768308..ab1fd3fb39bd40fb867432861462db5f
      private boolean dirty = false;
  
 -    CraftPlayerTextures(@Nonnull CraftPlayerProfile profile) {
-+    public CraftPlayerTextures(@Nonnull com.destroystokyo.paper.profile.SharedPlayerProfile profile) { // Paper
++    public CraftPlayerTextures(@Nonnull io.papermc.paper.profile.SharedPlayerProfile profile) { // Paper
          this.profile = profile;
      }
  

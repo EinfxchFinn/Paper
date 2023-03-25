@@ -9,7 +9,7 @@ thread dumps at an interval until the point of crash.
 This will help diagnose what was going on in that time before the crash.
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 163993cd4fe52c5bd89db656d61ff795b6ddc896..8c64c3c1e33cb289ac2eb1b55e1febf6920fd4c6 100644
+index 60b466e22776ef5c2da72913c830a6c55a5682dd..276a97a76beb6b8cb1dca1f27ebc7b602e41b50a 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1051,6 +1051,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -21,7 +21,7 @@ index 163993cd4fe52c5bd89db656d61ff795b6ddc896..8c64c3c1e33cb289ac2eb1b55e1febf6
              long start = System.nanoTime(), curTime, tickSection = start; // Paper - Further improve server tick loop
              lastTick = start - TICK_TIME; // Paper
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index e6826cd0a596f063e8737dcde3c8c6c5b3f71970..1a2607d1b257cea65c82c661a6b3d46c1526a775 100644
+index 6d1b451293d034cec343fea7df36e94cf3f24d4d..4f4ca94708b6f85ea6e56c66320dfde3aeae5a49 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -197,6 +197,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -30,10 +30,10 @@ index e6826cd0a596f063e8737dcde3c8c6c5b3f71970..1a2607d1b257cea65c82c661a6b3d46c
          paperConfigurations.initializeWorldDefaultsConfiguration();
 +        org.spigotmc.WatchdogThread.doStart(org.spigotmc.SpigotConfig.timeoutTime, org.spigotmc.SpigotConfig.restartOnCrash);
          io.papermc.paper.command.PaperCommands.registerCommands(this);
-         com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics();
-         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
+         io.papermc.paper.Metrics.PaperMetrics.startMetrics();
+         io.papermc.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d770063b7e17c55b7e13e9ea44c05870cadb9fe7..bd2cc69ff6c15615dfedcb3c88e6bf2d36fd9370 100644
+index 7e5511779a0209402e5650094e5b26c375551d44..612097ec41fbabcd5e361e26f11548c189f0efc9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -901,6 +901,7 @@ public final class CraftServer implements Server {

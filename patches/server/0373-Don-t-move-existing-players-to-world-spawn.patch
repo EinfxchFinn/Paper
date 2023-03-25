@@ -13,7 +13,7 @@ By skipping this, we avoid potential for a large spike on server start.
 public net.minecraft.server.level.ServerPlayer fudgeSpawnLocation(Lnet/minecraft/server/level/ServerLevel;)V
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 206a66b6e403c8b7e60ff5b31eb478303d34b272..8754a37b405e96d2f5d02ef6b9864afac136212a 100644
+index 8695948cf2abef5949405becff142bb4fb1940eb..2cf2a2c6667b86d2f7844d1624999c3d69bea31c 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -333,7 +333,7 @@ public class ServerPlayer extends Player {
@@ -23,7 +23,7 @@ index 206a66b6e403c8b7e60ff5b31eb478303d34b272..8754a37b405e96d2f5d02ef6b9864afa
 -        this.fudgeSpawnLocation(world);
 +        //this.fudgeSpawnLocation(world); // Paper - don't move to spawn on login, only first join
  
-         this.cachedSingleHashSet = new com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<>(this); // Paper
+         this.cachedSingleHashSet = new io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<>(this); // Paper
  
 @@ -567,7 +567,7 @@ public class ServerPlayer extends Player {
                  position = Vec3.atCenterOf(((ServerLevel) world).getSharedSpawnPos());
@@ -35,7 +35,7 @@ index 206a66b6e403c8b7e60ff5b31eb478303d34b272..8754a37b405e96d2f5d02ef6b9864afa
          this.gameMode.setLevel((ServerLevel) world);
      }
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 2e61c92787625fc9c116cd6d8dc9097c2f7d709f..187b3dc881f226963af5b61a2c4b957ecf537cf5 100644
+index 15c360d04b49916c5e5f7990c0c24ba37c6ca50c..0e8ca1367ce4280967c2076f2716b6954acea6c1 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -223,6 +223,8 @@ public abstract class PlayerList {

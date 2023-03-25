@@ -42,13 +42,13 @@ index 0000000000000000000000000000000000000000..dd6012b6a097575b2d1471be5069ecce
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index cf3db466459490fd09d9c82238f413a0cc24ab80..8eb18e794845a2e7df5e7e6bc11134e4d132e06e 100644
+index bd9ffd601bdfd38c628fa80106a92929244e4980..bed3e3c6db1ea881ffa23ca5e609f20e9824c2a0 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -209,6 +209,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          io.papermc.paper.command.PaperCommands.registerCommands(this);
-         com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics();
-         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
+         io.papermc.paper.Metrics.PaperMetrics.startMetrics();
+         io.papermc.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
 +        io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
          // Paper end
  

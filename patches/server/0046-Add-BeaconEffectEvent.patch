@@ -5,7 +5,7 @@ Subject: [PATCH] Add BeaconEffectEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
-index ff49285fe50e8361c2d4529bf1dda5b54a90e3fe..05d98a0f34ffd50449fbafcf23fe7d05ca721317 100644
+index ff49285fe50e8361c2d4529bf1dda5b54a90e3fe..0b42ee706bca5eab0a50057fce1742ab01a1f33b 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 @@ -41,6 +41,10 @@ import net.minecraft.world.phys.AABB;
@@ -14,7 +14,7 @@ index ff49285fe50e8361c2d4529bf1dda5b54a90e3fe..05d98a0f34ffd50449fbafcf23fe7d05
  // CraftBukkit end
 +// Paper start
 +import org.bukkit.craftbukkit.event.CraftEventFactory;
-+import com.destroystokyo.paper.event.block.BeaconEffectEvent;
++import io.papermc.paper.event.block.BeaconEffectEvent;
 +// Paper end
  
  public class BeaconBlockEntity extends BlockEntity implements MenuProvider, Nameable {

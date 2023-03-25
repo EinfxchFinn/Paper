@@ -1,4 +1,4 @@
-package com.destroystokyo.paper.event.brigadier;
+package io.papermc.paper.event.brigadier;
 
 import com.mojang.brigadier.suggestion.Suggestions;
 import org.bukkit.Bukkit;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Called when sending {@link Suggestions} to the client. Will be called asynchronously if a plugin
- * marks the {@link com.destroystokyo.paper.event.server.AsyncTabCompleteEvent} event handled asynchronously,
+ * marks the {@link io.papermc.paper.event.server.AsyncTabCompleteEvent} event handled asynchronously,
  * otherwise called synchronously.
  */
 public class AsyncPlayerSendSuggestionsEvent extends PlayerEvent implements Cancellable {

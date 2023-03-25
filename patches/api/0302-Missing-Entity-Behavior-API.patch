@@ -8,19 +8,6 @@ Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 Co-authored-by: William Blake Galbreath <blake.galbreath@gmail.com>
 Co-authored-by: SoSeDiK <mrsosedik@gmail.com>
 
-diff --git a/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java b/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
-index dddbb661265aa23f88d93d0681f418f40a872351..998f629852e1103767e005405d1f39c2251ecd28 100644
---- a/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
-+++ b/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
-@@ -23,7 +23,7 @@ public interface VanillaGoal<T extends Mob> extends Goal<T> {
-     GoalKey<Creature> FLEE_SUN = GoalKey.of(Creature.class, NamespacedKey.minecraft("flee_sun"));
-     GoalKey<Mob> FLOAT = GoalKey.of(Mob.class, NamespacedKey.minecraft("float"));
-     GoalKey<Creature> FOLLOW_BOAT = GoalKey.of(Creature.class, NamespacedKey.minecraft("follow_boat"));
--    GoalKey<Fish> FOLLOW_FLOCK_LEADER = GoalKey.of(Fish.class, NamespacedKey.minecraft("follow_flock_leader"));
-+    GoalKey<io.papermc.paper.entity.SchoolableFish> FOLLOW_FLOCK_LEADER = GoalKey.of(io.papermc.paper.entity.SchoolableFish.class, NamespacedKey.minecraft("follow_flock_leader"));
-     GoalKey<Mob> FOLLOW_MOB = GoalKey.of(Mob.class, NamespacedKey.minecraft("follow_mob"));
-     GoalKey<Tameable> FOLLOW_OWNER = GoalKey.of(Tameable.class, NamespacedKey.minecraft("follow_owner"));
-     GoalKey<Animals> FOLLOW_PARENT = GoalKey.of(Animals.class, NamespacedKey.minecraft("follow_parent"));
 diff --git a/src/main/java/io/papermc/paper/entity/SchoolableFish.java b/src/main/java/io/papermc/paper/entity/SchoolableFish.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..39ad7d283609d7e427a2ab35b6fad839e032fe92
@@ -74,6 +61,19 @@ index 0000000000000000000000000000000000000000..39ad7d283609d7e427a2ab35b6fad839
 +    SchoolableFish getSchoolLeader();
 +
 +}
+diff --git a/src/main/java/io/papermc/paper/entity/ai/VanillaGoal.java b/src/main/java/io/papermc/paper/entity/ai/VanillaGoal.java
+index 6aa0392a33aeeaee003f780af585a8098aaea500..04ca1177e50b58a3497d94bba4324611ff1d4d91 100644
+--- a/src/main/java/io/papermc/paper/entity/ai/VanillaGoal.java
++++ b/src/main/java/io/papermc/paper/entity/ai/VanillaGoal.java
+@@ -23,7 +23,7 @@ public interface VanillaGoal<T extends Mob> extends Goal<T> {
+     GoalKey<Creature> FLEE_SUN = GoalKey.of(Creature.class, NamespacedKey.minecraft("flee_sun"));
+     GoalKey<Mob> FLOAT = GoalKey.of(Mob.class, NamespacedKey.minecraft("float"));
+     GoalKey<Creature> FOLLOW_BOAT = GoalKey.of(Creature.class, NamespacedKey.minecraft("follow_boat"));
+-    GoalKey<Fish> FOLLOW_FLOCK_LEADER = GoalKey.of(Fish.class, NamespacedKey.minecraft("follow_flock_leader"));
++    GoalKey<io.papermc.paper.entity.SchoolableFish> FOLLOW_FLOCK_LEADER = GoalKey.of(io.papermc.paper.entity.SchoolableFish.class, NamespacedKey.minecraft("follow_flock_leader"));
+     GoalKey<Mob> FOLLOW_MOB = GoalKey.of(Mob.class, NamespacedKey.minecraft("follow_mob"));
+     GoalKey<Tameable> FOLLOW_OWNER = GoalKey.of(Tameable.class, NamespacedKey.minecraft("follow_owner"));
+     GoalKey<Animals> FOLLOW_PARENT = GoalKey.of(Animals.class, NamespacedKey.minecraft("follow_parent"));
 diff --git a/src/main/java/org/bukkit/entity/AbstractHorse.java b/src/main/java/org/bukkit/entity/AbstractHorse.java
 index 0d88dce9978243a1f995c5fb448c5d71b01136eb..8b1048c94dffd058eb9fd9144f7f59fc9bd219ad 100644
 --- a/src/main/java/org/bukkit/entity/AbstractHorse.java
@@ -486,7 +486,7 @@ index 6b3c9bef9a8a34ddc6ff42cf358541a2665bf5e3..9c618a27d590f186f29c5d9094fc565e
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/Llama.java b/src/main/java/org/bukkit/entity/Llama.java
-index d23226ccb0f6c25028f000ce31346cd0a8898e6a..bc84b892cae5fe7019a3ad481e9da79956efa1fe 100644
+index 2b6430373b02a5170d11d23141861e5741811974..bf70438e51508656503882dd68e077e5894793bf 100644
 --- a/src/main/java/org/bukkit/entity/Llama.java
 +++ b/src/main/java/org/bukkit/entity/Llama.java
 @@ -67,4 +67,56 @@ public interface Llama extends ChestedHorse, RangedEntity { // Paper
@@ -710,10 +710,10 @@ index 3dafdf14ced991ae1179ef1ca455da62f8c3243e..2fe8e8868f12bd9e846baf8858cd2c33
      // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/Piglin.java b/src/main/java/org/bukkit/entity/Piglin.java
-index 6fdc0e0bb62189dbf3cf9ce7a87b7fbb995956a3..d4cb4b0ed1d9766a87867dcf1a3a839526ba9332 100644
+index d6e25ce72140d25ce56605ecec310e3a0444636b..cfe4b582b7a5b8add6bbaa28d54c77d2504c705e 100644
 --- a/src/main/java/org/bukkit/entity/Piglin.java
 +++ b/src/main/java/org/bukkit/entity/Piglin.java
-@@ -90,4 +90,25 @@ public interface Piglin extends PiglinAbstract, InventoryHolder, com.destroystok
+@@ -90,4 +90,25 @@ public interface Piglin extends PiglinAbstract, InventoryHolder, io.papermc.pape
       */
      @NotNull
      public Set<Material> getBarterList();
@@ -1110,10 +1110,10 @@ index 3794db8867b53f3b3735ad82fdd8765a26df2bfb..efaa45f41bc1dc8df6665c55b4e5ade3
       * Increases the anger level of this warden.
       *
 diff --git a/src/main/java/org/bukkit/entity/Wither.java b/src/main/java/org/bukkit/entity/Wither.java
-index b86f0196e6eb8070830f63a94f732522c2a6c2f1..a1b42ae35dda2da90ba00a2d6666514f7c5b11dd 100644
+index 04489f6d08dae53019cec766ac9f3081bd022687..11bb55165953bed958dd17f2ebd450074afc0673 100644
 --- a/src/main/java/org/bukkit/entity/Wither.java
 +++ b/src/main/java/org/bukkit/entity/Wither.java
-@@ -48,4 +48,35 @@ public interface Wither extends Monster, Boss, com.destroystokyo.paper.entity.Ra
+@@ -48,4 +48,35 @@ public interface Wither extends Monster, Boss, io.papermc.paper.entity.RangedEnt
          LEFT,
          RIGHT
      }
@@ -1226,7 +1226,7 @@ index a4411daca0d8a770b0d15e08847b82df8a3ec27f..35b51136f5258abfae3395aeae4b3000
 +    // Paper end - Entity API
  }
 diff --git a/src/main/java/org/bukkit/entity/minecart/HopperMinecart.java b/src/main/java/org/bukkit/entity/minecart/HopperMinecart.java
-index db69687a7ad4b18d17ab1677cae5d8dd4dcd3678..304b05aeaea5febf493fc40d433a23acb384b4f0 100644
+index 222859dc3058dee0bde9b0bd01ff83a0439d6ff2..ecf0714ce92487463b3660448822a3caf58be0db 100644
 --- a/src/main/java/org/bukkit/entity/minecart/HopperMinecart.java
 +++ b/src/main/java/org/bukkit/entity/minecart/HopperMinecart.java
 @@ -24,4 +24,23 @@ public interface HopperMinecart extends Minecart, InventoryHolder, LootableEntit

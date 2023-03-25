@@ -90,7 +90,7 @@ index 0000000000000000000000000000000000000000..7d93652c1abbb6aee6eb7c26cf35d4d0
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 1f683d734b9e272c8f4c48d922f3dcd12d0ffd1a..9523f6acd2c86892b390e14aaab628b40b452bf1 100644
+index 9439a0429a15061b7c9d3704e85deefc0dac2119..6a28ad89648e0f8a2d7383e2d423d672139d4a52 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -704,6 +704,10 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -206,7 +206,7 @@ index 1f683d734b9e272c8f4c48d922f3dcd12d0ffd1a..9523f6acd2c86892b390e14aaab628b4
  
 -                        FluidState fluid = iblockdata3.getFluidState();
 +                    long raw = section.tickingList.getRaw(index);
-+                    int location = com.destroystokyo.paper.util.maplist.IBlockDataList.getLocationFromRaw(raw);
++                    int location = io.papermc.paper.util.maplist.IBlockDataList.getLocationFromRaw(raw);
 +                    int randomX = location & 15;
 +                    int randomY = ((location >>> (4 + 4)) & 255) | yPos;
 +                    int randomZ = (location >>> 4) & 15;
@@ -215,7 +215,7 @@ index 1f683d734b9e272c8f4c48d922f3dcd12d0ffd1a..9523f6acd2c86892b390e14aaab628b4
 -                            fluid.randomTick(this, blockposition2, this.random);
 -                        }
 +                    BlockPos blockposition2 = blockposition.set(j + randomX, randomY, k + randomZ);
-+                    BlockState iblockdata = com.destroystokyo.paper.util.maplist.IBlockDataList.getBlockDataFromRaw(raw);
++                    BlockState iblockdata = io.papermc.paper.util.maplist.IBlockDataList.getBlockDataFromRaw(raw);
  
 -                        gameprofilerfiller.pop();
 -                    }
@@ -304,7 +304,7 @@ index 9686ce7536c9924b1b2aced4f013f46759cbc72e..5d8e9bdf5538b19681f21949368d862f
      public void getAll(IntConsumer action) {
          for(int i = 0; i < this.size; ++i) {
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Turtle.java b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
-index b03c919edc33f308409ceeea0dd1064d1c6d7906..1c2f927974aab4d9751088449edbc777677d6cd0 100644
+index 99b35f9408070e4cb6a721762bcd77308e6edb91..e795811be8d5dc39eaedd1179df816b9a87974ec 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Turtle.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
 @@ -84,7 +84,7 @@ public class Turtle extends Animal {
@@ -317,7 +317,7 @@ index b03c919edc33f308409ceeea0dd1064d1c6d7906..1c2f927974aab4d9751088449edbc777
  
      public BlockPos getHomePos() {
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 54f3d4504929b90dc500207ed74e17ec1967ba48..b8c097c52cdc2af9bc05cfb5cfd646bb3bfb664e 100644
+index 85372d565b3028617a522d48c3d04eab6f894bf0..02e8229a958441faad66bc489e0cb4e4e6f9b977 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -1371,10 +1371,18 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -341,14 +341,14 @@ index 54f3d4504929b90dc500207ed74e17ec1967ba48..b8c097c52cdc2af9bc05cfb5cfd646bb
  
      public boolean noSave() {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
-index 8c8445af8a2fe684fdbb468f8d8605d44a803758..c7e2796e136ee8fb7d7e438a7fc59826c05b761b 100644
+index 6c01a16e527f3676c6b8c044b31bca24543458ff..f26fe6bc0ddf614caecf022ac3495bfa8373df76 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
 @@ -27,6 +27,7 @@ public class LevelChunkSection {
      public final PalettedContainer<BlockState> states;
      // CraftBukkit start - read/write
      private PalettedContainer<Holder<Biome>> biomes;
-+    public final com.destroystokyo.paper.util.maplist.IBlockDataList tickingList = new com.destroystokyo.paper.util.maplist.IBlockDataList(); // Paper
++    public final io.papermc.paper.util.maplist.IBlockDataList tickingList = new io.papermc.paper.util.maplist.IBlockDataList(); // Paper
  
      public LevelChunkSection(int i, PalettedContainer<BlockState> datapaletteblock, PalettedContainer<Holder<Biome>> palettedcontainerro) {
          // CraftBukkit end
@@ -434,7 +434,7 @@ index 8c8445af8a2fe684fdbb468f8d8605d44a803758..c7e2796e136ee8fb7d7e438a7fc59826
  
      public PalettedContainer<BlockState> getStates() {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java b/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
-index 4cbceb1c18dbee75ac5154ff0c15a4e79bd31575..7c770d131d39da6900fdd22df36707d5f43e8cd0 100644
+index d394236fd35ec02d7f87438e533aa248923b4129..0fe7406ee9bf935eb0d6a678841cc618268e0c67 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
 @@ -387,6 +387,14 @@ public class PalettedContainer<T> implements PaletteResize<T>, PalettedContainer

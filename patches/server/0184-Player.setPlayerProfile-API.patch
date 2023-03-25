@@ -9,7 +9,7 @@ This can be useful for changing name or skins after a player has logged in.
 public-f net.minecraft.world.entity.player.Player gameProfile
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index ec1aa8d5fbfdafc35948a04f4d8d65e879853ff0..ef9fc39e70516772cc91b9ada493bfa051b41784 100644
+index 34efd919e6c76fd983c9f4a0d4e915f5999cbddc..d983dcaa8457c48b3af0a8a5967794aaf4c4d33c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -1534,7 +1534,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -22,25 +22,25 @@ index ec1aa8d5fbfdafc35948a04f4d8d65e879853ff0..ef9fc39e70516772cc91b9ada493bfa0
          if (Float.isNaN(f)) {
              f = 0;
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 6b31b0894e52ad6fc397624e50587ec04e46c099..0c7f280bae81bbb492d5780a43e5ffda0f58756a 100644
+index b732820d90cbcce5e33f5a05674e33e4248c0992..adb2b4f05754292b407052738fbd331ed99a8e60 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -330,11 +330,11 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
                          final org.bukkit.craftbukkit.CraftServer server = ServerLoginPacketListenerImpl.this.server.server;
  
                          // Paper start
--                        com.destroystokyo.paper.profile.PlayerProfile profile = org.bukkit.Bukkit.createProfile(uniqueId, playerName);
-+                        com.destroystokyo.paper.profile.PlayerProfile profile = com.destroystokyo.paper.profile.CraftPlayerProfile.asBukkitMirror(ServerLoginPacketListenerImpl.this.gameProfile);
+-                        io.papermc.paper.profile.PlayerProfile profile = org.bukkit.Bukkit.createProfile(uniqueId, playerName);
++                        io.papermc.paper.profile.PlayerProfile profile = io.papermc.paper.profile.CraftPlayerProfile.asBukkitMirror(ServerLoginPacketListenerImpl.this.gameProfile);
                          AsyncPlayerPreLoginEvent asyncEvent = new AsyncPlayerPreLoginEvent(playerName, address, uniqueId, profile);
                          server.getPluginManager().callEvent(asyncEvent);
                          profile = asyncEvent.getPlayerProfile();
 -                        profile.complete();
 +                        profile.complete(true); // Paper - setPlayerProfileAPI
-                         gameProfile = com.destroystokyo.paper.profile.CraftPlayerProfile.asAuthlibCopy(profile);
+                         gameProfile = io.papermc.paper.profile.CraftPlayerProfile.asAuthlibCopy(profile);
                          playerName = gameProfile.getName();
                          uniqueId = gameProfile.getId();
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java b/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java
-index e7442952ef1f03969949014492a7ddc6d0796ba5..69a1852905dd4724c30ac8ab88c14251eee2c371 100644
+index e7442952ef1f03969949014492a7ddc6d0796ba5..9f575b306398dc9a5f85d7501ebacfbff1be0de9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java
 @@ -76,8 +76,8 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
@@ -49,13 +49,13 @@ index e7442952ef1f03969949014492a7ddc6d0796ba5..69a1852905dd4724c30ac8ab88c14251
      @Override
 -    public PlayerProfile getPlayerProfile() {
 -        return new CraftPlayerProfile(this.profile);
-+    public com.destroystokyo.paper.profile.PlayerProfile getPlayerProfile() { // Paper
-+        return new com.destroystokyo.paper.profile.CraftPlayerProfile(this.profile); // Paper
++    public io.papermc.paper.profile.PlayerProfile getPlayerProfile() { // Paper
++        return new io.papermc.paper.profile.CraftPlayerProfile(this.profile); // Paper
      }
  
      public Server getServer() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f8d347e4d 100644
+index b1b060941e83f82a54276c8757cabec8c926922a..810706c0b9d5c5586ee59e433871c5ef0a2b4954 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -82,6 +82,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -112,9 +112,9 @@ index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f
 +    }
 +    // Paper start
 +    @Override
-+    public void setPlayerProfile(com.destroystokyo.paper.profile.PlayerProfile profile) {
++    public void setPlayerProfile(io.papermc.paper.profile.PlayerProfile profile) {
 +        ServerPlayer self = this.getHandle();
-+        GameProfile gameProfile = com.destroystokyo.paper.profile.CraftPlayerProfile.asAuthlibCopy(profile);
++        GameProfile gameProfile = io.papermc.paper.profile.CraftPlayerProfile.asAuthlibCopy(profile);
 +        if (!self.sentListPacket) {
 +            self.gameProfile = gameProfile;
 +            return;
@@ -149,8 +149,8 @@ index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f
          }
      }
 +    // Paper start
-+    public com.destroystokyo.paper.profile.PlayerProfile getPlayerProfile() {
-+        return new com.destroystokyo.paper.profile.CraftPlayerProfile(this).clone();
++    public io.papermc.paper.profile.PlayerProfile getPlayerProfile() {
++        return new io.papermc.paper.profile.CraftPlayerProfile(this).clone();
 +    }
 +
 +    private void refreshPlayer() {
@@ -176,7 +176,7 @@ index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f
      public void onEntityRemove(Entity entity) {
          this.invertedVisibilityEntities.remove(entity.getUUID());
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Commodore.java b/src/main/java/org/bukkit/craftbukkit/util/Commodore.java
-index a679133a3de51e26eb19932ece9ade292879aefd..e342ea27a8a689ea080c7881711a5dcd6322c914 100644
+index a679133a3de51e26eb19932ece9ade292879aefd..e49f495d0610b20948af0998f5c8b01a49b9bdf1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Commodore.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Commodore.java
 @@ -306,6 +306,12 @@ public class Commodore
@@ -185,7 +185,7 @@ index a679133a3de51e26eb19932ece9ade292879aefd..e342ea27a8a689ea080c7881711a5dcd
  
 +                        // Paper start - Rewrite plugins
 +                        if ((owner.equals("org/bukkit/OfflinePlayer") || owner.equals("org/bukkit/entity/Player")) && name.equals("getPlayerProfile") && desc.equals("()Lorg/bukkit/profile/PlayerProfile;")) {
-+                            super.visitMethodInsn(opcode, owner, name, "()Lcom/destroystokyo/paper/profile/PlayerProfile;", itf);
++                            super.visitMethodInsn(opcode, owner, name, "()Lio/papermc/paper/profile/PlayerProfile;", itf);
 +                            return;
 +                        }
 +                        // Paper end

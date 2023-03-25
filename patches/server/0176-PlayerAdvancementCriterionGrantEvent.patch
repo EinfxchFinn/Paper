@@ -5,7 +5,7 @@ Subject: [PATCH] PlayerAdvancementCriterionGrantEvent
 
 
 diff --git a/src/main/java/net/minecraft/server/PlayerAdvancements.java b/src/main/java/net/minecraft/server/PlayerAdvancements.java
-index dd149e037e90067fb2f9b02520a2f29a12d90f13..6802e1def5e93c208d01a68f5cfc4c8809bb910f 100644
+index dd149e037e90067fb2f9b02520a2f29a12d90f13..889eaf46f02b5458c4ebac6c601aec5bd0d81674 100644
 --- a/src/main/java/net/minecraft/server/PlayerAdvancements.java
 +++ b/src/main/java/net/minecraft/server/PlayerAdvancements.java
 @@ -228,6 +228,12 @@ public class PlayerAdvancements {
@@ -13,7 +13,7 @@ index dd149e037e90067fb2f9b02520a2f29a12d90f13..6802e1def5e93c208d01a68f5cfc4c88
  
          if (advancementprogress.grantProgress(criterionName)) {
 +            // Paper start
-+            if (!new com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent(this.player.getBukkitEntity(), advancement.bukkit, criterionName).callEvent()) {
++            if (!new io.papermc.paper.event.player.PlayerAdvancementCriterionGrantEvent(this.player.getBukkitEntity(), advancement.bukkit, criterionName).callEvent()) {
 +                advancementprogress.revokeProgress(criterionName);
 +                return false;
 +            }

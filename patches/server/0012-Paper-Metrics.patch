@@ -13,13 +13,13 @@ tangible effect on server performance. The data is used to allow the authors of
 PaperMC to track version and platform usage so that we can make better management
 decisions on behalf of the project.
 
-diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
+diff --git a/src/main/java/io/papermc/paper/Metrics.java b/src/main/java/io/papermc/paper/Metrics.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..6aaed8e8bf8c721fc834da5c76ac72a4c3e92458
+index 0000000000000000000000000000000000000000..8a3429fa6c2da948b4eeb00dbc6f30dc2ee5f991
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/Metrics.java
++++ b/src/main/java/io/papermc/paper/Metrics.java
 @@ -0,0 +1,678 @@
-+package com.destroystokyo.paper;
++package io.papermc.paper;
 +
 +import net.minecraft.server.MinecraftServer;
 +import org.bukkit.Bukkit;
@@ -698,14 +698,14 @@ index 0000000000000000000000000000000000000000..6aaed8e8bf8c721fc834da5c76ac72a4
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index cb6f192c11cda6230ec365e6cefb44a37416236d..11006df8797334da69801cdb9aa34b0f941cf90d 100644
+index cb6f192c11cda6230ec365e6cefb44a37416236d..cf0488f87fb7a7d89a402e00e08bb12b74c8a5fb 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -187,6 +187,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          paperConfigurations.initializeGlobalConfiguration();
          paperConfigurations.initializeWorldDefaultsConfiguration();
          io.papermc.paper.command.PaperCommands.registerCommands(this);
-+        com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics();
++        io.papermc.paper.Metrics.PaperMetrics.startMetrics();
          // Paper end
  
          this.setPvpAllowed(dedicatedserverproperties.pvp);

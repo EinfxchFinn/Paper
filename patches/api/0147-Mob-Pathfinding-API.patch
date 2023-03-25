@@ -11,13 +11,13 @@ the location.
 
 You can use EntityPathfindEvent to cancel new pathfinds from overriding your current.
 
-diff --git a/src/main/java/com/destroystokyo/paper/entity/Pathfinder.java b/src/main/java/com/destroystokyo/paper/entity/Pathfinder.java
+diff --git a/src/main/java/io/papermc/paper/entity/Pathfinder.java b/src/main/java/io/papermc/paper/entity/Pathfinder.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..43f062257472a06e9e64c2feef6c3b1012aee00e
+index 0000000000000000000000000000000000000000..d5f6877a0d26fa87f4519e9b66fc94e5df475eb1
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/entity/Pathfinder.java
++++ b/src/main/java/io/papermc/paper/entity/Pathfinder.java
 @@ -0,0 +1,212 @@
-+package com.destroystokyo.paper.entity;
++package io.papermc.paper.entity;
 +
 +import org.bukkit.Location;
 +import org.bukkit.entity.LivingEntity;
@@ -230,7 +230,7 @@ index 0000000000000000000000000000000000000000..43f062257472a06e9e64c2feef6c3b10
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/entity/Mob.java b/src/main/java/org/bukkit/entity/Mob.java
-index 4f63988848443aff55619bc12ef12c925642a3f9..6de4344931b2e3d570346b800186c44a0d5782cc 100644
+index 4f63988848443aff55619bc12ef12c925642a3f9..573b18676256ed6cb25b8a39bf502b1bad52f39a 100644
 --- a/src/main/java/org/bukkit/entity/Mob.java
 +++ b/src/main/java/org/bukkit/entity/Mob.java
 @@ -2,6 +2,7 @@ package org.bukkit.entity;
@@ -251,7 +251,7 @@ index 4f63988848443aff55619bc12ef12c925642a3f9..6de4344931b2e3d570346b800186c44a
 +     * @return Pathfinding Manager for this entity
 +     */
 +    @NotNull
-+    com.destroystokyo.paper.entity.Pathfinder getPathfinder();
++    io.papermc.paper.entity.Pathfinder getPathfinder();
      // Paper end
      /**
       * Instructs this Mob to set the specified LivingEntity as its target.

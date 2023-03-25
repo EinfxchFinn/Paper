@@ -5,18 +5,18 @@ Subject: [PATCH] Player elytra boost API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 40191fb054e90724e5f28b4078d41073c7bc5dc5..f6bbd49e655c5f89d77f36ca21952679ab31b6bb 100644
+index ad215ac2beb57bd7a7df7717437053b4ba8cd716..f99dadd2d141acfe4d41ee164bb4d2e006ef4552 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -2579,6 +2579,19 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      @NotNull
-     <T> T getClientOption(@NotNull com.destroystokyo.paper.ClientOption<T> option);
+     <T> T getClientOption(@NotNull io.papermc.paper.ClientOption<T> option);
 +
 +    /**
 +     * Boost a Player that's {@link #isGliding()} using a {@link Firework}.
 +     * If the creation of the entity is cancelled, no boosting is done.
-+     * This method does not fire {@link com.destroystokyo.paper.event.player.PlayerElytraBoostEvent}.
++     * This method does not fire {@link io.papermc.paper.event.player.PlayerElytraBoostEvent}.
 +     *
 +     * @param firework The {@link Material#FIREWORK_ROCKET} to boost the player with
 +     * @return The {@link Firework} boosting the Player or null if the spawning of the entity was cancelled

@@ -6,7 +6,7 @@ Subject: [PATCH] Optimize anyPlayerCloseEnoughForSpawning to use distance maps
 Use a distance map to find the players in range quickly
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkHolder.java b/src/main/java/net/minecraft/server/level/ChunkHolder.java
-index 214e0657035f82e5266de06e31975d6b45405019..51c112656f26f142bd6c126253520e812a338783 100644
+index e6db89b3d4044c5b31f100b1d1345583ef9ec9d4..9413dc6dacd53c0e4790745d12c5d33609b67729 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkHolder.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkHolder.java
 @@ -83,16 +83,29 @@ public class ChunkHolder {
@@ -34,20 +34,20 @@ index 214e0657035f82e5266de06e31975d6b45405019..51c112656f26f142bd6c126253520e81
  
 +    // Paper start - optimise anyPlayerCloseEnoughForSpawning
 +    // cached here to avoid a map lookup
-+    com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> playersInMobSpawnRange;
-+    com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> playersInChunkTickRange;
++    io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> playersInMobSpawnRange;
++    io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> playersInChunkTickRange;
 +    // Paper end - optimise anyPlayerCloseEnoughForSpawning
 +
      public ChunkHolder(ChunkPos pos, LevelHeightAccessor world, LevelLightEngine lightingProvider, ChunkHolder.PlayerProvider playersWatchingChunkProvider, io.papermc.paper.chunk.system.scheduling.NewChunkHolder newChunkHolder) { // Paper - rewrite chunk system
          this.newChunkHolder = newChunkHolder; // Paper - rewrite chunk system
          this.chunkToSaveHistory = null;
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 1c638f65d33e5890a7a32bf7e89d484ae2afc093..4b7c39595302a738e6d4a1749473ef9c81f84fea 100644
+index 589946fd1aa98ce7eb2a364d22badc61971d7571..7b601d8a6fd83cf8d1dc0a1a50c241b5f1ee6cfc 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -159,12 +159,24 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      // Paper start - distance maps
-     private final com.destroystokyo.paper.util.misc.PooledLinkedHashSets<ServerPlayer> pooledLinkedPlayerHashSets = new com.destroystokyo.paper.util.misc.PooledLinkedHashSets<>();
+     private final io.papermc.paper.util.misc.PooledLinkedHashSets<ServerPlayer> pooledLinkedPlayerHashSets = new io.papermc.paper.util.misc.PooledLinkedHashSets<>();
      public final io.papermc.paper.chunk.PlayerChunkLoader playerChunkManager = new io.papermc.paper.chunk.PlayerChunkLoader(this, this.pooledLinkedPlayerHashSets); // Paper - replace chunk loader
 +    // Paper start - optimise ChunkMap#anyPlayerCloseEnoughForSpawning
 +    // A note about the naming used here:
@@ -57,8 +57,8 @@ index 1c638f65d33e5890a7a32bf7e89d484ae2afc093..4b7c39595302a738e6d4a1749473ef9c
 +    // obviously this means a spawn range > 8 cannot be implemented
 +
 +    // these maps are named after spigot's uses
-+    public final com.destroystokyo.paper.util.misc.PlayerAreaMap playerMobSpawnMap; // this map is absent from updateMaps since it's controlled at the start of the chunkproviderserver tick
-+    public final com.destroystokyo.paper.util.misc.PlayerAreaMap playerChunkTickRangeMap;
++    public final io.papermc.paper.util.misc.PlayerAreaMap playerMobSpawnMap; // this map is absent from updateMaps since it's controlled at the start of the chunkproviderserver tick
++    public final io.papermc.paper.util.misc.PlayerAreaMap playerChunkTickRangeMap;
 +    // Paper end - optimise ChunkMap#anyPlayerCloseEnoughForSpawning
  
      void addPlayerToDistanceMaps(ServerPlayer player) {
@@ -92,33 +92,33 @@ index 1c638f65d33e5890a7a32bf7e89d484ae2afc093..4b7c39595302a738e6d4a1749473ef9c
 @@ -278,6 +295,38 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          this.regionManagers.add(this.dataRegionManager);
          // Paper end
-         this.playerMobDistanceMap = this.level.paperConfig().entities.spawning.perPlayerMobSpawns ? new com.destroystokyo.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets) : null; // Paper
+         this.playerMobDistanceMap = this.level.paperConfig().entities.spawning.perPlayerMobSpawns ? new io.papermc.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets) : null; // Paper
 +        // Paper start - optimise ChunkMap#anyPlayerCloseEnoughForSpawning
-+        this.playerChunkTickRangeMap = new com.destroystokyo.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets,
++        this.playerChunkTickRangeMap = new io.papermc.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets,
 +            (ServerPlayer player, int rangeX, int rangeZ, int currPosX, int currPosZ, int prevPosX, int prevPosZ,
-+             com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
++             io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
 +                ChunkHolder playerChunk = ChunkMap.this.getUpdatingChunkIfPresent(MCUtil.getCoordinateKey(rangeX, rangeZ));
 +                if (playerChunk != null) {
 +                    playerChunk.playersInChunkTickRange = newState;
 +                }
 +            },
 +            (ServerPlayer player, int rangeX, int rangeZ, int currPosX, int currPosZ, int prevPosX, int prevPosZ,
-+             com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
++             io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
 +                ChunkHolder playerChunk = ChunkMap.this.getUpdatingChunkIfPresent(MCUtil.getCoordinateKey(rangeX, rangeZ));
 +                if (playerChunk != null) {
 +                    playerChunk.playersInChunkTickRange = newState;
 +                }
 +            });
-+        this.playerMobSpawnMap = new com.destroystokyo.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets,
++        this.playerMobSpawnMap = new io.papermc.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets,
 +            (ServerPlayer player, int rangeX, int rangeZ, int currPosX, int currPosZ, int prevPosX, int prevPosZ,
-+             com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
++             io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
 +                ChunkHolder playerChunk = ChunkMap.this.getUpdatingChunkIfPresent(MCUtil.getCoordinateKey(rangeX, rangeZ));
 +                if (playerChunk != null) {
 +                    playerChunk.playersInMobSpawnRange = newState;
 +                }
 +            },
 +            (ServerPlayer player, int rangeX, int rangeZ, int currPosX, int currPosZ, int prevPosX, int prevPosZ,
-+             com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
++             io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
 +                ChunkHolder playerChunk = ChunkMap.this.getUpdatingChunkIfPresent(MCUtil.getCoordinateKey(rangeX, rangeZ));
 +                if (playerChunk != null) {
 +                    playerChunk.playersInMobSpawnRange = newState;
@@ -151,7 +151,7 @@ index 1c638f65d33e5890a7a32bf7e89d484ae2afc093..4b7c39595302a738e6d4a1749473ef9c
 +    final boolean anyPlayerCloseEnoughForSpawning(ChunkHolder playerchunk, ChunkPos chunkcoordintpair, boolean reducedRange) {
 +        // this function is so hot that removing the map lookup call can have an order of magnitude impact on its performance
 +        // tested and confirmed via System.nanoTime()
-+        com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> playersInRange = reducedRange ? playerchunk.playersInMobSpawnRange : playerchunk.playersInChunkTickRange;
++        io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> playersInRange = reducedRange ? playerchunk.playersInMobSpawnRange : playerchunk.playersInChunkTickRange;
 +        if (playersInRange == null) {
              return false;
 -        } else {
@@ -173,7 +173,7 @@ index 1c638f65d33e5890a7a32bf7e89d484ae2afc093..4b7c39595302a738e6d4a1749473ef9c
 -
 -                entityplayer = (ServerPlayer) iterator.next();
 -                // Paper start - add PlayerNaturallySpawnCreaturesEvent
--                com.destroystokyo.paper.event.entity.PlayerNaturallySpawnCreaturesEvent event;
+-                io.papermc.paper.event.entity.PlayerNaturallySpawnCreaturesEvent event;
 -                blockRange = 16384.0D;
 -                if (reducedRange) {
 -                    event = entityplayer.playerNaturallySpawnedEvent;
@@ -262,7 +262,7 @@ index d3c3db919e9b0507e8543313d9028394e5163673..52cba8f68d274cce106304aef1249a95
  
      public String getDebugStatus() {
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 665e088cb0b73f6a0c62f29c56da462bab7c927e..298e4468f7b5346733257f7117f76c66e9a1d8f0 100644
+index b60bf7b83ad5fdc9c3bb153748914e071a078b2e..69417fb2b5edf40805c962f7a3c95b3efd4406d1 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -658,6 +658,37 @@ public class ServerChunkCache extends ChunkSource {
@@ -284,7 +284,7 @@ index 665e088cb0b73f6a0c62f29c56da462bab7c927e..298e4468f7b5346733257f7117f76c66
 +                chunkRange = (chunkRange > viewDistance) ? (byte)viewDistance : chunkRange;
 +                chunkRange = (chunkRange > DistanceManager.MOB_SPAWN_RANGE) ? DistanceManager.MOB_SPAWN_RANGE : chunkRange;
 +
-+                com.destroystokyo.paper.event.entity.PlayerNaturallySpawnCreaturesEvent event = new com.destroystokyo.paper.event.entity.PlayerNaturallySpawnCreaturesEvent(player.getBukkitEntity(), (byte)chunkRange);
++                io.papermc.paper.event.entity.PlayerNaturallySpawnCreaturesEvent event = new io.papermc.paper.event.entity.PlayerNaturallySpawnCreaturesEvent(player.getBukkitEntity(), (byte)chunkRange);
 +                event.callEvent();
 +                if (event.isCancelled() || event.getSpawnRadius() < 0 || playerChunkMap.playerChunkTickRangeMap.getLastViewDistance(player) == -1) {
 +                    playerChunkMap.playerMobSpawnMap.remove(player);
@@ -312,7 +312,7 @@ index 665e088cb0b73f6a0c62f29c56da462bab7c927e..298e4468f7b5346733257f7117f76c66
 -            chunkRange = (chunkRange > level.spigotConfig.viewDistance) ? (byte) level.spigotConfig.viewDistance : chunkRange;
 -            chunkRange = Math.min(chunkRange, 8);
 -            for (ServerPlayer entityPlayer : this.level.players()) {
--                entityPlayer.playerNaturallySpawnedEvent = new com.destroystokyo.paper.event.entity.PlayerNaturallySpawnCreaturesEvent(entityPlayer.getBukkitEntity(), (byte) chunkRange);
+-                entityPlayer.playerNaturallySpawnedEvent = new io.papermc.paper.event.entity.PlayerNaturallySpawnCreaturesEvent(entityPlayer.getBukkitEntity(), (byte) chunkRange);
 -                entityPlayer.playerNaturallySpawnedEvent.callEvent();
 -            };
 -            // Paper end
@@ -333,7 +333,7 @@ index 665e088cb0b73f6a0c62f29c56da462bab7c927e..298e4468f7b5346733257f7117f76c66
                      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 3c3df5575208b9b66b59e53346f2d3cf49b7b04c..9627a725079866ebb40ccbb59c50dcfecc343fa6 100644
+index 255bd6d4d24022462d47fafd1d24ef9f58c445b3..da033c84e3be4d41d560c5e18f0e7b66d53312f6 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -269,6 +269,7 @@ public class ServerPlayer extends Player {
@@ -341,6 +341,6 @@ index 3c3df5575208b9b66b59e53346f2d3cf49b7b04c..9627a725079866ebb40ccbb59c50dcfe
      // CraftBukkit end
      public boolean isRealPlayer; // Paper
 +    public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
-     public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
+     public final io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
      public PlayerNaturallySpawnCreaturesEvent playerNaturallySpawnedEvent; // Paper
  

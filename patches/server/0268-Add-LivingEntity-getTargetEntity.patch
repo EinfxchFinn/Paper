@@ -5,7 +5,7 @@ Subject: [PATCH] Add LivingEntity#getTargetEntity
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 73cefc7ec582cb0fbfcff32cb9311f34ec2f31f0..eb58b3230b46ade4403c31113d244b933b8a4a71 100644
+index 57c669200f7f538d53adadf5868d2c8130ad9536..7bc62d3abadd3d8b45085718312424676e38a83c 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -115,6 +115,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
@@ -56,13 +56,13 @@ index 73cefc7ec582cb0fbfcff32cb9311f34ec2f31f0..eb58b3230b46ade4403c31113d244b93
  
      public int getShieldBlockingDelay() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 8601639fd5dfb7ce68d6bd7803efd10438338483..b19185c16f8fecbefef697017e8dcfd249306fe3 100644
+index a4ad65b696391426a8d472a9e656b2aed3f9d30d..8bff695772e009d079dfeae4716f8b833d0b6fd5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -1,5 +1,6 @@
  package org.bukkit.craftbukkit.entity;
  
-+import com.destroystokyo.paper.entity.TargetEntityInfo;
++import io.papermc.paper.entity.TargetEntityInfo;
  import com.google.common.base.Preconditions;
  import com.google.common.collect.Sets;
  import java.util.ArrayList;

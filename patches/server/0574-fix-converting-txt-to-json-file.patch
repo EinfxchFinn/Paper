@@ -21,7 +21,7 @@ index a20d47f54f12dfc0a5f76dd969238e34c958b618..935dac757280731bfeb0a8f033cbe315
          this.saveUserBanList();
          this.loadIpBanList();
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 520cd1a6b347687b2ec6d13f034be391d1a1af85..cc885fd0eb19516d3864a43c2e4ae785950c5ba6 100644
+index 888de4b5401cc232fa83bf62c3cd9351e8181ee1..fc68af0aead9e464147821b04d62a04cc0819801 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -198,6 +198,12 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -36,7 +36,7 @@ index 520cd1a6b347687b2ec6d13f034be391d1a1af85..cc885fd0eb19516d3864a43c2e4ae785
 +        // Paper end - moved up
          org.spigotmc.WatchdogThread.doStart(org.spigotmc.SpigotConfig.timeoutTime, org.spigotmc.SpigotConfig.restartOnCrash);
          io.papermc.paper.command.PaperCommands.registerCommands(this);
-         com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics();
+         io.papermc.paper.Metrics.PaperMetrics.startMetrics();
 @@ -253,9 +259,6 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              DedicatedServer.LOGGER.warn("To change this, set \"online-mode\" to \"true\" in the server.properties file.");
          }
@@ -48,7 +48,7 @@ index 520cd1a6b347687b2ec6d13f034be391d1a1af85..cc885fd0eb19516d3864a43c2e4ae785
          if (!OldUsersConverter.serverReadyAfterUserconversion(this)) {
              return false;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index a697583cbfb50230771a58feed7d1e9d13320961..88deb7961f64976e16d1b42c6a798665a4fa59e6 100644
+index 98598590d05c1b34a7a5bf65b71fdd8385160c21..82d733a95ff41918f60d328c6eea6d2f16bc34bf 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -183,6 +183,7 @@ public abstract class PlayerList {

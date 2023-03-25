@@ -5,7 +5,7 @@ Subject: [PATCH] Implement EntityTeleportEndGatewayEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
-index 7d2b15edbd1a6bf663c29b7bc63c73d34fefd999..c7de74b7fcfb5f4d8adbe7e703087a03d9d9056d 100644
+index 132504bca9e353c2691b9ca5388e8922593f8f54..8b727e08799b1195add82e8754beddcbab9ec2cf 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 @@ -225,9 +225,20 @@ public class TheEndGatewayBlockEntity extends TheEndPortalBlockEntity {
@@ -18,7 +18,7 @@ index 7d2b15edbd1a6bf663c29b7bc63c73d34fefd999..c7de74b7fcfb5f4d8adbe7e703087a03
 +                location.setPitch(bukkitEntity.getLocation().getPitch());
 +                location.setYaw(bukkitEntity.getLocation().getYaw());
 +
-+                com.destroystokyo.paper.event.entity.EntityTeleportEndGatewayEvent event = new com.destroystokyo.paper.event.entity.EntityTeleportEndGatewayEvent(bukkitEntity, bukkitEntity.getLocation(), location, new org.bukkit.craftbukkit.block.CraftEndGateway(world.getWorld(), blockEntity));
++                io.papermc.paper.event.entity.EntityTeleportEndGatewayEvent event = new io.papermc.paper.event.entity.EntityTeleportEndGatewayEvent(bukkitEntity, bukkitEntity.getLocation(), location, new org.bukkit.craftbukkit.block.CraftEndGateway(world.getWorld(), blockEntity));
 +                if (!event.callEvent()) {
 +                    return;
 +                }

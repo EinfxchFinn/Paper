@@ -39,7 +39,7 @@ public net.minecraft.server.network.ServerLoginPacketListenerImpl state
 public net.minecraft.server.network.ServerLoginPacketListenerImpl gameProfile
 
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index f70d81e1a779da840b636b36a913a0dca9427c94..62ee5e32ac0f5d244fa55f9fe45d34cf4d2becaa 100644
+index f70d81e1a779da840b636b36a913a0dca9427c94..977007eb8cf765c77707be678b540290356a5edc 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -487,6 +487,26 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -51,7 +51,7 @@ index f70d81e1a779da840b636b36a913a0dca9427c94..62ee5e32ac0f5d244fa55f9fe45d34cf
 +                if (packetListener instanceof net.minecraft.server.network.ServerGamePacketListenerImpl) {
 +                    /* Player was logged in */
 +                    final net.minecraft.server.network.ServerGamePacketListenerImpl playerConnection = (net.minecraft.server.network.ServerGamePacketListenerImpl) packetListener;
-+                    new com.destroystokyo.paper.event.player.PlayerConnectionCloseEvent(playerConnection.player.getUUID(),
++                    new io.papermc.paper.event.player.PlayerConnectionCloseEvent(playerConnection.player.getUUID(),
 +                        playerConnection.player.getScoreboardName(), ((java.net.InetSocketAddress)address).getAddress(), false).callEvent();
 +                } else if (packetListener instanceof net.minecraft.server.network.ServerLoginPacketListenerImpl) {
 +                    /* Player is login stage */
@@ -61,7 +61,7 @@ index f70d81e1a779da840b636b36a913a0dca9427c94..62ee5e32ac0f5d244fa55f9fe45d34cf
 +                        case DELAY_ACCEPT:
 +                        case ACCEPTED:
 +                            final com.mojang.authlib.GameProfile profile = loginListener.gameProfile; /* Should be non-null at this stage */
-+                            new com.destroystokyo.paper.event.player.PlayerConnectionCloseEvent(profile.getId(), profile.getName(),
++                            new io.papermc.paper.event.player.PlayerConnectionCloseEvent(profile.getId(), profile.getName(),
 +                                ((java.net.InetSocketAddress)address).getAddress(), false).callEvent();
 +                    }
 +                }

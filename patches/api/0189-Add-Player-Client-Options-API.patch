@@ -4,13 +4,13 @@ Date: Mon, 20 Jan 2020 21:38:34 +0100
 Subject: [PATCH] Add Player Client Options API
 
 
-diff --git a/src/main/java/com/destroystokyo/paper/ClientOption.java b/src/main/java/com/destroystokyo/paper/ClientOption.java
+diff --git a/src/main/java/io/papermc/paper/ClientOption.java b/src/main/java/io/papermc/paper/ClientOption.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f89bfeba29e6988db849957a508ca97ff5322242
+index 0000000000000000000000000000000000000000..9cf7fa3c9cfc57f4ebad9f24a0c3908c2291fa31
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/ClientOption.java
++++ b/src/main/java/io/papermc/paper/ClientOption.java
 @@ -0,0 +1,52 @@
-+package com.destroystokyo.paper;
++package io.papermc.paper;
 +
 +import net.kyori.adventure.translation.Translatable;
 +import net.kyori.adventure.util.Index;
@@ -62,13 +62,13 @@ index 0000000000000000000000000000000000000000..f89bfeba29e6988db849957a508ca97f
 +        }
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/SkinParts.java b/src/main/java/com/destroystokyo/paper/SkinParts.java
+diff --git a/src/main/java/io/papermc/paper/SkinParts.java b/src/main/java/io/papermc/paper/SkinParts.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..4a0c39405d4fbed457787e3c6ded4cc6591bc8c2
+index 0000000000000000000000000000000000000000..ab5f70ce524050bf93169c853611ac9bdd9685f3
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/SkinParts.java
++++ b/src/main/java/io/papermc/paper/SkinParts.java
 @@ -0,0 +1,20 @@
-+package com.destroystokyo.paper;
++package io.papermc.paper;
 +
 +public interface SkinParts {
 +
@@ -88,17 +88,17 @@ index 0000000000000000000000000000000000000000..4a0c39405d4fbed457787e3c6ded4cc6
 +
 +    int getRaw();
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/event/player/PlayerClientOptionsChangeEvent.java b/src/main/java/com/destroystokyo/paper/event/player/PlayerClientOptionsChangeEvent.java
+diff --git a/src/main/java/io/papermc/paper/event/player/PlayerClientOptionsChangeEvent.java b/src/main/java/io/papermc/paper/event/player/PlayerClientOptionsChangeEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..cf67dc7d465223710adbf2b798109f525d3b057d
+index 0000000000000000000000000000000000000000..2d935a7efcd6fb5d413702760b8a8f2278a42f9e
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/event/player/PlayerClientOptionsChangeEvent.java
++++ b/src/main/java/io/papermc/paper/event/player/PlayerClientOptionsChangeEvent.java
 @@ -0,0 +1,134 @@
-+package com.destroystokyo.paper.event.player;
++package io.papermc.paper.event.player;
 +
-+import com.destroystokyo.paper.ClientOption;
-+import com.destroystokyo.paper.ClientOption.ChatVisibility;
-+import com.destroystokyo.paper.SkinParts;
++import io.papermc.paper.ClientOption;
++import io.papermc.paper.ClientOption.ChatVisibility;
++import io.papermc.paper.SkinParts;
 +import org.bukkit.entity.Player;
 +import org.bukkit.event.HandlerList;
 +import org.bukkit.event.player.PlayerEvent;
@@ -229,7 +229,7 @@ index 0000000000000000000000000000000000000000..cf67dc7d465223710adbf2b798109f52
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 65ce6e016bcbb43711d6a1ae077330eafb8037e0..4ceabd992c26b0e2c9df9d0e10495322b3a92585 100644
+index a8332ad7299c59e517536a95cad393422c742be8..a1cba3bc9f5d10a6f09030abff34bf27b4e759ad 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -2573,6 +2573,12 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -241,7 +241,7 @@ index 65ce6e016bcbb43711d6a1ae077330eafb8037e0..4ceabd992c26b0e2c9df9d0e10495322
 +     * @return the client option value of the player
 +     */
 +    @NotNull
-+    <T> T getClientOption(@NotNull com.destroystokyo.paper.ClientOption<T> option);
++    <T> T getClientOption(@NotNull io.papermc.paper.ClientOption<T> option);
      // Paper end
  
      // Spigot start

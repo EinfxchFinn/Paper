@@ -7,7 +7,7 @@ This allows you to create already filled textures on Skulls to avoid texture loo
 which commonly cause rate limit issues with Mojang API
 
 diff --git a/src/main/java/org/bukkit/block/Skull.java b/src/main/java/org/bukkit/block/Skull.java
-index 8d4093a413ca14a1c4c24a2a1b74c1d574943ffa..c7502a3913cf14e66559c21489d6f2205f3eb06a 100644
+index 8d4093a413ca14a1c4c24a2a1b74c1d574943ffa..56b0989d075df6f6b784428b459e6c03f046f3d0 100644
 --- a/src/main/java/org/bukkit/block/Skull.java
 +++ b/src/main/java/org/bukkit/block/Skull.java
 @@ -63,6 +63,20 @@ public interface Skull extends TileState {
@@ -19,13 +19,13 @@ index 8d4093a413ca14a1c4c24a2a1b74c1d574943ffa..c7502a3913cf14e66559c21489d6f220
 +     * Sets this skull to use the supplied Player Profile, which can include textures already prefilled.
 +     * @param profile The profile to set this Skull to use, may not be null
 +     */
-+    void setPlayerProfile(@NotNull com.destroystokyo.paper.profile.PlayerProfile profile);
++    void setPlayerProfile(@NotNull io.papermc.paper.profile.PlayerProfile profile);
 +
 +    /**
-+     * If the skull has an owner, per {@link #hasOwner()}, return the owners {@link com.destroystokyo.paper.profile.PlayerProfile}
++     * If the skull has an owner, per {@link #hasOwner()}, return the owners {@link io.papermc.paper.profile.PlayerProfile}
 +     * @return The profile of the owner, if set
 +     */
-+    @Nullable com.destroystokyo.paper.profile.PlayerProfile getPlayerProfile();
++    @Nullable io.papermc.paper.profile.PlayerProfile getPlayerProfile();
 +    // Paper end
 +
      /**
@@ -48,7 +48,7 @@ index 8d4093a413ca14a1c4c24a2a1b74c1d574943ffa..c7502a3913cf14e66559c21489d6f220
  
      /**
 diff --git a/src/main/java/org/bukkit/inventory/meta/SkullMeta.java b/src/main/java/org/bukkit/inventory/meta/SkullMeta.java
-index 5a18a66a0b7877ec0c1859f78cce659db4b8541a..862640b4611458dfbcd3be797eacd120fc8d1f9f 100644
+index 5a18a66a0b7877ec0c1859f78cce659db4b8541a..ce39c20218d44216b16314ddf73457f3bc26f006 100644
 --- a/src/main/java/org/bukkit/inventory/meta/SkullMeta.java
 +++ b/src/main/java/org/bukkit/inventory/meta/SkullMeta.java
 @@ -38,6 +38,20 @@ public interface SkullMeta extends ItemMeta {
@@ -60,13 +60,13 @@ index 5a18a66a0b7877ec0c1859f78cce659db4b8541a..862640b4611458dfbcd3be797eacd120
 +     * Sets this skull to use the supplied Player Profile, which can include textures already prefilled.
 +     * @param profile The profile to set this Skull to use, or null to clear owner
 +     */
-+    void setPlayerProfile(@Nullable com.destroystokyo.paper.profile.PlayerProfile profile);
++    void setPlayerProfile(@Nullable io.papermc.paper.profile.PlayerProfile profile);
 +
 +    /**
-+     * If the skull has an owner, per {@link #hasOwner()}, return the owners {@link com.destroystokyo.paper.profile.PlayerProfile}
++     * If the skull has an owner, per {@link #hasOwner()}, return the owners {@link io.papermc.paper.profile.PlayerProfile}
 +     * @return The profile of the owner, if set
 +     */
-+    @Nullable com.destroystokyo.paper.profile.PlayerProfile getPlayerProfile();
++    @Nullable io.papermc.paper.profile.PlayerProfile getPlayerProfile();
 +    // Paper end
 +
      /**

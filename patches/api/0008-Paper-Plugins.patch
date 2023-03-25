@@ -1235,13 +1235,13 @@ index 0000000000000000000000000000000000000000..44d630c3eb2670c36134b9907519dc98
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/provider/util/ProviderUtil.java b/src/main/java/io/papermc/paper/plugin/provider/util/ProviderUtil.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..6bf3d212a6156ad9ab0e82d1ca0a04f83f6e4b83
+index 0000000000000000000000000000000000000000..4ca73084f2a3eb0b3488eba84c854f8e497e8d93
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/provider/util/ProviderUtil.java
 @@ -0,0 +1,78 @@
 +package io.papermc.paper.plugin.provider.util;
 +
-+import com.destroystokyo.paper.util.SneakyThrow;
++import io.papermc.paper.util.SneakyThrow;
 +import org.jetbrains.annotations.ApiStatus;
 +import org.jetbrains.annotations.NotNull;
 +import org.jetbrains.annotations.Nullable;

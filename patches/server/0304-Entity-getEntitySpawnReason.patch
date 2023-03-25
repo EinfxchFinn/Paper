@@ -10,7 +10,7 @@ persistenting Living Entity, SPAWNER for spawners,
 or DEFAULT since data was not stored.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index e46f18e342f2e682c4d5bbac22187a171df8eb33..58c1769ea15249df950a40e2f164e2ff7aeb05bd 100644
+index 054a4838b65fdd3482be204a9c50d350f982e5ec..53c5aa9c5504c055d15cd3b56d0b25bcdf374783 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1288,6 +1288,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -22,7 +22,7 @@ index e46f18e342f2e682c4d5bbac22187a171df8eb33..58c1769ea15249df950a40e2f164e2ff
              // Paper start
              if (DEBUG_ENTITIES) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 9905d2174582b38913752c2e86e4d610baff181d..026bba5551dd77d616eb11c59575f9fea28000af 100644
+index 1e5bcb0c075b568480a46c14a5dde725af1eb346..62b9594d27965fd18c29eecf47696899512529ed 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -363,7 +363,7 @@ public abstract class PlayerList {
@@ -35,7 +35,7 @@ index 9905d2174582b38913752c2e86e4d610baff181d..026bba5551dd77d616eb11c59575f9fe
              });
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index b4929ecb7e49266b88eec433a65fd8cf049dd805..80806cd557a481ffbfa9b26e84d1ab1bcba0543f 100644
+index b4b99873c1c8731ded2211853a72cca0101eb381..90f6920557f8967bba763706519c0203fe066afa 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -233,6 +233,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -44,7 +44,7 @@ index b4929ecb7e49266b88eec433a65fd8cf049dd805..80806cd557a481ffbfa9b26e84d1ab1b
      // Paper end
 +    public org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason spawnReason; // Paper
  
-     public com.destroystokyo.paper.loottable.PaperLootableInventoryData lootableData; // Paper
+     public io.papermc.paper.loottable.PaperLootableInventoryData lootableData; // Paper
      private CraftEntity bukkitEntity;
 @@ -2061,6 +2062,9 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  }
@@ -84,7 +84,7 @@ index b4929ecb7e49266b88eec433a65fd8cf049dd805..80806cd557a481ffbfa9b26e84d1ab1b
  
          } catch (Throwable throwable) {
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index 405f36e9e115ad44bb91aad885785761786204ca..091c72b95e3c4c3528812ace4aec64d451f25462 100644
+index 911791bc9d0598ac7b99c430fe74acd86671d305..0240c987a6571ee32978245b909a3ab575414303 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
 @@ -185,6 +185,7 @@ public abstract class BaseSpawner {

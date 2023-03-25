@@ -5,13 +5,13 @@ Subject: [PATCH] Player Tab List and Title APIs
 
 Co-authored-by: Fruxz <cedricspitzer@outlook.de>
 
-diff --git a/src/main/java/com/destroystokyo/paper/Title.java b/src/main/java/com/destroystokyo/paper/Title.java
+diff --git a/src/main/java/io/papermc/paper/Title.java b/src/main/java/io/papermc/paper/Title.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..9e90c3df567a65b48a0b9341f784eb902cb35d8c
+index 0000000000000000000000000000000000000000..35156d5da2ff257e36867ad977b93f8be897cb5a
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/Title.java
++++ b/src/main/java/io/papermc/paper/Title.java
 @@ -0,0 +1,420 @@
-+package com.destroystokyo.paper;
++package io.papermc.paper;
 +
 +import net.md_5.bungee.api.chat.BaseComponent;
 +import net.md_5.bungee.api.chat.TextComponent;
@@ -432,7 +432,7 @@ index 0000000000000000000000000000000000000000..9e90c3df567a65b48a0b9341f784eb90
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index a2c813d6d94ae2a87278d92445635ae8dd3ab00a..3e2b8c1ae51404352adccc9ad108982173306ee9 100644
+index d11eecf98b7f8510ab052e48898c388bc1149a4d..3d7e4209c7c1af90775da9f60be953c81f75d79c 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -847,6 +847,131 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -536,14 +536,14 @@ index a2c813d6d94ae2a87278d92445635ae8dd3ab00a..3e2b8c1ae51404352adccc9ad1089821
 +    /**
 +     * Show the title to the player, overriding any previously displayed title.
 +     *
-+     * <p>This method overrides any previous title, use {@link #updateTitle(com.destroystokyo.paper.Title)} to change the existing one.</p>
++     * <p>This method overrides any previous title, use {@link #updateTitle(io.papermc.paper.Title)} to change the existing one.</p>
 +     *
 +     * @param title the title to send
 +     * @throws NullPointerException if the title is null
 +     * @deprecated Use {@link #showTitle(net.kyori.adventure.title.Title)} or {@link #sendTitlePart(net.kyori.adventure.title.TitlePart, Object)}
 +     */
 +    @Deprecated
-+    void sendTitle(@NotNull com.destroystokyo.paper.Title title);
++    void sendTitle(@NotNull io.papermc.paper.Title title);
 +
 +    /**
 +     * Show the title to the player, overriding any previously displayed title.
@@ -555,7 +555,7 @@ index a2c813d6d94ae2a87278d92445635ae8dd3ab00a..3e2b8c1ae51404352adccc9ad1089821
 +     * @deprecated Use {@link #showTitle(net.kyori.adventure.title.Title)} or {@link #sendTitlePart(net.kyori.adventure.title.TitlePart, Object)}
 +     */
 +    @Deprecated
-+    void updateTitle(@NotNull com.destroystokyo.paper.Title title);
++    void updateTitle(@NotNull io.papermc.paper.Title title);
 +
 +    /**
 +     * Hide any title that is currently visible to the player

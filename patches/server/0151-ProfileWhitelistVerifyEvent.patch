@@ -5,7 +5,7 @@ Subject: [PATCH] ProfileWhitelistVerifyEvent
 
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index dcb14a1be689fe228f740abc1a2b3c2c57b35f40..2cde0807c224f008bd2e652ff8a46244ebc53059 100644
+index 0e3e2ef82db66e8fca65c6e348064f2694046e92..b4538cd9b0b506c4cb1f54534dc08c51d6b26a1c 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -636,9 +636,9 @@ public abstract class PlayerList {
@@ -32,8 +32,8 @@ index dcb14a1be689fe228f740abc1a2b3c2c57b35f40..2cde0807c224f008bd2e652ff8a46244
 +    public boolean isWhiteListed(GameProfile gameprofile, org.bukkit.event.player.PlayerLoginEvent loginEvent) {
 +        boolean isOp = this.ops.contains(gameprofile);
 +        boolean isWhitelisted = !this.doWhiteList || isOp || this.whitelist.contains(gameprofile);
-+        final com.destroystokyo.paper.event.profile.ProfileWhitelistVerifyEvent event;
-+        event = new com.destroystokyo.paper.event.profile.ProfileWhitelistVerifyEvent(io.papermc.paper.util.MCUtil.toBukkit(gameprofile), this.doWhiteList, isWhitelisted, isOp, org.spigotmc.SpigotConfig.whitelistMessage);
++        final io.papermc.paper.event.profile.ProfileWhitelistVerifyEvent event;
++        event = new io.papermc.paper.event.profile.ProfileWhitelistVerifyEvent(io.papermc.paper.util.MCUtil.toBukkit(gameprofile), this.doWhiteList, isWhitelisted, isOp, org.spigotmc.SpigotConfig.whitelistMessage);
 +        event.callEvent();
 +        if (!event.isWhitelisted()) {
 +            if (loginEvent != null) {

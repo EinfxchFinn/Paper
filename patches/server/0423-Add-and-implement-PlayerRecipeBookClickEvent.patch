@@ -5,7 +5,7 @@ Subject: [PATCH] Add and implement PlayerRecipeBookClickEvent
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index ce04df03f0cb2578e78cdb5bb72794815661c337..ad584ebfb69a76eb84a56baefa5fb8ee884b743d 100644
+index e54bfd099e64532d81937a497897da09670f8a53..bf23789b4f55ee403edaf88a9fcd6add5a08c658 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -3107,9 +3107,15 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -16,7 +16,7 @@ index ce04df03f0cb2578e78cdb5bb72794815661c337..ad584ebfb69a76eb84a56baefa5fb8ee
 -                    ((RecipeBookMenu) this.player.containerMenu).handlePlacement(packet.isShiftDown(), irecipe, this.player);
 -                });
 +                // Paper start - fire event for clicking recipes in the recipe book
-+                com.destroystokyo.paper.event.player.PlayerRecipeBookClickEvent event = new com.destroystokyo.paper.event.player.PlayerRecipeBookClickEvent(
++                io.papermc.paper.event.player.PlayerRecipeBookClickEvent event = new io.papermc.paper.event.player.PlayerRecipeBookClickEvent(
 +                    player.getBukkitEntity(), org.bukkit.craftbukkit.util.CraftNamespacedKey.fromMinecraft(packet.getRecipe()), packet.isShiftDown());
 +                if (event.callEvent() && this.player.containerMenu instanceof RecipeBookMenu<?> recipeBookMenu) { // check if inventory changed during event handling
 +                    this.server.getRecipeManager().byKey(org.bukkit.craftbukkit.util.CraftNamespacedKey.toMinecraft(event.getRecipe())).ifPresent((irecipe) -> {

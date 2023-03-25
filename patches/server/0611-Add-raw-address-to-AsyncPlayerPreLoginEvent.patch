@@ -5,7 +5,7 @@ Subject: [PATCH] Add raw address to AsyncPlayerPreLoginEvent
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index c9f8f61c43428c519c0dac1b7416bad775e3429f..b026c003e1fc02a9ea426f3126acb788fc09a874 100644
+index 149260d6ca6afee219f6f98829a229f55f5c7155..3e3b45121a8c025276656047509adec535688f76 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -331,12 +331,13 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
@@ -17,7 +17,7 @@ index c9f8f61c43428c519c0dac1b7416bad775e3429f..b026c003e1fc02a9ea426f3126acb788
                          final org.bukkit.craftbukkit.CraftServer server = ServerLoginPacketListenerImpl.this.server.server;
  
                          // Paper start
-                         com.destroystokyo.paper.profile.PlayerProfile profile = com.destroystokyo.paper.profile.CraftPlayerProfile.asBukkitMirror(ServerLoginPacketListenerImpl.this.gameProfile);
+                         io.papermc.paper.profile.PlayerProfile profile = io.papermc.paper.profile.CraftPlayerProfile.asBukkitMirror(ServerLoginPacketListenerImpl.this.gameProfile);
 -                        AsyncPlayerPreLoginEvent asyncEvent = new AsyncPlayerPreLoginEvent(playerName, address, uniqueId, profile);
 +                        AsyncPlayerPreLoginEvent asyncEvent = new AsyncPlayerPreLoginEvent(playerName, address, rawAddress, uniqueId, profile); // Paper - add rawAddress
                          server.getPluginManager().callEvent(asyncEvent);

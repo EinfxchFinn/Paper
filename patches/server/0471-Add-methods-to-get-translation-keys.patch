@@ -10,7 +10,7 @@ public org.bukkit.craftbukkit.inventory.CraftMetaFirework getNBT(Lorg/bukkit/Fir
 Co-authored-by: MeFisto94 <MeFisto94@users.noreply.github.com>
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
-index ac543a4c6bc21435de3c6721af37fd5f554e403e..1f780a326f4982d4be1855516fb1461b4d90bcc6 100644
+index d0b3be954f94e4ff32be61d98c2641a9a12a260a..8554b5ee6ccfea13d7b494bc851208b5c5e6649b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
 +++ b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
 @@ -694,5 +694,10 @@ public class CraftBlock implements Block {
@@ -41,13 +41,13 @@ index e8334e2264510f5101e80b4f130e7ae1442560d7..57decf4156f176ebcc988478c17856cb
  
      public net.minecraft.world.item.enchantment.Enchantment getHandle() {
 diff --git a/src/test/java/io/papermc/paper/world/TranslationKeyTest.java b/src/test/java/io/papermc/paper/world/TranslationKeyTest.java
-index fab3063fffa959ac7f0eb5937f2fae94d11b6591..4cc8ca5dd95e9cccd08ada057a9592a1421f434a 100644
+index 908c126626ae0a1eb51cd9174df89eb4cce7e421..c217f225473a67e466cda9f2c1498f1309126ffd 100644
 --- a/src/test/java/io/papermc/paper/world/TranslationKeyTest.java
 +++ b/src/test/java/io/papermc/paper/world/TranslationKeyTest.java
 @@ -1,12 +1,23 @@
  package io.papermc.paper.world;
  
- import com.destroystokyo.paper.ClientOption;
+ import io.papermc.paper.ClientOption;
 +import java.util.Map;
 +import net.minecraft.network.chat.contents.TranslatableContents;
 +import net.minecraft.resources.ResourceKey;

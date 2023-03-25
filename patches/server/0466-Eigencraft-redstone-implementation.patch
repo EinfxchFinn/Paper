@@ -22,13 +22,13 @@ public net.minecraft.world.level.block.RedStoneWireBlock shouldSignal
 
 Co-authored-by: egg82 <phantom_zero@ymail.com>
 
-diff --git a/src/main/java/com/destroystokyo/paper/util/RedstoneWireTurbo.java b/src/main/java/com/destroystokyo/paper/util/RedstoneWireTurbo.java
+diff --git a/src/main/java/io/papermc/paper/util/RedstoneWireTurbo.java b/src/main/java/io/papermc/paper/util/RedstoneWireTurbo.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..22a2547810d0c029f29685faddf7ac21cde2df0b
+index 0000000000000000000000000000000000000000..ff74e1ff96f9282aad0c2225c4c54c8ffaabe015
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/util/RedstoneWireTurbo.java
++++ b/src/main/java/io/papermc/paper/util/RedstoneWireTurbo.java
 @@ -0,0 +1,957 @@
-+package com.destroystokyo.paper.util;
++package io.papermc.paper.util;
 +
 +import java.util.List;
 +import java.util.Map;
@@ -986,7 +986,7 @@ index 0000000000000000000000000000000000000000..22a2547810d0c029f29685faddf7ac21
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/world/level/block/RedStoneWireBlock.java b/src/main/java/net/minecraft/world/level/block/RedStoneWireBlock.java
-index bef1da32111cd86358c434f095e91493fadbeed6..004894157f732046e89f124872da86c79af1676f 100644
+index bef1da32111cd86358c434f095e91493fadbeed6..885d3e8e3ee09eaa8d450cb1ee98d54864ad0de7 100644
 --- a/src/main/java/net/minecraft/world/level/block/RedStoneWireBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/RedStoneWireBlock.java
 @@ -252,6 +252,116 @@ public class RedStoneWireBlock extends Block {
@@ -995,7 +995,7 @@ index bef1da32111cd86358c434f095e91493fadbeed6..004894157f732046e89f124872da86c7
  
 +    // Paper start - Optimize redstone
 +    // The bulk of the new functionality is found in RedstoneWireTurbo.java
-+    com.destroystokyo.paper.util.RedstoneWireTurbo turbo = new com.destroystokyo.paper.util.RedstoneWireTurbo(this);
++    io.papermc.paper.util.RedstoneWireTurbo turbo = new io.papermc.paper.util.RedstoneWireTurbo(this);
 +
 +    /*
 +     * Modified version of pre-existing updateSurroundingRedstone, which is called from

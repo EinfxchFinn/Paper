@@ -6,7 +6,7 @@ Subject: [PATCH] Use distance map to optimise entity tracker
 Use the distance map to find candidate players for tracking.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 4b7c39595302a738e6d4a1749473ef9c81f84fea..503a642165f6f1292c07e8a9e618218bb96a97e9 100644
+index 7b601d8a6fd83cf8d1dc0a1a50c241b5f1ee6cfc..3d3d1d11323a1ca756e64d1e0b6090c2d555ba20 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -71,6 +71,7 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityLinkPacket;
@@ -18,8 +18,8 @@ index 4b7c39595302a738e6d4a1749473ef9c81f84fea..503a642165f6f1292c07e8a9e618218b
  import net.minecraft.server.network.ServerPlayerConnection;
  import net.minecraft.util.CsvOutput;
 @@ -170,6 +171,23 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
-     public final com.destroystokyo.paper.util.misc.PlayerAreaMap playerMobSpawnMap; // this map is absent from updateMaps since it's controlled at the start of the chunkproviderserver tick
-     public final com.destroystokyo.paper.util.misc.PlayerAreaMap playerChunkTickRangeMap;
+     public final io.papermc.paper.util.misc.PlayerAreaMap playerMobSpawnMap; // this map is absent from updateMaps since it's controlled at the start of the chunkproviderserver tick
+     public final io.papermc.paper.util.misc.PlayerAreaMap playerChunkTickRangeMap;
      // Paper end - optimise ChunkMap#anyPlayerCloseEnoughForSpawning
 +    // Paper start - use distance map to optimise tracker
 +    public static boolean isLegacyTrackingEntity(Entity entity) {
@@ -28,7 +28,7 @@ index 4b7c39595302a738e6d4a1749473ef9c81f84fea..503a642165f6f1292c07e8a9e618218b
 +
 +    // inlined EnumMap, TrackingRange.TrackingRangeType
 +    static final org.spigotmc.TrackingRange.TrackingRangeType[] TRACKING_RANGE_TYPES = org.spigotmc.TrackingRange.TrackingRangeType.values();
-+    public final com.destroystokyo.paper.util.misc.PlayerAreaMap[] playerEntityTrackerTrackMaps;
++    public final io.papermc.paper.util.misc.PlayerAreaMap[] playerEntityTrackerTrackMaps;
 +    final int[] entityTrackerTrackRanges;
 +    public final int getEntityTrackerRange(final int ordinal) {
 +        return this.entityTrackerTrackRanges[ordinal];
@@ -47,7 +47,7 @@ index 4b7c39595302a738e6d4a1749473ef9c81f84fea..503a642165f6f1292c07e8a9e618218b
          // Paper end - per player mob spawning
 +        // Paper start - use distance map to optimise entity tracker
 +        for (int i = 0, len = TRACKING_RANGE_TYPES.length; i < len; ++i) {
-+            com.destroystokyo.paper.util.misc.PlayerAreaMap trackMap = this.playerEntityTrackerTrackMaps[i];
++            io.papermc.paper.util.misc.PlayerAreaMap trackMap = this.playerEntityTrackerTrackMaps[i];
 +            int trackRange = this.entityTrackerTrackRanges[i];
 +
 +            trackMap.add(player, chunkX, chunkZ, Math.min(trackRange, io.papermc.paper.chunk.system.ChunkSystem.getSendViewDistance(player)));
@@ -74,7 +74,7 @@ index 4b7c39595302a738e6d4a1749473ef9c81f84fea..503a642165f6f1292c07e8a9e618218b
          // Paper end - per player mob spawning
 +        // Paper start - use distance map to optimise entity tracker
 +        for (int i = 0, len = TRACKING_RANGE_TYPES.length; i < len; ++i) {
-+            com.destroystokyo.paper.util.misc.PlayerAreaMap trackMap = this.playerEntityTrackerTrackMaps[i];
++            io.papermc.paper.util.misc.PlayerAreaMap trackMap = this.playerEntityTrackerTrackMaps[i];
 +            int trackRange = this.entityTrackerTrackRanges[i];
 +
 +            trackMap.update(player, chunkX, chunkZ, Math.min(trackRange, io.papermc.paper.chunk.system.ChunkSystem.getSendViewDistance(player)));
@@ -86,9 +86,9 @@ index 4b7c39595302a738e6d4a1749473ef9c81f84fea..503a642165f6f1292c07e8a9e618218b
 @@ -295,6 +334,45 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          this.regionManagers.add(this.dataRegionManager);
          // Paper end
-         this.playerMobDistanceMap = this.level.paperConfig().entities.spawning.perPlayerMobSpawns ? new com.destroystokyo.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets) : null; // Paper
+         this.playerMobDistanceMap = this.level.paperConfig().entities.spawning.perPlayerMobSpawns ? new io.papermc.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets) : null; // Paper
 +        // Paper start - use distance map to optimise entity tracker
-+        this.playerEntityTrackerTrackMaps = new com.destroystokyo.paper.util.misc.PlayerAreaMap[TRACKING_RANGE_TYPES.length];
++        this.playerEntityTrackerTrackMaps = new io.papermc.paper.util.misc.PlayerAreaMap[TRACKING_RANGE_TYPES.length];
 +        this.entityTrackerTrackRanges = new int[TRACKING_RANGE_TYPES.length];
 +
 +        org.spigotmc.SpigotWorldConfig spigotWorldConfig = this.level.spigotConfig;
@@ -123,11 +123,11 @@ index 4b7c39595302a738e6d4a1749473ef9c81f84fea..503a642165f6f1292c07e8a9e618218b
 +            int trackRange = (configuredSpigotValue >>> 4) + ((configuredSpigotValue & 15) != 0 ? 1 : 0);
 +            this.entityTrackerTrackRanges[ordinal] = trackRange;
 +
-+            this.playerEntityTrackerTrackMaps[ordinal] = new com.destroystokyo.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets);
++            this.playerEntityTrackerTrackMaps[ordinal] = new io.papermc.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets);
 +        }
 +        // Paper end - use distance map to optimise entity tracker
          // Paper start - optimise ChunkMap#anyPlayerCloseEnoughForSpawning
-         this.playerChunkTickRangeMap = new com.destroystokyo.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets,
+         this.playerChunkTickRangeMap = new io.papermc.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets,
              (ServerPlayer player, int rangeX, int rangeZ, int currPosX, int currPosZ, int prevPosX, int prevPosZ,
 @@ -1001,17 +1079,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      }
@@ -248,10 +248,10 @@ index 4b7c39595302a738e6d4a1749473ef9c81f84fea..503a642165f6f1292c07e8a9e618218b
          }
  
 +        // Paper start - use distance map to optimise tracker
-+        com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> lastTrackerCandidates;
++        io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> lastTrackerCandidates;
 +
-+        final void updatePlayers(com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newTrackerCandidates) {
-+            com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> oldTrackerCandidates = this.lastTrackerCandidates;
++        final void updatePlayers(io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newTrackerCandidates) {
++            io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> oldTrackerCandidates = this.lastTrackerCandidates;
 +            this.lastTrackerCandidates = newTrackerCandidates;
 +
 +            if (newTrackerCandidates != null) {
@@ -287,7 +287,7 @@ index 4b7c39595302a738e6d4a1749473ef9c81f84fea..503a642165f6f1292c07e8a9e618218b
              return object instanceof ChunkMap.TrackedEntity ? ((ChunkMap.TrackedEntity) object).entity.getId() == this.entity.getId() : false;
          }
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index c69cc5dadac4bd81f08258f0420b7acd506cb04a..133a544274f4a80071c2a3306f5b0cd47cd6a270 100644
+index 912af1ce728e0f1a936a5134c0fc4335fdfc4d96..e0eb0a260146da52be766b5d372983584ec4e4ce 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -57,6 +57,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
@@ -311,7 +311,7 @@ index c69cc5dadac4bd81f08258f0420b7acd506cb04a..133a544274f4a80071c2a3306f5b0cd4
 +        this.isLegacyTrackingEntity = isLegacyTrackingEntity;
 +    }
 +
-+    public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> getPlayersInTrackRange() {
++    public final io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> getPlayersInTrackRange() {
 +        // determine highest range of passengers
 +        if (this.passengers.isEmpty()) {
 +            return ((ServerLevel)this.level).getChunkSource().chunkMap.playerEntityTrackerTrackMaps[this.trackingRangeType.ordinal()]

@@ -8,7 +8,7 @@ Allow control over whether or not an enderman aggros a player.
 This allows you to override/extend the pumpkin/stare logic.
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index 54088f183e218e10d48e07f3f66b2fdb892a1035..908ef284f17296c72009a5803dfefff13664fb1c 100644
+index bcd783edb37bd6b7ec7f891ef837e216735d7380..4822c86506b957c318984857e43a9da7474af380 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 @@ -230,7 +230,15 @@ public class EnderMan extends Monster implements NeutralMob {
@@ -19,7 +19,7 @@ index 54088f183e218e10d48e07f3f66b2fdb892a1035..908ef284f17296c72009a5803dfefff1
 +    // Paper start - EndermanAttackPlayerEvent
 +    private boolean isLookingAtMe(Player player) {
 +        boolean shouldAttack = isLookingAtMe_check(player);
-+        com.destroystokyo.paper.event.entity.EndermanAttackPlayerEvent event = new com.destroystokyo.paper.event.entity.EndermanAttackPlayerEvent((org.bukkit.entity.Enderman) getBukkitEntity(), (org.bukkit.entity.Player) player.getBukkitEntity());
++        io.papermc.paper.event.entity.EndermanAttackPlayerEvent event = new io.papermc.paper.event.entity.EndermanAttackPlayerEvent((org.bukkit.entity.Enderman) getBukkitEntity(), (org.bukkit.entity.Player) player.getBukkitEntity());
 +        event.setCancelled(!shouldAttack);
 +        return event.callEvent();
 +    }

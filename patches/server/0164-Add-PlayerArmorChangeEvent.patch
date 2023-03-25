@@ -5,13 +5,13 @@ Subject: [PATCH] Add PlayerArmorChangeEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 2cd9c02fd664e263d9dae030d2c438a082c9e1b4..5ae5f58a6b521318703cf8ba044044992f0ef3f9 100644
+index 4505bd3a2b3854b6d2c7e87ee67df338397a1fa8..ef0707ccc4c1180be3a2f51aa7dac655d7e2712e 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -1,5 +1,6 @@
  package net.minecraft.world.entity;
  
-+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent; // Paper
++import io.papermc.paper.event.player.PlayerArmorChangeEvent; // Paper
  import com.google.common.base.Objects;
  import com.google.common.collect.ImmutableList;
  import com.google.common.collect.ImmutableMap;

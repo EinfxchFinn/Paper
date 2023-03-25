@@ -5,7 +5,7 @@ Subject: [PATCH] Add PlayerAttackEntityCooldownResetEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 25e1dc97e3260e7f58b15a1759b8f9531c6a6f20..6541caa4a574271fa940d1dceef434655ffd8aa9 100644
+index 3840e3fcbe9f71a9b5058f2baedb153f9159fd0c..c7cce686223e24da20747eb89ce6a85771af7982 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -2126,7 +2126,16 @@ public abstract class LivingEntity extends Entity implements Attackable {
@@ -16,7 +16,7 @@ index 25e1dc97e3260e7f58b15a1759b8f9531c6a6f20..6541caa4a574271fa940d1dceef43465
 +                // Paper start - PlayerAttackEntityCooldownResetEvent
 +                if (damagesource.getEntity() instanceof ServerPlayer) {
 +                    ServerPlayer player = (ServerPlayer) damagesource.getEntity();
-+                    if (new com.destroystokyo.paper.event.player.PlayerAttackEntityCooldownResetEvent(player.getBukkitEntity(), this.getBukkitEntity(), player.getAttackStrengthScale(0F)).callEvent()) {
++                    if (new io.papermc.paper.event.player.PlayerAttackEntityCooldownResetEvent(player.getBukkitEntity(), this.getBukkitEntity(), player.getAttackStrengthScale(0F)).callEvent()) {
 +                        player.resetAttackStrengthTicker();
 +                    }
 +                } else {

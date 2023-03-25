@@ -5,7 +5,7 @@ Subject: [PATCH] Slime Pathfinder Events
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-index 02aca470c3b41114204da54e2365ee29adad7554..9196c51474741eb1015f7daac640b83e6c7b66e4 100644
+index 02aca470c3b41114204da54e2365ee29adad7554..5c726dc47963a07563a24a917e2c8503fdd63fb4 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
 @@ -41,6 +41,12 @@ import net.minecraft.world.level.ServerLevelAccessor;
@@ -13,10 +13,10 @@ index 02aca470c3b41114204da54e2365ee29adad7554..9196c51474741eb1015f7daac640b83e
  import net.minecraft.world.level.levelgen.WorldgenRandom;
  import net.minecraft.world.phys.Vec3;
 +// Paper start
-+import com.destroystokyo.paper.event.entity.SlimeChangeDirectionEvent;
-+import com.destroystokyo.paper.event.entity.SlimeSwimEvent;
-+import com.destroystokyo.paper.event.entity.SlimeTargetLivingEntityEvent;
-+import com.destroystokyo.paper.event.entity.SlimeWanderEvent;
++import io.papermc.paper.event.entity.SlimeChangeDirectionEvent;
++import io.papermc.paper.event.entity.SlimeSwimEvent;
++import io.papermc.paper.event.entity.SlimeTargetLivingEntityEvent;
++import io.papermc.paper.event.entity.SlimeWanderEvent;
 +// Paper end
  // CraftBukkit start
  import java.util.ArrayList;

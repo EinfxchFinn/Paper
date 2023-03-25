@@ -5,7 +5,7 @@ Subject: [PATCH] Fix SPIGOT-5824 Bukkit world-container is not used
 
 
 diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
-index 12ff7071a5b78a8ae5567aa42b69191166a7cbca..51640f991f23ad9c10a969a2c8100bcfab882050 100644
+index 3137925106f517c4c9b98540f78c61878248d634..f03e3aebedcc70cbafac33fea454b7f01fe56997 100644
 --- a/src/main/java/net/minecraft/server/Main.java
 +++ b/src/main/java/net/minecraft/server/Main.java
 @@ -169,8 +169,17 @@ public class Main {
@@ -13,7 +13,7 @@ index 12ff7071a5b78a8ae5567aa42b69191166a7cbca..51640f991f23ad9c10a969a2c8100bcf
              }
  
 -            File file = (File) optionset.valueOf("universe"); // CraftBukkit
--            Services services = Services.create(new com.destroystokyo.paper.profile.PaperAuthenticationService(Proxy.NO_PROXY), file, optionset); // Paper
+-            Services services = Services.create(new io.papermc.paper.profile.PaperAuthenticationService(Proxy.NO_PROXY), file, optionset); // Paper
 +            // Paper start - fix SPIGOT-5824
 +            File file;
 +            File userCacheFile = new File(Services.USERID_CACHE_FILE);
@@ -24,7 +24,7 @@ index 12ff7071a5b78a8ae5567aa42b69191166a7cbca..51640f991f23ad9c10a969a2c8100bcf
 +                file = new File(bukkitConfiguration.getString("settings.world-container", "."));
 +            }
 +            // Paper end - fix SPIGOT-5824
-+            Services services = Services.create(new com.destroystokyo.paper.profile.PaperAuthenticationService(Proxy.NO_PROXY), file, userCacheFile, optionset); // Paper
++            Services services = Services.create(new io.papermc.paper.profile.PaperAuthenticationService(Proxy.NO_PROXY), file, userCacheFile, optionset); // Paper
              // CraftBukkit start
              String s = (String) Optional.ofNullable((String) optionset.valueOf("world")).orElse(dedicatedserversettings.getProperties().levelName);
              LevelStorageSource convertable = LevelStorageSource.createDefault(file.toPath());

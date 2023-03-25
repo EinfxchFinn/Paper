@@ -5,7 +5,7 @@ Subject: [PATCH] PlayerElytraBoostEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/item/FireworkRocketItem.java b/src/main/java/net/minecraft/world/item/FireworkRocketItem.java
-index 7c627d27300247db9122ab2081049345ef306073..f17e9c6c91c02e0d36f58851522a5d3e5e423121 100644
+index 7c627d27300247db9122ab2081049345ef306073..a6e57b7f696beda039f191f5b19c4d159ce22c8a 100644
 --- a/src/main/java/net/minecraft/world/item/FireworkRocketItem.java
 +++ b/src/main/java/net/minecraft/world/item/FireworkRocketItem.java
 @@ -61,12 +61,19 @@ public class FireworkRocketItem extends Item {
@@ -15,7 +15,7 @@ index 7c627d27300247db9122ab2081049345ef306073..f17e9c6c91c02e0d36f58851522a5d3e
 -                world.addFreshEntity(fireworkRocketEntity);
 -                if (!user.getAbilities().instabuild) {
 +                // Paper start
-+                com.destroystokyo.paper.event.player.PlayerElytraBoostEvent event = new com.destroystokyo.paper.event.player.PlayerElytraBoostEvent((org.bukkit.entity.Player) user.getBukkitEntity(), org.bukkit.craftbukkit.inventory.CraftItemStack.asCraftMirror(itemStack), (org.bukkit.entity.Firework) fireworkRocketEntity.getBukkitEntity());
++                io.papermc.paper.event.player.PlayerElytraBoostEvent event = new io.papermc.paper.event.player.PlayerElytraBoostEvent((org.bukkit.entity.Player) user.getBukkitEntity(), org.bukkit.craftbukkit.inventory.CraftItemStack.asCraftMirror(itemStack), (org.bukkit.entity.Firework) fireworkRocketEntity.getBukkitEntity());
 +                if (event.callEvent() && world.addFreshEntity(fireworkRocketEntity)) {
 +                    user.awardStat(Stats.ITEM_USED.get(this));
 +                    if (event.shouldConsume() && !user.getAbilities().instabuild) {

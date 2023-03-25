@@ -80,10 +80,10 @@ index f4ce312ccd927a8b64f4266b35a0a53b85e591f3..97388d46cee225dedc0b61a12e7b60b3
      /**
       * @return Whether the sheep is sheared.
 diff --git a/src/main/java/org/bukkit/entity/Snowman.java b/src/main/java/org/bukkit/entity/Snowman.java
-index 10f8f6d45ae9280651c3ebddd1f90acbd7d6ff29..7fbfdb07585c7b28acea1f0c1f58ada0cc744441 100644
+index f7a74d77526f08aa349c6c393e4caf7d0efaab0d..570d4b97533bba45420c9d9395e586df7b032216 100644
 --- a/src/main/java/org/bukkit/entity/Snowman.java
 +++ b/src/main/java/org/bukkit/entity/Snowman.java
-@@ -5,7 +5,7 @@ import com.destroystokyo.paper.entity.RangedEntity;
+@@ -5,7 +5,7 @@ import io.papermc.paper.entity.RangedEntity;
  /**
   * Represents a snowman entity
   */

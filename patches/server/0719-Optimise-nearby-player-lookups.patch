@@ -9,7 +9,7 @@ since the penalty of a map lookup could outweigh the benefits of
 searching less players (as it basically did in the outside range patch).
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkHolder.java b/src/main/java/net/minecraft/server/level/ChunkHolder.java
-index 0f2590501d742b1f5a410d45c7781bd18b4a4525..904fcdeb7937d36208cc9a8d5eca9ef3a5b2cd9e 100644
+index e4f5c5ebe648268712822b78ac6cf5f3b18d557f..865d04e846c7af72c65d8e58c97199507a90c38f 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkHolder.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkHolder.java
 @@ -93,6 +93,12 @@ public class ChunkHolder {
@@ -39,7 +39,7 @@ index 0f2590501d742b1f5a410d45c7781bd18b4a4525..904fcdeb7937d36208cc9a8d5eca9ef3
      // Paper end
  
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index d9358311fde6a0d9040d55cab907e8833d219c3a..95c50a36dc1e03ae8ab8ca89a96d1ea56da8d94c 100644
+index 05f1e040c8e26b1c10dc904bd871faca6297df54..763337222404541510c4c302fc881e8bfa42dbc3 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -159,6 +159,12 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -50,11 +50,11 @@ index d9358311fde6a0d9040d55cab907e8833d219c3a..95c50a36dc1e03ae8ab8ca89a96d1ea5
 +    public static final int GENERAL_AREA_MAP_SQUARE_RADIUS = 40;
 +    public static final double GENERAL_AREA_MAP_ACCEPTABLE_SEARCH_RANGE = 16.0 * (GENERAL_AREA_MAP_SQUARE_RADIUS - 1);
 +    public static final double GENERAL_AREA_MAP_ACCEPTABLE_SEARCH_RANGE_SQUARED = GENERAL_AREA_MAP_ACCEPTABLE_SEARCH_RANGE * GENERAL_AREA_MAP_ACCEPTABLE_SEARCH_RANGE;
-+    public final com.destroystokyo.paper.util.misc.PlayerAreaMap playerGeneralAreaMap;
++    public final io.papermc.paper.util.misc.PlayerAreaMap playerGeneralAreaMap;
 +    // Paper end - optimise checkDespawn
  
      // Paper start - distance maps
-     private final com.destroystokyo.paper.util.misc.PooledLinkedHashSets<ServerPlayer> pooledLinkedPlayerHashSets = new com.destroystokyo.paper.util.misc.PooledLinkedHashSets<>();
+     private final io.papermc.paper.util.misc.PooledLinkedHashSets<ServerPlayer> pooledLinkedPlayerHashSets = new io.papermc.paper.util.misc.PooledLinkedHashSets<>();
 @@ -211,6 +217,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
              trackMap.add(player, chunkX, chunkZ, Math.min(trackRange, io.papermc.paper.chunk.system.ChunkSystem.getSendViewDistance(player)));
          }
@@ -84,16 +84,16 @@ index d9358311fde6a0d9040d55cab907e8833d219c3a..95c50a36dc1e03ae8ab8ca89a96d1ea5
              });
          // Paper end - optimise ChunkMap#anyPlayerCloseEnoughForSpawning
 +        // Paper start - optimise checkDespawn
-+        this.playerGeneralAreaMap = new com.destroystokyo.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets,
++        this.playerGeneralAreaMap = new io.papermc.paper.util.misc.PlayerAreaMap(this.pooledLinkedPlayerHashSets,
 +            (ServerPlayer player, int rangeX, int rangeZ, int currPosX, int currPosZ, int prevPosX, int prevPosZ,
-+             com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
++             io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
 +                LevelChunk chunk = ChunkMap.this.level.getChunkSource().getChunkAtIfCachedImmediately(rangeX, rangeZ);
 +                if (chunk != null) {
 +                    chunk.updateGeneralAreaCache(newState);
 +                }
 +            },
 +            (ServerPlayer player, int rangeX, int rangeZ, int currPosX, int currPosZ, int prevPosX, int prevPosZ,
-+             com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
++             io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> newState) -> {
 +                LevelChunk chunk = ChunkMap.this.level.getChunkSource().getChunkAtIfCachedImmediately(rangeX, rangeZ);
 +                if (chunk != null) {
 +                    chunk.updateGeneralAreaCache(newState);
@@ -104,7 +104,7 @@ index d9358311fde6a0d9040d55cab907e8833d219c3a..95c50a36dc1e03ae8ab8ca89a96d1ea5
  
      protected ChunkGenerator generator() {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 9523f6acd2c86892b390e14aaab628b40b452bf1..a3e8765e00ca816781441448d8bd4ac3a8364b6d 100644
+index 6a28ad89648e0f8a2d7383e2d423d672139d4a52..a8f7b4a77f0bb11a29d9e5962f6ebdd3a828bac2 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -442,6 +442,84 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -118,7 +118,7 @@ index 9523f6acd2c86892b390e14aaab628b40b452bf1..a3e8765e00ca816781441448d8bd4ac3
 +    @Override
 +    public final ServerPlayer getNearestPlayer(net.minecraft.world.entity.ai.targeting.TargetingConditions condition, @Nullable LivingEntity source,
 +                                               double centerX, double centerY, double centerZ) {
-+        com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> nearby;
++        io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> nearby;
 +        nearby = this.getChunkSource().chunkMap.playerGeneralAreaMap.getObjectsInRange(Mth.floor(centerX) >> 4, Mth.floor(centerZ) >> 4);
 +
 +        if (nearby == null) {
@@ -160,7 +160,7 @@ index 9523f6acd2c86892b390e14aaab628b40b452bf1..a3e8765e00ca816781441448d8bd4ac3
 +
 +    @Override
 +    public List<Player> getNearbyPlayers(net.minecraft.world.entity.ai.targeting.TargetingConditions condition, LivingEntity source, AABB axisalignedbb) {
-+        com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> nearby;
++        io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> nearby;
 +        double centerX = (axisalignedbb.maxX + axisalignedbb.minX) * 0.5;
 +        double centerZ = (axisalignedbb.maxZ + axisalignedbb.minZ) * 0.5;
 +        nearby = this.getChunkSource().chunkMap.playerGeneralAreaMap.getObjectsInRange(Mth.floor(centerX) >> 4, Mth.floor(centerZ) >> 4);
@@ -208,7 +208,7 @@ index 9523f6acd2c86892b390e14aaab628b40b452bf1..a3e8765e00ca816781441448d8bd4ac3
  
          this.handlingTick = true;
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 00c6605f06773c52f6f5c5c1f5bcdd6dd67fb5b6..ba1a43758bb29e3204b5f88edf4cb02af2cc07b3 100644
+index 83b1bed5bb6588ad009727e473337eebaf385cfa..02cb6b8c1d59855ff4a8aad3024fe12007eca0ee 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -855,7 +855,12 @@ public abstract class Mob extends LivingEntity implements Targeting {
@@ -226,7 +226,7 @@ index 00c6605f06773c52f6f5c5c1f5bcdd6dd67fb5b6..ba1a43758bb29e3204b5f88edf4cb02a
              if (entityhuman != null) {
                  double d0 = entityhuman.distanceToSqr((Entity) this);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index b8c097c52cdc2af9bc05cfb5cfd646bb3bfb664e..a84f039390afe11d96b24a5c82312e1888311ec9 100644
+index 02e8229a958441faad66bc489e0cb4e4e6f9b977..272a00447cdb41062575a9fefeadebe85bcf4ebf 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -208,6 +208,69 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -300,7 +300,7 @@ index b8c097c52cdc2af9bc05cfb5cfd646bb3bfb664e..a84f039390afe11d96b24a5c82312e18
      public abstract ResourceKey<LevelStem> getTypeKey();
  
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index 906def91bba96bab7c7aea9b87d9ec56374e6588..15d266fc97eb73338f4f6fb2cfe25d6861e79810 100644
+index 2c33d691c33c44946104d13974bba21103ea0d00..796625a8f9385a0b6530b40a3119b95e85e1a82d 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 @@ -260,7 +260,7 @@ public final class NaturalSpawner {
@@ -322,7 +322,7 @@ index 906def91bba96bab7c7aea9b87d9ec56374e6588..15d266fc97eb73338f4f6fb2cfe25d68
  
      private static Boolean isValidSpawnPostitionForType(ServerLevel world, MobCategory group, StructureManager structureAccessor, ChunkGenerator chunkGenerator, MobSpawnSettings.SpawnerData spawnEntry, BlockPos.MutableBlockPos pos, double squaredDistance) { // Paper
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 05b8b37a4b1089b859b399323ecda8f23e9f6e67..206dc04086a218b510930739a6c573f2653ab0fa 100644
+index bd99327233f41a99918684c8db4c7efd12681319..4cd87bf7b91afea11a53859963e4b2ad8636bc64 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -269,6 +269,98 @@ public class LevelChunk extends ChunkAccess {
@@ -331,9 +331,9 @@ index 05b8b37a4b1089b859b399323ecda8f23e9f6e67..206dc04086a218b510930739a6c573f2
      // Paper end
 +    // Paper start - optimise checkDespawn
 +    private boolean playerGeneralAreaCacheSet;
-+    private com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> playerGeneralAreaCache;
++    private io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> playerGeneralAreaCache;
 +
-+    public com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> getPlayerGeneralAreaCache() {
++    public io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> getPlayerGeneralAreaCache() {
 +        if (!this.playerGeneralAreaCacheSet) {
 +            this.updateGeneralAreaCache();
 +        }
@@ -349,7 +349,7 @@ index 05b8b37a4b1089b859b399323ecda8f23e9f6e67..206dc04086a218b510930739a6c573f2
 +        this.playerGeneralAreaCache = null;
 +    }
 +
-+    public void updateGeneralAreaCache(com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> value) {
++    public void updateGeneralAreaCache(io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> value) {
 +        this.playerGeneralAreaCacheSet = true;
 +        this.playerGeneralAreaCache = value;
 +    }
@@ -360,7 +360,7 @@ index 05b8b37a4b1089b859b399323ecda8f23e9f6e67..206dc04086a218b510930739a6c573f2
 +            this.updateGeneralAreaCache();
 +        }
 +
-+        com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> nearby = this.playerGeneralAreaCache;
++        io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> nearby = this.playerGeneralAreaCache;
 +
 +        if (nearby == null) {
 +            return null;
@@ -392,7 +392,7 @@ index 05b8b37a4b1089b859b399323ecda8f23e9f6e67..206dc04086a218b510930739a6c573f2
 +            this.updateGeneralAreaCache();
 +        }
 +
-+        com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> nearby = this.playerGeneralAreaCache;
++        io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<net.minecraft.server.level.ServerPlayer> nearby = this.playerGeneralAreaCache;
 +
 +        if (nearby == null) {
 +            return;

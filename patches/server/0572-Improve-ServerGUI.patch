@@ -6,10 +6,10 @@ Subject: [PATCH] Improve ServerGUI
 - Added logo to server frame
 - Show tps in the server stats
 
-diff --git a/src/main/java/com/destroystokyo/paper/gui/RAMDetails.java b/src/main/java/com/destroystokyo/paper/gui/RAMDetails.java
-index 23239679d6584f1088b2b94c46eb9a5c1f9ad91d..fa56cd09102a89692b42f1d14257990508c5c720 100644
---- a/src/main/java/com/destroystokyo/paper/gui/RAMDetails.java
-+++ b/src/main/java/com/destroystokyo/paper/gui/RAMDetails.java
+diff --git a/src/main/java/io/papermc/paper/gui/RAMDetails.java b/src/main/java/io/papermc/paper/gui/RAMDetails.java
+index 253d0254baaac4bf578d2a1795c617241096a081..c66d1f0d8411e395edd1d5b8574722378d949ea5 100644
+--- a/src/main/java/io/papermc/paper/gui/RAMDetails.java
++++ b/src/main/java/io/papermc/paper/gui/RAMDetails.java
 @@ -57,9 +57,18 @@ public class RAMDetails extends JList<String> {
      public void update() {
          GraphData data = RAMGraph.DATA.peekLast();
@@ -39,7 +39,7 @@ index 23239679d6584f1088b2b94c46eb9a5c1f9ad91d..fa56cd09102a89692b42f1d142579905
 +    }
  }
 diff --git a/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java b/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
-index 66464c10a6b33414c6d1b67b926a66c343d5f887..c07918aa1ed2469ad7a76a0add60ab648ff7f421 100644
+index 07335a6343ed2402af5f3b9ebae5e21131e8580e..799ffb73a9e7ed992bec30cdcce9bd87224b0687 100644
 --- a/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
 +++ b/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
 @@ -59,6 +59,15 @@ public class MinecraftServerGui extends JComponent {

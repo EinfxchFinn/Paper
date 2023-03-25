@@ -6,7 +6,7 @@ Subject: [PATCH] Use ASM for event executors.
 Uses method handles for private or static methods.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 23b1e7600d2507be60cb8543773b91f4851afb4f..d95b3d504ddc9ed76fc86cd45fa922d68e597827 100644
+index b7aa72ae9a8b1f39e7bb355d4c6b3bf4bfaa030b..bb1f3b3d5a22ca391f4362e5d4cf016e7e9be0e3 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -40,6 +40,9 @@ dependencies {
@@ -19,19 +19,19 @@ index 23b1e7600d2507be60cb8543773b91f4851afb4f..d95b3d504ddc9ed76fc86cd45fa922d6
      // Paper end
  
      compileOnly("org.apache.maven:maven-resolver-provider:3.8.5")
-diff --git a/src/main/java/com/destroystokyo/paper/event/executor/MethodHandleEventExecutor.java b/src/main/java/com/destroystokyo/paper/event/executor/MethodHandleEventExecutor.java
+diff --git a/src/main/java/io/papermc/paper/event/executor/MethodHandleEventExecutor.java b/src/main/java/io/papermc/paper/event/executor/MethodHandleEventExecutor.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..5b28e9b1daba7834af67dbc193dd656bedd9a994
+index 0000000000000000000000000000000000000000..2570a699a1b80eacc943fee75b6b165cc0ecde4a
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/event/executor/MethodHandleEventExecutor.java
++++ b/src/main/java/io/papermc/paper/event/executor/MethodHandleEventExecutor.java
 @@ -0,0 +1,42 @@
-+package com.destroystokyo.paper.event.executor;
++package io.papermc.paper.event.executor;
 +
 +import java.lang.invoke.MethodHandle;
 +import java.lang.invoke.MethodHandles;
 +import java.lang.reflect.Method;
 +
-+import com.destroystokyo.paper.util.SneakyThrow;
++import io.papermc.paper.util.SneakyThrow;
 +import org.bukkit.event.Event;
 +import org.bukkit.event.EventException;
 +import org.bukkit.event.Listener;
@@ -67,20 +67,20 @@ index 0000000000000000000000000000000000000000..5b28e9b1daba7834af67dbc193dd656b
 +        }
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/event/executor/StaticMethodHandleEventExecutor.java b/src/main/java/com/destroystokyo/paper/event/executor/StaticMethodHandleEventExecutor.java
+diff --git a/src/main/java/io/papermc/paper/event/executor/StaticMethodHandleEventExecutor.java b/src/main/java/io/papermc/paper/event/executor/StaticMethodHandleEventExecutor.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c83672427324bd068ed52916f700b68446a226f6
+index 0000000000000000000000000000000000000000..d1096a20c994b8b24e07187d74630358c42c5524
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/event/executor/StaticMethodHandleEventExecutor.java
++++ b/src/main/java/io/papermc/paper/event/executor/StaticMethodHandleEventExecutor.java
 @@ -0,0 +1,43 @@
-+package com.destroystokyo.paper.event.executor;
++package io.papermc.paper.event.executor;
 +
 +import java.lang.invoke.MethodHandle;
 +import java.lang.invoke.MethodHandles;
 +import java.lang.reflect.Method;
 +import java.lang.reflect.Modifier;
 +
-+import com.destroystokyo.paper.util.SneakyThrow;
++import io.papermc.paper.util.SneakyThrow;
 +import com.google.common.base.Preconditions;
 +
 +import org.bukkit.Bukkit;
@@ -116,13 +116,13 @@ index 0000000000000000000000000000000000000000..c83672427324bd068ed52916f700b684
 +        }
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/event/executor/asm/ASMEventExecutorGenerator.java b/src/main/java/com/destroystokyo/paper/event/executor/asm/ASMEventExecutorGenerator.java
+diff --git a/src/main/java/io/papermc/paper/event/executor/asm/ASMEventExecutorGenerator.java b/src/main/java/io/papermc/paper/event/executor/asm/ASMEventExecutorGenerator.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..084c31af1a7ba32bb4c3dc8f16f67fd09ce0b6a4
+index 0000000000000000000000000000000000000000..6283202ae3d9c9e35993c9ff9c74d66f389ba11c
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/event/executor/asm/ASMEventExecutorGenerator.java
++++ b/src/main/java/io/papermc/paper/event/executor/asm/ASMEventExecutorGenerator.java
 @@ -0,0 +1,54 @@
-+package com.destroystokyo.paper.event.executor.asm;
++package io.papermc.paper.event.executor.asm;
 +
 +import java.lang.reflect.Method;
 +import java.util.concurrent.atomic.AtomicInteger;
@@ -173,16 +173,16 @@ index 0000000000000000000000000000000000000000..084c31af1a7ba32bb4c3dc8f16f67fd0
 +    @NotNull
 +    public static String generateName() {
 +        int id = NEXT_ID.getAndIncrement();
-+        return "com.destroystokyo.paper.event.executor.asm.generated.GeneratedEventExecutor" + id;
++        return "io.papermc.paper.event.executor.asm.generated.GeneratedEventExecutor" + id;
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/event/executor/asm/ClassDefiner.java b/src/main/java/com/destroystokyo/paper/event/executor/asm/ClassDefiner.java
+diff --git a/src/main/java/io/papermc/paper/event/executor/asm/ClassDefiner.java b/src/main/java/io/papermc/paper/event/executor/asm/ClassDefiner.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f79685b48bb581277a6891927988b6f7a4389dc4
+index 0000000000000000000000000000000000000000..9ae619e1cc6a908115a828bf31b415f80166daab
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/event/executor/asm/ClassDefiner.java
++++ b/src/main/java/io/papermc/paper/event/executor/asm/ClassDefiner.java
 @@ -0,0 +1,34 @@
-+package com.destroystokyo.paper.event.executor.asm;
++package io.papermc.paper.event.executor.asm;
 +
 +import org.jetbrains.annotations.NotNull;
 +
@@ -216,13 +216,13 @@ index 0000000000000000000000000000000000000000..f79685b48bb581277a6891927988b6f7
 +    }
 +
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/event/executor/asm/SafeClassDefiner.java b/src/main/java/com/destroystokyo/paper/event/executor/asm/SafeClassDefiner.java
+diff --git a/src/main/java/io/papermc/paper/event/executor/asm/SafeClassDefiner.java b/src/main/java/io/papermc/paper/event/executor/asm/SafeClassDefiner.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ac99477e9f2c08041aeff31abc1d1edee58d0a67
+index 0000000000000000000000000000000000000000..f3fc3930c8b71b92b28527950450d5486b9eb985
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/event/executor/asm/SafeClassDefiner.java
++++ b/src/main/java/io/papermc/paper/event/executor/asm/SafeClassDefiner.java
 @@ -0,0 +1,66 @@
-+package com.destroystokyo.paper.event.executor.asm;
++package io.papermc.paper.event.executor.asm;
 +
 +import java.util.concurrent.ConcurrentHashMap;
 +import java.util.concurrent.ConcurrentMap;
@@ -289,7 +289,7 @@ index 0000000000000000000000000000000000000000..ac99477e9f2c08041aeff31abc1d1ede
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/plugin/EventExecutor.java b/src/main/java/org/bukkit/plugin/EventExecutor.java
-index a850f0780de05463fc0d3f9e15ff7f19d88b2aed..9026e108ccd3a88aee1267ee275137befa646455 100644
+index a850f0780de05463fc0d3f9e15ff7f19d88b2aed..50860e30a8d283169578805babd0d40d9e5ed8c5 100644
 --- a/src/main/java/org/bukkit/plugin/EventExecutor.java
 +++ b/src/main/java/org/bukkit/plugin/EventExecutor.java
 @@ -5,9 +5,75 @@ import org.bukkit.event.EventException;
@@ -303,10 +303,10 @@ index a850f0780de05463fc0d3f9e15ff7f19d88b2aed..9026e108ccd3a88aee1267ee275137be
 +import java.util.concurrent.ConcurrentMap;
 +import java.util.function.Function;
 +
-+import com.destroystokyo.paper.event.executor.MethodHandleEventExecutor;
-+import com.destroystokyo.paper.event.executor.StaticMethodHandleEventExecutor;
-+import com.destroystokyo.paper.event.executor.asm.ASMEventExecutorGenerator;
-+import com.destroystokyo.paper.event.executor.asm.ClassDefiner;
++import io.papermc.paper.event.executor.MethodHandleEventExecutor;
++import io.papermc.paper.event.executor.StaticMethodHandleEventExecutor;
++import io.papermc.paper.event.executor.asm.ASMEventExecutorGenerator;
++import io.papermc.paper.event.executor.asm.ClassDefiner;
 +import com.google.common.base.Preconditions;
 +// Paper end
 +

@@ -6,7 +6,7 @@ Subject: [PATCH] PlayerTeleportEndGatewayEvent
 Allows you to access the Gateway being used in a teleport event
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
-index 904e23ad2f148f991ab8d94e5d8d989cdc98268a..7d2b15edbd1a6bf663c29b7bc63c73d34fefd999 100644
+index 904e23ad2f148f991ab8d94e5d8d989cdc98268a..132504bca9e353c2691b9ca5388e8922593f8f54 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 @@ -12,6 +12,7 @@ import net.minecraft.data.worldgen.features.EndFeatures;
@@ -22,7 +22,7 @@ index 904e23ad2f148f991ab8d94e5d8d989cdc98268a..7d2b15edbd1a6bf663c29b7bc63c73d3
                      location.setYaw(player.getLocation().getYaw());
  
 -                    PlayerTeleportEvent teleEvent = new PlayerTeleportEvent(player, player.getLocation(), location, PlayerTeleportEvent.TeleportCause.END_GATEWAY);
-+                    PlayerTeleportEvent teleEvent = new com.destroystokyo.paper.event.player.PlayerTeleportEndGatewayEvent(player, player.getLocation(), location, new org.bukkit.craftbukkit.block.CraftEndGateway(worldserver.getWorld(), blockEntity)); // Paper
++                    PlayerTeleportEvent teleEvent = new io.papermc.paper.event.player.PlayerTeleportEndGatewayEvent(player, player.getLocation(), location, new org.bukkit.craftbukkit.block.CraftEndGateway(worldserver.getWorld(), blockEntity)); // Paper
                      Bukkit.getPluginManager().callEvent(teleEvent);
                      if (teleEvent.isCancelled()) {
                          return;

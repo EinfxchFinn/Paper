@@ -2008,7 +2008,7 @@ index 0000000000000000000000000000000000000000..33cd90c30c22200a4e1ae64f40a0bf78
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 7ae780c4a38eb088f876e5bd03a0dba5836787fb..5c96d98ccb9b01219de3439aec1e459752dbac6c 100644
+index 4a904a59e187836fc6f6fb6dc8b9fe5b30c4d35b..179c96ad1bbc4c7989e7420979bc85f7b99a177c 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -219,6 +219,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -2034,7 +2034,7 @@ index 7ae780c4a38eb088f876e5bd03a0dba5836787fb..5c96d98ccb9b01219de3439aec1e4597
  
          EntityCallbacks() {}
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index a84f039390afe11d96b24a5c82312e1888311ec9..4ace5a32e8d17303a4b5d9e8935a803d7c0df409 100644
+index 272a00447cdb41062575a9fefeadebe85bcf4ebf..5819791f2659700f08591f031170f643ca9833d0 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -1532,4 +1532,15 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -2054,7 +2054,7 @@ index a84f039390afe11d96b24a5c82312e1888311ec9..4ace5a32e8d17303a4b5d9e8935a803d
 +    // Paper end
  }
 diff --git a/src/main/java/net/minecraft/world/level/block/RedStoneWireBlock.java b/src/main/java/net/minecraft/world/level/block/RedStoneWireBlock.java
-index 004894157f732046e89f124872da86c79af1676f..5ea09cc455bd86beb450f0e0275d7c6c8da98084 100644
+index 885d3e8e3ee09eaa8d450cb1ee98d54864ad0de7..0f08951e1d1418da0704c08f7f7be63e17724e6a 100644
 --- a/src/main/java/net/minecraft/world/level/block/RedStoneWireBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/RedStoneWireBlock.java
 @@ -252,7 +252,7 @@ public class RedStoneWireBlock extends Block {
@@ -2064,7 +2064,7 @@ index 004894157f732046e89f124872da86c79af1676f..5ea09cc455bd86beb450f0e0275d7c6c
 -    // Paper start - Optimize redstone
 +    // Paper start - Optimize redstone (Eigencraft)
      // The bulk of the new functionality is found in RedstoneWireTurbo.java
-     com.destroystokyo.paper.util.RedstoneWireTurbo turbo = new com.destroystokyo.paper.util.RedstoneWireTurbo(this);
+     io.papermc.paper.util.RedstoneWireTurbo turbo = new io.papermc.paper.util.RedstoneWireTurbo(this);
  
 @@ -454,7 +454,13 @@ public class RedStoneWireBlock extends Block {
      @Override

@@ -16,16 +16,16 @@ index 18949b866cd8da3825b730a7d0545bd8af21afa2..d98add7d741e47d9ff095a817e0f895b
      testImplementation("junit:junit:4.13.2")
      testImplementation("org.hamcrest:hamcrest-library:1.3")
  
-diff --git a/src/main/java/com/destroystokyo/paper/entity/ai/MobGoalHelper.java b/src/main/java/com/destroystokyo/paper/entity/ai/MobGoalHelper.java
+diff --git a/src/main/java/io/papermc/paper/entity/ai/MobGoalHelper.java b/src/main/java/io/papermc/paper/entity/ai/MobGoalHelper.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f80a6ad7638453348ee82ea00b166a3aac029142
+index 0000000000000000000000000000000000000000..5776b467e75d1d8725a4ecb792fa0f9eaf8a5860
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/entity/ai/MobGoalHelper.java
++++ b/src/main/java/io/papermc/paper/entity/ai/MobGoalHelper.java
 @@ -0,0 +1,374 @@
-+package com.destroystokyo.paper.entity.ai;
++package io.papermc.paper.entity.ai;
 +
-+import com.destroystokyo.paper.entity.RangedEntity;
-+import com.destroystokyo.paper.util.set.OptimizedSmallEnumSet;
++import io.papermc.paper.entity.RangedEntity;
++import io.papermc.paper.util.set.OptimizedSmallEnumSet;
 +import com.google.common.collect.BiMap;
 +import com.google.common.collect.HashBiMap;
 +import io.papermc.paper.util.ObfHelper;
@@ -396,13 +396,13 @@ index 0000000000000000000000000000000000000000..f80a6ad7638453348ee82ea00b166a3a
 +        return bukkitClass;
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/entity/ai/PaperCustomGoal.java b/src/main/java/com/destroystokyo/paper/entity/ai/PaperCustomGoal.java
+diff --git a/src/main/java/io/papermc/paper/entity/ai/PaperCustomGoal.java b/src/main/java/io/papermc/paper/entity/ai/PaperCustomGoal.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..26c745dd9ccdfdd5c5039f2acc5201b9b91fb274
+index 0000000000000000000000000000000000000000..1588b8968e919019a935f805c4cd13187a70c1d3
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/entity/ai/PaperCustomGoal.java
++++ b/src/main/java/io/papermc/paper/entity/ai/PaperCustomGoal.java
 @@ -0,0 +1,53 @@
-+package com.destroystokyo.paper.entity.ai;
++package io.papermc.paper.entity.ai;
 +
 +import org.bukkit.entity.Mob;
 +
@@ -455,13 +455,13 @@ index 0000000000000000000000000000000000000000..26c745dd9ccdfdd5c5039f2acc5201b9
 +        return handle.getKey();
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/entity/ai/PaperMobGoals.java b/src/main/java/com/destroystokyo/paper/entity/ai/PaperMobGoals.java
+diff --git a/src/main/java/io/papermc/paper/entity/ai/PaperMobGoals.java b/src/main/java/io/papermc/paper/entity/ai/PaperMobGoals.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..5e7b4a8698a00f72d6e817cc7c6716e7605a3484
+index 0000000000000000000000000000000000000000..804ebdb71e81c4f07934b60f34b758a4f3c9b0bc
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/entity/ai/PaperMobGoals.java
++++ b/src/main/java/io/papermc/paper/entity/ai/PaperMobGoals.java
 @@ -0,0 +1,213 @@
-+package com.destroystokyo.paper.entity.ai;
++package io.papermc.paper.entity.ai;
 +
 +import java.util.Collection;
 +import java.util.EnumSet;
@@ -674,13 +674,13 @@ index 0000000000000000000000000000000000000000..5e7b4a8698a00f72d6e817cc7c6716e7
 +        }
 +    }
 +}
-diff --git a/src/main/java/com/destroystokyo/paper/entity/ai/PaperVanillaGoal.java b/src/main/java/com/destroystokyo/paper/entity/ai/PaperVanillaGoal.java
+diff --git a/src/main/java/io/papermc/paper/entity/ai/PaperVanillaGoal.java b/src/main/java/io/papermc/paper/entity/ai/PaperVanillaGoal.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..0d30e0b21b9024df939a9d070bd4a99b217e7c12
+index 0000000000000000000000000000000000000000..e047df84b2f6bd20dddb26490bf3dabd350b59b1
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/entity/ai/PaperVanillaGoal.java
++++ b/src/main/java/io/papermc/paper/entity/ai/PaperVanillaGoal.java
 @@ -0,0 +1,61 @@
-+package com.destroystokyo.paper.entity.ai;
++package io.papermc.paper.entity.ai;
 +
 +import java.util.EnumSet;
 +import net.minecraft.world.entity.ai.goal.Goal;
@@ -742,12 +742,12 @@ index 0000000000000000000000000000000000000000..0d30e0b21b9024df939a9d070bd4a99b
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/Goal.java b/src/main/java/net/minecraft/world/entity/ai/goal/Goal.java
-index 4379b9948f1eecfe6fd7dea98e298ad5f761019a..3f081183521603824430709886a9cc313c28e7cb 100644
+index 48b21e6b9d8c9fe39e8de3b5d259ed0268072d07..0697e133ec151daaf4733bf0783b409fd3aa27d0 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/Goal.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/Goal.java
 @@ -7,6 +7,14 @@ public abstract class Goal {
      private final EnumSet<Goal.Flag> flags = EnumSet.noneOf(Goal.Flag.class); // Paper unused, but dummy to prevent plugins from crashing as hard. Theyll need to support paper in a special case if this is super important, but really doesn't seem like it would be.
-     private final com.destroystokyo.paper.util.set.OptimizedSmallEnumSet<net.minecraft.world.entity.ai.goal.Goal.Flag> goalTypes = new com.destroystokyo.paper.util.set.OptimizedSmallEnumSet<>(Goal.Flag.class); // Paper - remove streams from pathfindergoalselector
+     private final io.papermc.paper.util.set.OptimizedSmallEnumSet<net.minecraft.world.entity.ai.goal.Goal.Flag> goalTypes = new io.papermc.paper.util.set.OptimizedSmallEnumSet<>(Goal.Flag.class); // Paper - remove streams from pathfindergoalselector
  
 +    // Paper start make sure goaltypes is never empty
 +    public Goal() {
@@ -776,13 +776,13 @@ index 4379b9948f1eecfe6fd7dea98e298ad5f761019a..3f081183521603824430709886a9cc31
      }
  
 +    // Paper start - mob goal api
-+    private com.destroystokyo.paper.entity.ai.PaperVanillaGoal<?> vanillaGoal = null;
-+    public <T extends org.bukkit.entity.Mob> com.destroystokyo.paper.entity.ai.Goal<T> asPaperVanillaGoal() {
++    private io.papermc.paper.entity.ai.PaperVanillaGoal<?> vanillaGoal = null;
++    public <T extends org.bukkit.entity.Mob> io.papermc.paper.entity.ai.Goal<T> asPaperVanillaGoal() {
 +        if(this.vanillaGoal == null) {
-+            this.vanillaGoal = new com.destroystokyo.paper.entity.ai.PaperVanillaGoal<>(this);
++            this.vanillaGoal = new io.papermc.paper.entity.ai.PaperVanillaGoal<>(this);
 +        }
 +        //noinspection unchecked
-+        return (com.destroystokyo.paper.entity.ai.Goal<T>) this.vanillaGoal;
++        return (io.papermc.paper.entity.ai.Goal<T>) this.vanillaGoal;
 +    }
 +    // Paper end - mob goal api
 +
@@ -792,7 +792,7 @@ index 4379b9948f1eecfe6fd7dea98e298ad5f761019a..3f081183521603824430709886a9cc31
          LOOK,
          JUMP,
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e6c089f45d3b205eeaa1e52a15bc0aa055773a2d..bec471a617780e4fa88d4c559c42175370687d7b 100644
+index 3f03f82ac325340fe50100531ee5de0cadf677e7..16da763b7ea06517db1c8bf3f6f031815198f9c2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2699,5 +2699,11 @@ public final class CraftServer implements Server {
@@ -800,20 +800,20 @@ index e6c089f45d3b205eeaa1e52a15bc0aa055773a2d..bec471a617780e4fa88d4c559c421753
          return net.minecraft.server.MinecraftServer.getServer().hasStopped();
      }
 +
-+    private com.destroystokyo.paper.entity.ai.MobGoals mobGoals = new com.destroystokyo.paper.entity.ai.PaperMobGoals();
++    private io.papermc.paper.entity.ai.MobGoals mobGoals = new io.papermc.paper.entity.ai.PaperMobGoals();
 +    @Override
-+    public com.destroystokyo.paper.entity.ai.MobGoals getMobGoals() {
++    public io.papermc.paper.entity.ai.MobGoals getMobGoals() {
 +        return mobGoals;
 +    }
      // Paper end
  }
-diff --git a/src/test/java/com/destroystokyo/paper/entity/ai/VanillaMobGoalTest.java b/src/test/java/com/destroystokyo/paper/entity/ai/VanillaMobGoalTest.java
+diff --git a/src/test/java/io/papermc/paper/entity/ai/VanillaMobGoalTest.java b/src/test/java/io/papermc/paper/entity/ai/VanillaMobGoalTest.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..b2d510459bcf90a3611f3d91dae4ccc3d29b4079
+index 0000000000000000000000000000000000000000..f66e875f8eda9c0e85de09be3473cdd61a2a0a83
 --- /dev/null
-+++ b/src/test/java/com/destroystokyo/paper/entity/ai/VanillaMobGoalTest.java
++++ b/src/test/java/io/papermc/paper/entity/ai/VanillaMobGoalTest.java
 @@ -0,0 +1,103 @@
-+package com.destroystokyo.paper.entity.ai;
++package io.papermc.paper.entity.ai;
 +
 +import org.junit.Assert;
 +import org.junit.Test;

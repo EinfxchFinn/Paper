@@ -4,13 +4,13 @@ Date: Sat, 8 Feb 2020 23:26:18 -0600
 Subject: [PATCH] Entity Jump API
 
 
-diff --git a/src/main/java/com/destroystokyo/paper/event/entity/EntityJumpEvent.java b/src/main/java/com/destroystokyo/paper/event/entity/EntityJumpEvent.java
+diff --git a/src/main/java/io/papermc/paper/event/entity/EntityJumpEvent.java b/src/main/java/io/papermc/paper/event/entity/EntityJumpEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f0067c2e953d18e1a33536980071ba3f0152ecb4
+index 0000000000000000000000000000000000000000..02fb93e0b44313a97c8e4adaa47af13daf0fafac
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/event/entity/EntityJumpEvent.java
++++ b/src/main/java/io/papermc/paper/event/entity/EntityJumpEvent.java
 @@ -0,0 +1,46 @@
-+package com.destroystokyo.paper.event.entity;
++package io.papermc.paper.event.entity;
 +
 +import org.bukkit.entity.LivingEntity;
 +import org.bukkit.event.Cancellable;
@@ -57,7 +57,7 @@ index 0000000000000000000000000000000000000000..f0067c2e953d18e1a33536980071ba3f
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/entity/LivingEntity.java b/src/main/java/org/bukkit/entity/LivingEntity.java
-index 94fad96f8fd57314c571b6396f44cd9d91254cfc..f76090f1f7ae7e3c026896b82e6379e5c2fd26fe 100644
+index ade754a7c396f9020b95ab55e805fbe3c4a854f4..956390f49f8c15c43ebeb92ea19b661a96cabd2f 100644
 --- a/src/main/java/org/bukkit/entity/LivingEntity.java
 +++ b/src/main/java/org/bukkit/entity/LivingEntity.java
 @@ -945,5 +945,25 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource

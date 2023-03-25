@@ -58,15 +58,15 @@ index ca8e35fbf04a54d60c3612f74be0b5fbf2ab7a56..81ccb4bde315c42409a0c04883f5cb45
          super(server, entity);
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftSnowman.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftSnowman.java
-index 659e2959c5330e4764ea1edc7f8de9f464f9ff52..42b7058d93fab8cbee49dba130734e1df9910096 100644
+index 01247aacba383bb7e43c89f5995ee23b75b31e5e..334fe4a768f247b21b02d9fc0adf0101045a1572 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftSnowman.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftSnowman.java
 @@ -5,7 +5,7 @@ import org.bukkit.craftbukkit.CraftServer;
  import org.bukkit.entity.EntityType;
  import org.bukkit.entity.Snowman;
  
--public class CraftSnowman extends CraftGolem implements Snowman, com.destroystokyo.paper.entity.CraftRangedEntity<SnowGolem> { // Paper
-+public class CraftSnowman extends CraftGolem implements Snowman, com.destroystokyo.paper.entity.CraftRangedEntity<SnowGolem>, io.papermc.paper.entity.PaperShearable { // Paper
+-public class CraftSnowman extends CraftGolem implements Snowman, io.papermc.paper.entity.CraftRangedEntity<SnowGolem> { // Paper
++public class CraftSnowman extends CraftGolem implements Snowman, io.papermc.paper.entity.CraftRangedEntity<SnowGolem>, io.papermc.paper.entity.PaperShearable { // Paper
      public CraftSnowman(CraftServer server, SnowGolem entity) {
          super(server, entity);
      }

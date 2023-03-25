@@ -13,15 +13,15 @@ by adding code to all overrides in:
 to return BLOCKED if it is outside the world border.
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
-index 64b64fb0b72eccade63fac99b7b363aafe59169b..46c2885097ab768bb9d62187fe0ad2d61007d353 100644
+index 296ed5a74e44370bbd94856ec9fceccc276c3ea9..07ed993fe910097b25d89449e06b3a35b6143643 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
 @@ -158,7 +158,7 @@ public abstract class PathNavigation {
              // Paper start - Pathfind event
              boolean copiedSet = false;
              for (BlockPos possibleTarget : positions) {
--                if (!new com.destroystokyo.paper.event.entity.EntityPathfindEvent(this.mob.getBukkitEntity(),
-+                if (!this.mob.getCommandSenderWorld().getWorldBorder().isWithinBounds(possibleTarget) || !new com.destroystokyo.paper.event.entity.EntityPathfindEvent(this.mob.getBukkitEntity(), // Paper - don't path out of world border
+-                if (!new io.papermc.paper.event.entity.EntityPathfindEvent(this.mob.getBukkitEntity(),
++                if (!this.mob.getCommandSenderWorld().getWorldBorder().isWithinBounds(possibleTarget) || !new io.papermc.paper.event.entity.EntityPathfindEvent(this.mob.getBukkitEntity(), // Paper - don't path out of world border
                      io.papermc.paper.util.MCUtil.toLocation(this.mob.level, possibleTarget), target == null ? null : target.getBukkitEntity()).callEvent()) {
                      if (!copiedSet) {
                          copiedSet = true;

@@ -3060,15 +3060,15 @@ index 0000000000000000000000000000000000000000..6f6aaab295018017565ba27d6958a1f5
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..7ce9ebba8ce304d1f3f21d4f15ee5f3560d7700b
+index 0000000000000000000000000000000000000000..77d92ddbfad58dc7bdc2f1a729c0f932cf602a7e
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
 @@ -0,0 +1,194 @@
 +package io.papermc.paper.plugin.manager;
 +
 +import co.aikar.timings.TimedEventExecutor;
-+import com.destroystokyo.paper.event.server.ServerExceptionEvent;
-+import com.destroystokyo.paper.exception.ServerEventException;
++import io.papermc.paper.event.server.ServerExceptionEvent;
++import io.papermc.paper.exception.ServerEventException;
 +import com.google.common.collect.Sets;
 +import org.bukkit.Server;
 +import org.bukkit.Warning;
@@ -3467,7 +3467,7 @@ index 0000000000000000000000000000000000000000..92a69677f21b2c1c035119d8e5a6af63
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/manager/PaperPluginInstanceManager.java b/src/main/java/io/papermc/paper/plugin/manager/PaperPluginInstanceManager.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c0e896343c22badd97c774c4ed1daa4e274f5d44
+index 0000000000000000000000000000000000000000..4c8a1c6f0a0dfc18430edf7369ea163ef3aeacb5
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/manager/PaperPluginInstanceManager.java
 @@ -0,0 +1,304 @@
@@ -3758,7 +3758,7 @@ index 0000000000000000000000000000000000000000..c0e896343c22badd97c774c4ed1daa4e
 +    // TODO: Implement event part in future patch (paper patch move up, this patch is lower)
 +    private void handlePluginException(String msg, Throwable ex, Plugin plugin) {
 +        Bukkit.getServer().getLogger().log(Level.SEVERE, msg, ex);
-+        this.pluginManager.callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerPluginEnableDisableException(msg, ex, plugin)));
++        this.pluginManager.callEvent(new io.papermc.paper.event.server.ServerExceptionEvent(new io.papermc.paper.exception.ServerPluginEnableDisableException(msg, ex, plugin)));
 +    }
 +
 +    public boolean isTransitiveDepend(@NotNull PluginMeta plugin, @NotNull PluginMeta depend) {
@@ -4024,13 +4024,13 @@ index 0000000000000000000000000000000000000000..dab211c458311869c61779305580a1c7
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/manager/RuntimePluginEntrypointHandler.java b/src/main/java/io/papermc/paper/plugin/manager/RuntimePluginEntrypointHandler.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..5d50d1d312388e979c0e1cd53a6bf5977ca6e549
+index 0000000000000000000000000000000000000000..68db8d9d8aeb93e6f92b0dc3e8d0ce267f3d4f35
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/manager/RuntimePluginEntrypointHandler.java
 @@ -0,0 +1,47 @@
 +package io.papermc.paper.plugin.manager;
 +
-+import com.destroystokyo.paper.util.SneakyThrow;
++import io.papermc.paper.util.SneakyThrow;
 +import io.papermc.paper.plugin.entrypoint.Entrypoint;
 +import io.papermc.paper.plugin.entrypoint.EntrypointHandler;
 +import io.papermc.paper.plugin.provider.PluginProvider;
@@ -4077,13 +4077,13 @@ index 0000000000000000000000000000000000000000..5d50d1d312388e979c0e1cd53a6bf597
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/manager/SingularRuntimePluginProviderStorage.java b/src/main/java/io/papermc/paper/plugin/manager/SingularRuntimePluginProviderStorage.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3d1b60e0427b1da1965fe81fe02176a70a8d56a2
+index 0000000000000000000000000000000000000000..a134586fea3bfce77e97fbb708b1d14a9b4e2b1e
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/manager/SingularRuntimePluginProviderStorage.java
 @@ -0,0 +1,80 @@
 +package io.papermc.paper.plugin.manager;
 +
-+import com.destroystokyo.paper.util.SneakyThrow;
++import io.papermc.paper.util.SneakyThrow;
 +import io.papermc.paper.plugin.entrypoint.Entrypoint;
 +import io.papermc.paper.plugin.entrypoint.LaunchEntryPointHandler;
 +import io.papermc.paper.plugin.provider.PluginProvider;
@@ -5451,13 +5451,13 @@ index 0000000000000000000000000000000000000000..b7e8a5ba375a558e0442aa9facf96954
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/provider/type/paper/PaperPluginParent.java b/src/main/java/io/papermc/paper/plugin/provider/type/paper/PaperPluginParent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..016c5af192948a3908f77aa6e3e6db1ce31c78ad
+index 0000000000000000000000000000000000000000..4ef1034a8d4fc206abc8051178ff91707608bda9
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/provider/type/paper/PaperPluginParent.java
 @@ -0,0 +1,257 @@
 +package io.papermc.paper.plugin.provider.type.paper;
 +
-+import com.destroystokyo.paper.util.SneakyThrow;
++import io.papermc.paper.util.SneakyThrow;
 +import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
 +import io.papermc.paper.plugin.entrypoint.dependency.DependencyUtil;
 +import io.papermc.paper.plugin.provider.configuration.LoadOrderConfiguration;
@@ -5714,13 +5714,13 @@ index 0000000000000000000000000000000000000000..016c5af192948a3908f77aa6e3e6db1c
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/provider/type/paper/PaperPluginProviderFactory.java b/src/main/java/io/papermc/paper/plugin/provider/type/paper/PaperPluginProviderFactory.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1ba051931d3ce6ac0bef559911e4453044266aab
+index 0000000000000000000000000000000000000000..b56c9d6dfd62bca60440c55197c1d5ed1d26a37e
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/provider/type/paper/PaperPluginProviderFactory.java
 @@ -0,0 +1,56 @@
 +package io.papermc.paper.plugin.provider.type.paper;
 +
-+import com.destroystokyo.paper.utils.PaperPluginLogger;
++import io.papermc.paper.utils.PaperPluginLogger;
 +import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
 +import io.papermc.paper.plugin.bootstrap.PluginProviderContextImpl;
 +import io.papermc.paper.plugin.entrypoint.classloader.PaperPluginClassLoader;
@@ -5854,14 +5854,14 @@ index 0000000000000000000000000000000000000000..b2a6544e321fa61c58bdf5684231de10
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/provider/type/spigot/SpigotPluginProvider.java b/src/main/java/io/papermc/paper/plugin/provider/type/spigot/SpigotPluginProvider.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..d5db789074ca5a9e005c26a221ee3879252b3d6c
+index 0000000000000000000000000000000000000000..f65a897a88a066c0a5dde6f4dcfa5f9d37280705
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/provider/type/spigot/SpigotPluginProvider.java
 @@ -0,0 +1,190 @@
 +package io.papermc.paper.plugin.provider.type.spigot;
 +
-+import com.destroystokyo.paper.util.SneakyThrow;
-+import com.destroystokyo.paper.utils.PaperPluginLogger;
++import io.papermc.paper.util.SneakyThrow;
++import io.papermc.paper.utils.PaperPluginLogger;
 +import io.papermc.paper.plugin.entrypoint.dependency.DependencyUtil;
 +import io.papermc.paper.plugin.manager.PaperPluginManagerImpl;
 +import io.papermc.paper.plugin.provider.configuration.LoadOrderConfiguration;

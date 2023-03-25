@@ -14,13 +14,13 @@ instead and save a lot of server resources.
 
 See: https://github.com/PaperMC/Paper/issues/917
 
-diff --git a/src/main/java/com/destroystokyo/paper/event/entity/PreCreatureSpawnEvent.java b/src/main/java/com/destroystokyo/paper/event/entity/PreCreatureSpawnEvent.java
+diff --git a/src/main/java/io/papermc/paper/event/entity/PreCreatureSpawnEvent.java b/src/main/java/io/papermc/paper/event/entity/PreCreatureSpawnEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..02e421b0bb4ce3529ef1c4d34ec8a0c0345cce57
+index 0000000000000000000000000000000000000000..224a0e43619c858afdd882eda9a67c3e5b5717b7
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/event/entity/PreCreatureSpawnEvent.java
++++ b/src/main/java/io/papermc/paper/event/entity/PreCreatureSpawnEvent.java
 @@ -0,0 +1,105 @@
-+package com.destroystokyo.paper.event.entity;
++package io.papermc.paper.event.entity;
 +
 +import com.google.common.base.Preconditions;
 +import org.bukkit.Location;

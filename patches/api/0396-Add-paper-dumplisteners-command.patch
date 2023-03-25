@@ -19,10 +19,10 @@ index 4e6e1b8e8aeb07e34536941d2cbfc25e5cfa6c27..34e43e56ccc663e05b9cae36643e8df5
 +        return "TimedEventExecutor['" + this.executor.toString() + "']";
 +    }
  }
-diff --git a/src/main/java/com/destroystokyo/paper/event/executor/MethodHandleEventExecutor.java b/src/main/java/com/destroystokyo/paper/event/executor/MethodHandleEventExecutor.java
-index 5b28e9b1daba7834af67dbc193dd656bedd9a994..fbebf649e893cf872be9b27091146a7c2f451aca 100644
---- a/src/main/java/com/destroystokyo/paper/event/executor/MethodHandleEventExecutor.java
-+++ b/src/main/java/com/destroystokyo/paper/event/executor/MethodHandleEventExecutor.java
+diff --git a/src/main/java/io/papermc/paper/event/executor/MethodHandleEventExecutor.java b/src/main/java/io/papermc/paper/event/executor/MethodHandleEventExecutor.java
+index 2570a699a1b80eacc943fee75b6b165cc0ecde4a..1be6de521f496c1ff2b2e8b39b4dfd602faec2a9 100644
+--- a/src/main/java/io/papermc/paper/event/executor/MethodHandleEventExecutor.java
++++ b/src/main/java/io/papermc/paper/event/executor/MethodHandleEventExecutor.java
 @@ -14,10 +14,12 @@ import org.jetbrains.annotations.NotNull;
  public class MethodHandleEventExecutor implements EventExecutor {
      private final Class<? extends Event> eventClass;
@@ -55,10 +55,10 @@ index 5b28e9b1daba7834af67dbc193dd656bedd9a994..fbebf649e893cf872be9b27091146a7c
 +        return "MethodHandleEventExecutor['" + this.method + "']";
 +    }
  }
-diff --git a/src/main/java/com/destroystokyo/paper/event/executor/StaticMethodHandleEventExecutor.java b/src/main/java/com/destroystokyo/paper/event/executor/StaticMethodHandleEventExecutor.java
-index c83672427324bd068ed52916f700b68446a226f6..87ea5354808dbbdefbdfc78f352a543f72a0d033 100644
---- a/src/main/java/com/destroystokyo/paper/event/executor/StaticMethodHandleEventExecutor.java
-+++ b/src/main/java/com/destroystokyo/paper/event/executor/StaticMethodHandleEventExecutor.java
+diff --git a/src/main/java/io/papermc/paper/event/executor/StaticMethodHandleEventExecutor.java b/src/main/java/io/papermc/paper/event/executor/StaticMethodHandleEventExecutor.java
+index d1096a20c994b8b24e07187d74630358c42c5524..b64424701daf48eb8dcc3ae8b4c1181e8d755239 100644
+--- a/src/main/java/io/papermc/paper/event/executor/StaticMethodHandleEventExecutor.java
++++ b/src/main/java/io/papermc/paper/event/executor/StaticMethodHandleEventExecutor.java
 @@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
  public class StaticMethodHandleEventExecutor implements EventExecutor {
      private final Class<? extends Event> eventClass;
@@ -118,7 +118,7 @@ index ed78cca71f83b296d082d0af147ca8d622c7606a..2292bd460ce2be113beb4ba6b4eb1935
          for (EventPriority o : EventPriority.values()) {
              handlerslots.put(o, new ArrayList<RegisteredListener>());
 diff --git a/src/main/java/org/bukkit/plugin/EventExecutor.java b/src/main/java/org/bukkit/plugin/EventExecutor.java
-index e1860322ae0f3c35097d16767628744034941749..bdfa3b5f4ab5023d3e1b5c50bed885b6aa118a02 100644
+index 7a4a408fbc12303f7f1d3e3520cae463620d73fa..cb41fa0ba2a5bf32fbab75aa80b41e83da596bf7 100644
 --- a/src/main/java/org/bukkit/plugin/EventExecutor.java
 +++ b/src/main/java/org/bukkit/plugin/EventExecutor.java
 @@ -70,9 +70,18 @@ public interface EventExecutor {

@@ -5,12 +5,12 @@ Subject: [PATCH] Add more Witch API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Witch.java b/src/main/java/org/bukkit/entity/Witch.java
-index 6618f2129e108c0a6cd15f6d0e86426021b6ff0d..4badeafe2f20cb123ef95897c90d5e61251cc40f 100644
+index a853f3ed634f5b3a27f1434ab88e33920d405e62..0dae0b4aa630284a217979b42922062a99448067 100644
 --- a/src/main/java/org/bukkit/entity/Witch.java
 +++ b/src/main/java/org/bukkit/entity/Witch.java
 @@ -2,6 +2,11 @@ package org.bukkit.entity;
  
- import com.destroystokyo.paper.entity.RangedEntity;
+ import io.papermc.paper.entity.RangedEntity;
  
 +// Paper start
 +import org.bukkit.inventory.ItemStack;

@@ -6,13 +6,13 @@ Subject: [PATCH] Implement Player Client Options API
 == AT ==
 public net.minecraft.world.entity.player.Player DATA_PLAYER_MODE_CUSTOMISATION
 
-diff --git a/src/main/java/com/destroystokyo/paper/PaperSkinParts.java b/src/main/java/com/destroystokyo/paper/PaperSkinParts.java
+diff --git a/src/main/java/io/papermc/paper/PaperSkinParts.java b/src/main/java/io/papermc/paper/PaperSkinParts.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..b6f4400df3d8ec7e06a996de54f8cabba57885e1
+index 0000000000000000000000000000000000000000..900e56c6e8418a8aa41ad7204e13319a78e43b2b
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/PaperSkinParts.java
++++ b/src/main/java/io/papermc/paper/PaperSkinParts.java
 @@ -0,0 +1,74 @@
-+package com.destroystokyo.paper;
++package io.papermc.paper;
 +
 +import com.google.common.base.Objects;
 +
@@ -87,7 +87,7 @@ index 0000000000000000000000000000000000000000..b6f4400df3d8ec7e06a996de54f8cabb
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 40100da5295aaa9113b0decc44ff7ca385cfd440..b5cca159c392e329b4283aafdffa80d9aabdda10 100644
+index dfb12d14269e395df6dec04ba3a0163777aabbd9..743571bf410171149287b952226926c57638e39e 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -1891,9 +1891,24 @@ public class ServerPlayer extends Player {
@@ -95,28 +95,28 @@ index 40100da5295aaa9113b0decc44ff7ca385cfd440..b5cca159c392e329b4283aafdffa80d9
      }
  
 +    // Paper start - Client option API
-+    private java.util.Map<com.destroystokyo.paper.ClientOption<?>, ?> getClientOptionMap(String locale, int viewDistance, com.destroystokyo.paper.ClientOption.ChatVisibility chatVisibility, boolean chatColors, com.destroystokyo.paper.PaperSkinParts skinParts, org.bukkit.inventory.MainHand mainHand, boolean allowsServerListing, boolean textFilteringEnabled) {
-+        java.util.Map<com.destroystokyo.paper.ClientOption<?>, Object> map = new java.util.HashMap<>();
-+        map.put(com.destroystokyo.paper.ClientOption.LOCALE, locale);
-+        map.put(com.destroystokyo.paper.ClientOption.VIEW_DISTANCE, viewDistance);
-+        map.put(com.destroystokyo.paper.ClientOption.CHAT_VISIBILITY, chatVisibility);
-+        map.put(com.destroystokyo.paper.ClientOption.CHAT_COLORS_ENABLED, chatColors);
-+        map.put(com.destroystokyo.paper.ClientOption.SKIN_PARTS, skinParts);
-+        map.put(com.destroystokyo.paper.ClientOption.MAIN_HAND, mainHand);
-+        map.put(com.destroystokyo.paper.ClientOption.ALLOW_SERVER_LISTINGS, allowsServerListing);
-+        map.put(com.destroystokyo.paper.ClientOption.TEXT_FILTERING_ENABLED, textFilteringEnabled);
++    private java.util.Map<io.papermc.paper.ClientOption<?>, ?> getClientOptionMap(String locale, int viewDistance, io.papermc.paper.ClientOption.ChatVisibility chatVisibility, boolean chatColors, io.papermc.paper.PaperSkinParts skinParts, org.bukkit.inventory.MainHand mainHand, boolean allowsServerListing, boolean textFilteringEnabled) {
++        java.util.Map<io.papermc.paper.ClientOption<?>, Object> map = new java.util.HashMap<>();
++        map.put(io.papermc.paper.ClientOption.LOCALE, locale);
++        map.put(io.papermc.paper.ClientOption.VIEW_DISTANCE, viewDistance);
++        map.put(io.papermc.paper.ClientOption.CHAT_VISIBILITY, chatVisibility);
++        map.put(io.papermc.paper.ClientOption.CHAT_COLORS_ENABLED, chatColors);
++        map.put(io.papermc.paper.ClientOption.SKIN_PARTS, skinParts);
++        map.put(io.papermc.paper.ClientOption.MAIN_HAND, mainHand);
++        map.put(io.papermc.paper.ClientOption.ALLOW_SERVER_LISTINGS, allowsServerListing);
++        map.put(io.papermc.paper.ClientOption.TEXT_FILTERING_ENABLED, textFilteringEnabled);
 +        return map;
 +    }
 +    // Paper end
      public String locale = null; // CraftBukkit - add, lowercase // Paper - default to null
      public java.util.Locale adventure$locale = java.util.Locale.US; // Paper
      public void updateOptions(ServerboundClientInformationPacket packet) {
-+        new com.destroystokyo.paper.event.player.PlayerClientOptionsChangeEvent(getBukkitEntity(), getClientOptionMap(packet.language, packet.viewDistance, com.destroystokyo.paper.ClientOption.ChatVisibility.valueOf(packet.chatVisibility().name()), packet.chatColors(), new com.destroystokyo.paper.PaperSkinParts(packet.modelCustomisation()), packet.mainHand() == HumanoidArm.LEFT ? MainHand.LEFT : MainHand.RIGHT, packet.allowsListing(), packet.textFilteringEnabled())).callEvent(); // Paper - settings event
++        new io.papermc.paper.event.player.PlayerClientOptionsChangeEvent(getBukkitEntity(), getClientOptionMap(packet.language, packet.viewDistance, io.papermc.paper.ClientOption.ChatVisibility.valueOf(packet.chatVisibility().name()), packet.chatColors(), new io.papermc.paper.PaperSkinParts(packet.modelCustomisation()), packet.mainHand() == HumanoidArm.LEFT ? MainHand.LEFT : MainHand.RIGHT, packet.allowsListing(), packet.textFilteringEnabled())).callEvent(); // Paper - settings event
          // CraftBukkit start
          if (getMainArm() != packet.mainHand()) {
              PlayerChangedMainHandEvent event = new PlayerChangedMainHandEvent(this.getBukkitEntity(), getMainArm() == HumanoidArm.LEFT ? MainHand.LEFT : MainHand.RIGHT);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index bb9940422a87e5d97a7c2d3ed368644074e9348c..3ea01452f4b18ac1c6a13a79f8e5c486e4c6f85b 100644
+index 03aa43014060c2577e1a286a75802d66e38e6952..6a17b7e860e6eb395a33727d68ec4a0c22c5801a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -618,6 +618,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -125,22 +125,22 @@ index bb9940422a87e5d97a7c2d3ed368644074e9348c..3ea01452f4b18ac1c6a13a79f8e5c486
      }
 +
 +    @Override
-+    public <T> T getClientOption(com.destroystokyo.paper.ClientOption<T> type) {
-+        if (com.destroystokyo.paper.ClientOption.SKIN_PARTS == type) {
-+            return type.getType().cast(new com.destroystokyo.paper.PaperSkinParts(getHandle().getEntityData().get(net.minecraft.world.entity.player.Player.DATA_PLAYER_MODE_CUSTOMISATION)));
-+        } else if (com.destroystokyo.paper.ClientOption.CHAT_COLORS_ENABLED == type) {
++    public <T> T getClientOption(io.papermc.paper.ClientOption<T> type) {
++        if (io.papermc.paper.ClientOption.SKIN_PARTS == type) {
++            return type.getType().cast(new io.papermc.paper.PaperSkinParts(getHandle().getEntityData().get(net.minecraft.world.entity.player.Player.DATA_PLAYER_MODE_CUSTOMISATION)));
++        } else if (io.papermc.paper.ClientOption.CHAT_COLORS_ENABLED == type) {
 +            return type.getType().cast(getHandle().canChatInColor());
-+        } else if (com.destroystokyo.paper.ClientOption.CHAT_VISIBILITY == type) {
-+            return type.getType().cast(getHandle().getChatVisibility() == null ? com.destroystokyo.paper.ClientOption.ChatVisibility.UNKNOWN : com.destroystokyo.paper.ClientOption.ChatVisibility.valueOf(getHandle().getChatVisibility().name()));
-+        } else if (com.destroystokyo.paper.ClientOption.LOCALE == type) {
++        } else if (io.papermc.paper.ClientOption.CHAT_VISIBILITY == type) {
++            return type.getType().cast(getHandle().getChatVisibility() == null ? io.papermc.paper.ClientOption.ChatVisibility.UNKNOWN : io.papermc.paper.ClientOption.ChatVisibility.valueOf(getHandle().getChatVisibility().name()));
++        } else if (io.papermc.paper.ClientOption.LOCALE == type) {
 +            return type.getType().cast(getLocale());
-+        } else if (com.destroystokyo.paper.ClientOption.MAIN_HAND == type) {
++        } else if (io.papermc.paper.ClientOption.MAIN_HAND == type) {
 +            return type.getType().cast(getMainHand());
-+        } else if (com.destroystokyo.paper.ClientOption.VIEW_DISTANCE == type) {
++        } else if (io.papermc.paper.ClientOption.VIEW_DISTANCE == type) {
 +            return type.getType().cast(getClientViewDistance());
-+        } else if (com.destroystokyo.paper.ClientOption.ALLOW_SERVER_LISTINGS == type) {
++        } else if (io.papermc.paper.ClientOption.ALLOW_SERVER_LISTINGS == type) {
 +            return type.getType().cast(getHandle().allowsListing());
-+        } else if (com.destroystokyo.paper.ClientOption.TEXT_FILTERING_ENABLED == type) {
++        } else if (io.papermc.paper.ClientOption.TEXT_FILTERING_ENABLED == type) {
 +            return type.getType().cast(getHandle().isTextFilteringEnabled());
 +        }
 +        throw new RuntimeException("Unknown settings type");
@@ -150,13 +150,13 @@ index bb9940422a87e5d97a7c2d3ed368644074e9348c..3ea01452f4b18ac1c6a13a79f8e5c486
      @Override
 diff --git a/src/test/java/io/papermc/paper/world/TranslationKeyTest.java b/src/test/java/io/papermc/paper/world/TranslationKeyTest.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..fab3063fffa959ac7f0eb5937f2fae94d11b6591
+index 0000000000000000000000000000000000000000..908c126626ae0a1eb51cd9174df89eb4cce7e421
 --- /dev/null
 +++ b/src/test/java/io/papermc/paper/world/TranslationKeyTest.java
 @@ -0,0 +1,18 @@
 +package io.papermc.paper.world;
 +
-+import com.destroystokyo.paper.ClientOption;
++import io.papermc.paper.ClientOption;
 +import net.minecraft.world.entity.player.ChatVisiblity;
 +import org.bukkit.Difficulty;
 +import org.junit.Assert;

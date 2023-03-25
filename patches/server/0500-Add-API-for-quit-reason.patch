@@ -5,7 +5,7 @@ Subject: [PATCH] Add API for quit reason
 
 
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index e4c471ad111efb40a820670328b67ac28c79bff0..6ef3a08ea5223ee28dd175d66c6405efe5517993 100644
+index 6cc8327aa369c3539a664147427d33e69c8a31b7..827fac8aeecd1451b03d1c1534148d1e296e1041 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -173,12 +173,15 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -25,19 +25,19 @@ index e4c471ad111efb40a820670328b67ac28c79bff0..6ef3a08ea5223ee28dd175d66c6405ef
                          Connection.LOGGER.debug("Failed to sent packet", throwable);
                          ConnectionProtocol enumprotocol = this.getCurrentProtocol();
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 4e25b015c7b37b1249d2bca4a3d97d26bcefd61e..35a2638214e427f24c265fa11318311cd8315337 100644
+index 342c8ee81c0bd2b4831a63591c4c7741bedf7c59..6c6e7ffef604d881b3d41a7ffb00c861ae6dbb88 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -273,6 +273,7 @@ public class ServerPlayer extends Player {
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
-     public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
+     public final io.papermc.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
      public PlayerNaturallySpawnCreaturesEvent playerNaturallySpawnedEvent; // Paper
 +    public org.bukkit.event.player.PlayerQuitEvent.QuitReason quitReason = null; // Paper - there are a lot of changes to do if we change all methods leading to the event
  
      public ServerPlayer(MinecraftServer server, ServerLevel world, GameProfile profile) {
          super(world, world.getSharedSpawnPos(), world.getSharedSpawnAngle(), profile);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 459403f9c8a784c3911d5ba163a2c90efef00e9f..7ffe3a9978d58831fe2f01c3b19dfd8bef29f556 100644
+index 46b539dd73543b125fb9d79596897ef0cfc3e887..5a80a7ab8c27d2975fc56b2bb939ab1399fe8382 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -505,6 +505,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -49,7 +49,7 @@ index 459403f9c8a784c3911d5ba163a2c90efef00e9f..7ffe3a9978d58831fe2f01c3b19dfd8b
              this.connection.disconnect(ichatbasecomponent);
          }));
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index b6cfea5de71d85c76a9ed6d10b9dd16d3d66f4d8..98e675b7aa4b59fe93bae1049ce09191d426ad9e 100644
+index d9f3f2718497cfdfb5a1bcbb85e91d72aaabfa0e..c98156dc21c639e9fc6a9460e26ecd920d84a8b9 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -559,7 +559,7 @@ public abstract class PlayerList {

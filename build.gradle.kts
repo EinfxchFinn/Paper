@@ -89,7 +89,6 @@ paperweight {
 
         reobfPackagesToFix.addAll(
             "co.aikar.timings",
-            "com.destroystokyo.paper",
             "com.mojang",
             "io.papermc.paper",
             "ca.spottedleaf",

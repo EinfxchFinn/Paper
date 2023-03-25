@@ -4,15 +4,15 @@ Date: Mon, 27 May 2019 03:40:05 -0500
 Subject: [PATCH] Implement Paper VersionChecker
 
 
-diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+diff --git a/src/main/java/io/papermc/paper/PaperVersionFetcher.java b/src/main/java/io/papermc/paper/PaperVersionFetcher.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..351159bbdb0c8045f4983f54dee34430dbcc423e
+index 0000000000000000000000000000000000000000..02ae165af13e3ed131f4df6d83f9b34c9b9cfc51
 --- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/io/papermc/paper/PaperVersionFetcher.java
 @@ -0,0 +1,129 @@
-+package com.destroystokyo.paper;
++package io.papermc.paper;
 +
-+import com.destroystokyo.paper.util.VersionFetcher;
++import io.papermc.paper.util.VersionFetcher;
 +import com.google.common.base.Charsets;
 +import com.google.common.io.Resources;
 +import com.google.gson.*;
@@ -140,7 +140,7 @@ index 0000000000000000000000000000000000000000..351159bbdb0c8045f4983f54dee34430
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 98083486bddf60074fc8e47e63e780703a792a7c..976a8d9019cccd82d8f5cd2cf86202e4076753ed 100644
+index 98083486bddf60074fc8e47e63e780703a792a7c..1c4b6d42265e1e02bbed0d2b2ab91d659c2b1d15 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -455,6 +455,11 @@ public final class CraftMagicNumbers implements UnsafeValues {
@@ -149,8 +149,8 @@ index 98083486bddf60074fc8e47e63e780703a792a7c..976a8d9019cccd82d8f5cd2cf86202e4
      }
 +
 +    @Override
-+    public com.destroystokyo.paper.util.VersionFetcher getVersionFetcher() {
-+        return new com.destroystokyo.paper.PaperVersionFetcher();
++    public io.papermc.paper.util.VersionFetcher getVersionFetcher() {
++        return new io.papermc.paper.PaperVersionFetcher();
 +    }
      // Paper end
  
